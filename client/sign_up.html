@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Авторизация</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!--  Подключение CSS -->
+    <link rel="stylesheet" href="css/sign_up.css">
+</head>
+
+<body>
+
+    <div class="auth-container register" id="authContainer">
+
+        <!-- Оранжевая панель -->
+        <div class="orange-panel"></div>
+
+        <!-- Кнопка переключения -->
+        <button class="toggle-btn" id="toggleBtn">Авторизоваться</button>
+
+        <!-- Область форм -->
+        <div class="forms-area">
+
+            <!-- Форма регистрации -->
+            <form class="auth-form register-form active" id="registerForm">
+                <h1 class="form-title">Создать аккаунт</h1>
+                <input type="text" class="form-input" placeholder="Кем являетесь">
+                <input type="text" class="form-input" placeholder="ФИО">
+                <input type="email" class="form-input" placeholder="Почта">
+                <input type="password" class="form-input" placeholder="Пароль">
+                <button type="submit" class="form-btn">Зарегистрироваться</button>
+
+            </form>
+
+            <!-- Форма входа -->
+            <form class="auth-form login-form" id="loginForm">
+                <h1 class="form-title">Войти в аккаунт</h1>
+                <input type="email" class="form-input" placeholder="Почта">
+                <input type="password" class="form-input" placeholder="Пароль">
+                <button type="submit" class="form-btn">Войти</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!--  Подключение JS -->
+    <script src="js/sign_up.js"></script>
+</body>
+
+</html>

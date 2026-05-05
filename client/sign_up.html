@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Авторизация</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!--  Подключение CSS -->
     <link rel="stylesheet" href="css/sign_up.css">
 </head>
@@ -31,7 +32,22 @@
                 <input type="email" class="form-input" placeholder="Почта">
                 <input type="password" class="form-input" placeholder="Пароль">
                 <button type="submit" class="form-btn">Зарегистрироваться</button>
+                <div class="form-group">
+                    <div class="select-wrapper">
+                        <select id="role" class="form-select" required>
+                            <option value="" disabled selected>Кем являетесь?</option>
+                            <option value="student">Студент</option>
+                            <option value="Studsovet">Член студенческого совета</option>
+                            <option value="admin">Комендант</option>
+                            <option value="Electrick">Электрик</option>
+                            <option value="Slesar">Слесарь</option>
+                            <option value="Santex">Сантехник</option>
+                        </select>
 
+                        <!-- Иконка стрелочки -->
+                        <span class="select-arrow">▼</span>
+                    </div>
+                </div>
             </form>
 
             <!-- Форма входа -->
@@ -39,8 +55,7 @@
                 <h1 class="form-title">Войти в аккаунт</h1>
                 <input type="email" class="form-input" placeholder="Почта">
                 <input type="password" class="form-input" placeholder="Пароль">
-                <button type="submit" class="form-btn">Войти</button>
-
+                <a href="glav.html" class="form-btn">Войти</a>
             </form>
 
         </div>

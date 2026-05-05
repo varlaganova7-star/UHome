@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Заполнение анкеты — UHome</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/neighbor.css">
+</head>
+<body>
+
+    <header class="header">
+        <a href="glav.html" class="header-logo">
+            <svg class="logo-icon" viewBox="0 0 32 32" fill="none">
+                <path d="M4 16L16 4L28 16V28H20V20H12V28H4V16Z" fill="#F47920"/>
+                <path d="M12 20H20V28H12V20Z" fill="#333"/>
+            </svg>
+            <span class="logo-text">UHome</span>
+        </a>
+        <button class="menu-btn" id="menuBtn" aria-label="Меню">
+            <span></span><span></span><span></span>
+        </button>
+    </header>
+
+    <main class="page-content">
+        <div class="page-header">
+            <h1 class="page-title">
+                <svg class="title-icon" width="28" height="28" viewBox="0 0 24 24" fill="#333">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                Подбор соседей
+            </h1>
+            <p class="page-subtitle">Найдите совместимого соседа</p>
+        </div>
+
+        <form class="questionnaire-form" id="questionnaireForm">
+            <h2 class="form-title">Заполнение анкеты</h2>
+
+            <!-- Пол -->
+            <div class="form-group">
+                <label class="form-label">Пол</label>
+                <div class="select-wrapper">
+                    <select class="form-select" required>
+                        <option value="" disabled selected>Выберите пол</option>
+                        <option value="male">Мужской</option>
+                        <option value="female">Женский</option>
+                    </select>
+                    <span class="select-arrow">▼</span>
+                </div>
+            </div>
+
+            <!-- Институт -->
+            <div class="form-group">
+                <label class="form-label">Институт</label>
+                <div class="select-wrapper">
+                    <select class="form-select" required>
+                        <option value="" disabled selected>Выберите институт</option>
+                        <option>Институт инженерных технологий</option>
+                        <option>Институт математики и ИТ</option>
+                        <option>Институт управления</option>
+                        <option>Институт психологии и педагогики</option>
+                        <option>Медицинский институт</option>
+                    </select>
+                    <span class="select-arrow">▼</span>
+                </div>
+            </div>
+
+            <!-- Направление -->
+            <div class="form-group">
+                <label class="form-label">Направление</label>
+                <div class="select-wrapper">
+                    <select class="form-select" required>
+                        <option value="" disabled selected>Выберите направление</option>
+                        <option>Информатика и вычислительная техника</option>
+                        <option>Программная инженерия</option>
+                        <option>Прикладная математика</option>
+                        <option>Менеджмент</option>
+                    </select>
+                    <span class="select-arrow">▼</span>
+                </div>
+            </div>
+
+            <!-- Курс -->
+            <div class="form-group">
+                <label class="form-label">Курс</label>
+                <div class="select-wrapper">
+                    <select class="form-select" required>
+                        <option value="" disabled selected>Выберите курс</option>
+                        <option>1 курс</option>
+                        <option>2 курс</option>
+                        <option>3 курс</option>
+                        <option>4 курс</option>
+                        <option>Магистратура</option>
+                    </select>
+                    <span class="select-arrow">▼</span>
+                </div>
+            </div>
+
+            <!-- Режим сна -->
+            <div class="form-section">
+                <h3 class="section-title">Режим сна</h3>
+
+                <label class="subsection-label">Отход ко сну</label>
+                <div class="chip-group" data-group="sleep-time">
+                    <label class="chip"><input type="radio" name="sleep-time" value="22:00"><span>До 22:00</span></label>
+                    <label class="chip"><input type="radio" name="sleep-time" value="23:00"><span>23:00-01:00</span></label>
+                    <label class="chip"><input type="radio" name="sleep-time" value="02:00"><span>02:00-04:00</span></label>
+                    <label class="chip"><input type="radio" name="sleep-time" value="05:00"><span>После 5:00</span></label>
+                </div>
+
+                <label class="subsection-label">Пробуждение</label>
+                <div class="chip-group" data-group="wake-time">
+                    <label class="chip"><input type="radio" name="wake-time" value="06:00"><span>До 06:00</span></label>
+                    <label class="chip"><input type="radio" name="wake-time" value="07:00"><span>07:00-09:00</span></label>
+                    <label class="chip"><input type="radio" name="wake-time" value="10:00"><span>После 10:00</span></label>
+                    <label class="chip"><input type="radio" name="wake-time" value="flexible"><span>По выходным сплю до обеда</span></label>
+                </div>
+            </div>
+
+            <!-- Сон -->
+            <div class="form-section">
+                <h3 class="section-title">Сон</h3>
+                <div class="chip-group" data-group="sleep-noise">
+                    <label class="chip"><input type="radio" name="sleep-noise" value="easy"><span>Легко просыпаюсь от шума</span></label>
+                    <label class="chip"><input type="radio" name="sleep-noise" value="hard"><span>Не просыпаюсь от шума</span></label>
+                </div>
+            </div>
+
+            <!-- Отношение к шуму (звёзды) -->
+            <div class="form-section">
+                <div class="star-rating-group">
+                    <h3 class="section-title">Отношение к шуму</h3>
+                    <div class="stars" data-rating="noise">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Отношение к гостям (звёзды) -->
+            <div class="form-section">
+                <div class="star-rating-group">
+                    <h3 class="section-title">Отношение к гостям</h3>
+                    <div class="stars" data-rating="guests">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Отношение к звонкам (звёзды) -->
+            <div class="form-section">
+                <div class="star-rating-group">
+                    <h3 class="section-title">Отношение к звонкам в комнате</h3>
+                    <div class="stars" data-rating="calls">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Период выполнения домашнего задания -->
+            <div class="form-section">
+                <h3 class="section-title">Период выполнения домашнего задания</h3>
+                <div class="chip-group" data-group="homework">
+                    <label class="chip"><input type="radio" name="homework" value="morning"><span>Утро</span></label>
+                    <label class="chip"><input type="radio" name="homework" value="day"><span>День</span></label>
+                    <label class="chip"><input type="radio" name="homework" value="evening"><span>Вечер</span></label>
+                    <label class="chip"><input type="radio" name="homework" value="night"><span>Ночь</span></label>
+                </div>
+            </div>
+
+            <!-- Частота приготовления еды -->
+            <div class="form-section">
+                <h3 class="section-title">Частота приготовления еды</h3>
+                <div class="chip-group" data-group="cooking">
+                    <label class="chip"><input type="radio" name="cooking" value="daily"><span>1-3 раза в день</span></label>
+                    <label class="chip"><input type="radio" name="cooking" value="weekly"><span>1-3 раза в неделю</span></label>
+                    <label class="chip"><input type="radio" name="cooking" value="never"><span>Не готовлю</span></label>
+                </div>
+            </div>
+
+            <!-- Тип питания -->
+            <div class="form-section">
+                <h3 class="section-title">Тип питания</h3>
+                <div class="chip-group" data-group="diet">
+                    <label class="chip"><input type="radio" name="diet" value="standard"><span>Стандартное</span></label>
+                    <label class="chip"><input type="radio" name="diet" value="vegetarian"><span>Вегетарианское</span></label>
+                    <label class="chip"><input type="radio" name="diet" value="halal"><span>Халяль</span></label>
+                </div>
+            </div>
+
+            <!-- Непереносимость запахов -->
+            <div class="form-section">
+                <h3 class="section-title">Непереносимость резких запахов</h3>
+                <div class="chip-group" data-group="smell">
+                    <label class="chip"><input type="radio" name="smell" value="yes"><span>Есть</span></label>
+                    <label class="chip"><input type="radio" name="smell" value="no"><span>Нет</span></label>
+                </div>
+            </div>
+
+            <!-- Совместное использование вещей -->
+            <div class="form-section">
+                <h3 class="section-title">Совместное использование вещей<br><small>(бытовая химия, губки, мусорные пакеты)</small></h3>
+                <div class="chip-group" data-group="sharing">
+                    <label class="chip"><input type="radio" name="sharing" value="yes"><span>Да</span></label>
+                    <label class="chip"><input type="radio" name="sharing" value="own"><span>Только своё</span></label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary btn-submit">Отправить</button>
+        </form>
+    </main>
+
+    <!-- Боковое меню -->
+    <div class="side-menu" id="sideMenu">
+        <div class="side-menu-overlay" id="sideMenuOverlay"></div>
+        <div class="side-menu-content">
+            <div class="menu-header">
+                <div class="menu-logo">
+                    <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+                        <path d="M4 16L16 4L28 16V28H20V20H12V28H4V16Z" fill="#F47920"/>
+                        <path d="M12 20H20V28H12V20Z" fill="#333"/>
+                    </svg>
+                    <span>UHome</span>
+                </div>
+                <button class="menu-close" id="menuClose">&times;</button>
+            </div>
+            <div class="user-profile">
+                <img src="https://i.pravatar.cc/150?img=12" alt="Аватар" class="user-avatar">
+                <div class="user-details">
+                    <div class="user-name">Игорь Иванов</div>
+                    <div class="user-role">Студент</div>
+                </div>
+            </div>
+            <nav class="menu-nav">
+                <a href="glav.html" class="menu-nav-link">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z"/></svg>
+                    <span>Главная</span>
+                </a>
+                <a href="neighbor.html" class="menu-nav-link active">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <span>Подбор соседа</span>
+                </a>
+            </nav>
+            <div class="menu-footer">
+                <a href=".html" class="logout-link">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <span>Выйти</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/neighbor.js"></script>
+</body>
+</html>

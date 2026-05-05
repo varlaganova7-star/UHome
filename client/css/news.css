@@ -63,16 +63,11 @@ body {
 }
 
 .logo-icon {
-    width: 30px;
-    height: 30px;
+    width: 90px;       /* Ширина как у старой иконки */
+    height: 40px;      /* Высота как у старой иконки */
+    object-fit: contain; /* Чтобы картинка не сплющилась */
+    display: block;    /* Убирает лишние отступы снизу */
 }
-
-.logo-text {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--text-dark);
-}
-
 .menu-btn {
     display: flex;
     flex-direction: column;
@@ -320,7 +315,7 @@ body {
     background: var(--gray-bg);
     border: 2px solid transparent;
     border-radius: 10px;
-    font-family: inherit;
+    font-family: regular;
     font-size: 15px;
     color: var(--text-dark);
     outline: none;

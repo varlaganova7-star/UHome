@@ -85,6 +85,13 @@ body {
     font-weight: 700;
     color: var(--text-dark);
 }
+.logo-icon {
+    width: 90px;       /* Ширина как у старой иконки */
+    height: 40px;      /* Высота как у старой иконки */
+    object-fit: contain; /* Чтобы картинка не сплющилась */
+    display: block;    /* Убирает лишние отступы снизу */
+}
+
 
 .header-logo svg {
     width: 24px;

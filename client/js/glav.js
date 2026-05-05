@@ -26,8 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 { label: 'Подача заявки на ремонт', icon: 'wrench', href: '#' },
                 { label: 'Отслеживание статуса заявки', icon: 'clipboard', href: '#' },
                 { label: 'Объявления и новости', icon: 'news', href: 'news.html' },
-                { label: 'Чат с администрацией', icon: 'chat', href: '#' },
-                { label: 'Правила проживания', icon: 'check', href: '#' },
+                { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' },
+                { label: 'Правила проживания', icon: 'check', href: 'rules.html' },
                 { label: 'Регистрация гостей', icon: 'guest', href: '#' },
                 { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html' }
             ]
@@ -42,8 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 { label: 'Заявки на ремонт', icon: 'wrench', href: '#' },
                 { label: 'Статусы заявок', icon: 'clipboard', href: '#' },
                 { label: 'Объявления и новости', icon: 'news', href: 'news.html' },
-                { label: 'Чаты со студентами', icon: 'students', href: '#' },
-                { label: 'Правила проживания', icon: 'check', href: '#' },
+                { label: 'Чаты со студентами', icon: 'students', href: 'chat.html' },
+                { label: 'Правила проживания', icon: 'check', href: 'rules.html' },
                 { label: 'Регистрация гостей', icon: 'guest', href: '#' },
                 { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html' }
             ]
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { label: 'Главная', icon: 'home', href: '#' },
                 { label: 'Заявки на ремонт', icon: 'wrench', href: '#' },
                 { label: 'Статусы заявок', icon: 'clipboard', href: '#' },
-                { label: 'Чат с администрацией', icon: 'chat', href: '#' }
+                { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' }
             ]
         },
         Slesar: {
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { label: 'Главная', icon: 'home', href: '#' },
                 { label: 'Заявки на ремонт', icon: 'wrench', href: '#' },
                 { label: 'Статусы заявок', icon: 'clipboard', href: '#' },
-                { label: 'Чат с администрацией', icon: 'chat', href: '#' }
+                { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' }
             ]
         },
         Santex: {
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { label: 'Главная', icon: 'home', href: '#' },
                 { label: 'Заявки на ремонт', icon: 'wrench', href: '#' },
                 { label: 'Статусы заявок', icon: 'clipboard', href: '#' },
-                { label: 'Чат с администрацией', icon: 'chat', href: '#' }
+                { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' }
             ]
         },
         Studsovet: {
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { label: 'Главная', icon: 'home', href: '#' },
                 { label: 'Объявления и новости', icon: 'news', href: 'news.html' },
                 { label: 'Мероприятия', icon: 'calendar', href: '#' },
-                { label: 'Чат с администрацией', icon: 'chat', href: '#' },
+                { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' },
                 { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html' }
             ]
         }

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // ===== 1. ЧТЕНИЕ РОЛИ =====
     const userRole = localStorage.getItem('uhome_user_role') || 'student';
     console.log(`📋 Правила: роль "${userRole}"`);
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderRules();
 
     // ===== 6. ПЕРЕКЛЮЧЕНИЕ ПРАВИЛ (АККОРДЕОН) =====
-    window.toggleRule = function(id) {
+    window.toggleRule = function (id) {
         const ruleItem = document.querySelector(`.rule-item[data-id="${id}"]`);
         if (!ruleItem) return;
 
@@ -189,44 +189,70 @@ document.addEventListener('DOMContentLoaded', () => {
         ruleItem.classList.toggle('active');
     };
 
-    // ===== 7. БОКОВОЕ МЕНЮ =====
     function updateMenu() {
         if (!menuNav) return;
-        
+
         const menuItems = {
             student: [
                 { label: 'Главная', icon: 'home', href: 'glav.html' },
-                { label: 'Правила проживания', icon: 'rules', href: 'rules.html', active: true },
-                { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html' }
+                { label: 'Подача заявки на ремонт', icon: 'wrench', href: '#' },
+                { label: 'Отслеживание статуса заявки', icon: 'clipboard', href: '#' },
+                { label: 'Объявления и новости', icon: 'news', href: 'news.html'},
+                { label: 'Чаты с администрацией', icon: 'chat', href: 'chat.html' },
+                { label: 'Правила проживания', icon: 'check', href: 'rules.html', active: true},
+                { label: 'Регистрация гостей', icon: 'guest', href: '#' },
+                { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html'}
             ],
+
             admin: [
                 { label: 'Главная', icon: 'home', href: 'glav.html' },
-                { label: 'Правила проживания', icon: 'rules', href: 'rules.html', active: true },
+                { label: 'Заявки на ремонт', icon: 'wrench', href: '#' },
+                { label: 'Объявления и новости', icon: 'news', href: 'news.html'},
+                { label: 'Чаты со студентами', icon: 'chat', href: 'chat.html' },
+                { label: 'Правила проживания', icon: 'check', href: 'rules.html', active: true },
+                { label: 'Регистрация гостей', icon: 'guest', href: '#' },
                 { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html' }
             ],
             Studsovet: [
                 { label: 'Главная', icon: 'home', href: 'glav.html' },
-                { label: 'Правила проживания', icon: 'rules', href: 'rules.html', active: true },
+                { label: 'Подача заявки на ремонт', icon: 'wrench', href: '#' },
+                { label: 'Отслеживание статуса заявки', icon: 'clipboard', href: '#' },
+                { label: 'Объявления и новости', icon: 'news', href: 'news.html' },
+                { label: 'Чаты с администрацией', icon: 'chat', href: 'chat.html' },
+                { label: 'Правила проживания', icon: 'check', href: 'rules.html', active: true },
+                { label: 'Регистрация гостей', icon: 'guest', href: '#' },
                 { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html' }
             ],
             Electrick: [
                 { label: 'Главная', icon: 'home', href: 'glav.html' },
-                { label: 'Правила проживания', icon: 'rules', href: 'rules.html', active: true }
+                { label: 'Заявки на ремонт', icon: 'news', href: 'news.html' },
+                { label: 'Чаты с администрацией', icon: 'chat', href: 'chat.html' }
+
             ],
             Slesar: [
                 { label: 'Главная', icon: 'home', href: 'glav.html' },
-                { label: 'Правила проживания', icon: 'rules', href: 'rules.html', active: true }
+                { label: 'Заявки на ремонт', icon: 'news', href: 'news.html' },
+                { label: 'Чаты с администрацией', icon: 'chat', href: 'chat.html' }
+
             ],
             Santex: [
                 { label: 'Главная', icon: 'home', href: 'glav.html' },
-                { label: 'Правила проживания', icon: 'rules', href: 'rules.html', active: true }
+                { label: 'Заявки на ремонт', icon: 'news', href: 'news.html' },
+                { label: 'Чаты с администрацией', icon: 'chat', href: 'chat.html' }
             ]
         };
 
         const icons = {
-            home: '<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z"/></svg>',
-            rules: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
-            neighbor: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
+             home: '<svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z"/></svg>',
+            wrench: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+            clipboard: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+            news: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>',
+            chat: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+            check: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+            guest: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6M23 11h-6"/></svg>',
+            neighbor: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+            calendar: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+            students: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>'
         };
 
         const items = menuItems[userRole] || menuItems.student;
@@ -285,5 +311,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    console.log('✅ Страница правил загружена');
+    console.log('✅ Страница объявлений загружена');
 });

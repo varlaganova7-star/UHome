@@ -1,4 +1,215 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    
+    // ===== КОНФИГУРАЦИЯ =====
+    const API_URL = 'http://localhost:3000/api';
+    const SOCKET_URL = 'http://localhost:3000';
+    
+    // ===== ИНИЦИАЛИЗАЦИЯ SOCKET =====
+    const socket = io(SOCKET_URL, {
+        transports: ['websocket', 'polling']
+    });
+    
+    let currentUser = null;
+    let token = localStorage.getItem('uhome_token');
+    
+    // ===== АВТОРИЗАЦИЯ (для демо - упрощённая) =====
+    async function login(role, name) {
+        try {
+            const response = await fetch(`${API_URL}/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ role, name })
+            });
+            
+            const data = await response.json();
+            token = data.token;
+            currentUser = data.user;
+            
+            localStorage.setItem('uhome_token', token);
+            localStorage.setItem('uhome_user', JSON.stringify(currentUser));
+            
+            // Подключаемся к сокетам
+            socket.auth = { token };
+            socket.connect();
+            socket.emit('join', { role: currentUser.role, name: currentUser.name });
+            
+            console.log(`✅ Авторизован: ${currentUser.name} (${currentUser.role})`);
+            return true;
+        } catch (err) {
+            console.error('❌ Ошибка авторизации:', err);
+            return false;
+        }
+    }
+    
+    // ===== ЗАГРУЗКА ИСТОРИИ СООБЩЕНИЙ =====
+    async function loadMessages() {
+        if (!token) return [];
+        
+        try {
+            const response = await fetch(`${API_URL}/messages`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            if (!response.ok) throw new Error('Ошибка загрузки');
+            return await response.json();
+        } catch (err) {
+            console.error('❌ Ошибка загрузки сообщений:', err);
+            return [];
+        }
+    }
+    
+    // ===== ОТПРАВКА СООБЩЕНИЯ =====
+    async function sendMessage(text, media = []) {
+        if (!token || !text.trim()) return;
+        
+        try {
+            const response = await fetch(`${API_URL}/messages`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    text: text.trim(),
+                    media,
+                    recipient: currentUser.role === 'admin' ? 'student' : 'admin'
+                })
+            });
+            
+            if (!response.ok) throw new Error('Ошибка отправки');
+            return await response.json();
+        } catch (err) {
+            console.error('❌ Ошибка отправки:', err);
+            // Пробуем отправить через сокет как запасной вариант
+            socket.emit('send_message', {
+                text: text.trim(),
+                media,
+                sender: {
+                    userId: currentUser.userId,
+                    role: currentUser.role,
+                    name: currentUser.name,
+                    avatar: currentUser.avatar
+                },
+                recipient: currentUser.role === 'admin' ? 'student' : 'admin',
+                createdAt: new Date().toISOString()
+            });
+        }
+    }
+    
+    // ===== ОБРАБОТКА НОВЫХ СООБЩЕНИЙ В РЕАЛЬНОМ ВРЕМЕНИ =====
+    socket.on('new_message', (message) => {
+        // Добавляем сообщение в интерфейс
+        appendMessage(message);
+        scrollToBottom();
+        
+        // Сохраняем локально для оффлайн-режима (опционально)
+        saveMessageToLocal(message);
+    });
+    
+    socket.on('connect_error', (err) => {
+        console.error('❌ Ошибка подключения к сокетам:', err.message);
+    });
+    
+    // ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+    function appendMessage(msg) {
+        if (!messagesContainer) return;
+        
+        const isOutgoing = msg.sender.userId === currentUser?.userId;
+        const direction = isOutgoing ? 'outgoing' : 'incoming';
+        
+        let mediaHtml = '';
+        if (msg.media?.length) {
+            mediaHtml = '<div class="media-container">';
+            msg.media.forEach(item => {
+                if (item.type === 'image') {
+                    mediaHtml += `<div class="media-item"><img src="${item.url}" alt="${item.name}" onclick="openLightbox('${item.url}')"></div>`;
+                } else if (item.type === 'video') {
+                    mediaHtml += `<div class="media-item"><video src="${item.url}" controls></video></div>`;
+                }
+            });
+            mediaHtml += '</div>';
+        }
+        
+        const messageHtml = `
+            <div class="message ${direction}" data-id="${msg._id}">
+                ${!isOutgoing ? `<div class="message-author">${msg.sender.name}</div>` : ''}
+                ${msg.text ? `<div class="message-text">${msg.text}</div>` : ''}
+                ${mediaHtml}
+                <div class="message-time">${formatTime(msg.createdAt)}</div>
+            </div>
+        `;
+        
+        messagesContainer.insertAdjacentHTML('beforeend', messageHtml);
+    }
+    
+    function formatTime(date) {
+        const d = new Date(date);
+        return `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+    }
+    
+    function scrollToBottom() {
+        if (chatArea) {
+            setTimeout(() => { chatArea.scrollTop = chatArea.scrollHeight; }, 100);
+        }
+    }
+    
+    function saveMessageToLocal(message) {
+        const key = `uhome_chat_${currentUser?.role}`;
+        const messages = JSON.parse(localStorage.getItem(key) || '[]');
+        messages.push(message);
+        localStorage.setItem(key, JSON.stringify(messages.slice(-100))); // Храним последние 100
+    }
+    
+    // ===== ИНИЦИАЛИЗАЦИЯ =====
+    async function init() {
+        // Получаем данные пользователя из localStorage (от предыдущего входа)
+        const savedUser = localStorage.getItem('uhome_user');
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            token = localStorage.getItem('uhome_token');
+            
+            if (token) {
+                socket.auth = { token };
+                socket.connect();
+                socket.emit('join', { role: currentUser.role, name: currentUser.name });
+            }
+        }
+        
+        // Если нет пользователя - входим как студент (для демо)
+        if (!currentUser) {
+            await login('student', 'Игорь Иванов');
+        }
+        
+        // Загружаем историю
+        const messages = await loadMessages();
+        messages.forEach(msg => appendMessage(msg));
+        scrollToBottom();
+        
+        console.log('✅ Чат инициализирован с бэкендом');
+    }
+    
+    init();
+    
+    // ===== ОБРАБОТЧИКИ СОБЫТИЙ (отправка) =====
+    if (sendBtn) {
+        sendBtn.addEventListener('click', async () => {
+            const text = chatInput?.value.trim();
+            if (!text) return;
+            
+            await sendMessage(text);
+            if (chatInput) chatInput.value = '';
+        });
+    }
+    
+    if (chatInput) {
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendBtn?.click();
+            }
+        });
+    }
+    
+    
     
     // ===== 1. ЧТЕНИЕ РОЛИ =====
     const userRole = localStorage.getItem('uhome_user_role') || 'student';

@@ -1,18 +1,32 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
+    <!-- PWA Манифест -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#F47920">
+
+    <!-- Для iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="UHome">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+    <!-- Запрет зума на мобильных -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Правила проживания — UHome</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/rules.css">
 </head>
+
 <body>
 
     <header class="header">
         <div class="header-logo">
             <img src="image 10.png" alt="UHome Logo" class="logo-icon">
-            
+
         </div>
         <button class="menu-btn" id="menuBtn" aria-label="Открыть меню">
             <span></span>
@@ -23,11 +37,12 @@
 
     <!-- Основной контент -->
     <main class="page-content">
-        
+
         <!-- Заголовок -->
         <h1 class="page-title">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#28A745" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"/>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#28A745" stroke-width="3"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
             </svg>
             Правила проживания
         </h1>
@@ -46,8 +61,8 @@
             <div class="menu-header">
                 <div class="menu-logo">
                     <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-                        <path d="M4 16L16 4L28 16V28H20V20H12V28H4V16Z" fill="#F47920"/>
-                        <path d="M12 20H20V28H12V20Z" fill="#333"/>
+                        <path d="M4 16L16 4L28 16V28H20V20H12V28H4V16Z" fill="#F47920" />
+                        <path d="M12 20H20V28H12V20Z" fill="#333" />
                     </svg>
                     <span>UHome</span>
                 </div>
@@ -64,9 +79,9 @@
             <div class="menu-footer">
                 <a href="sign_up.html" class="logout-link">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <polyline points="16 17 21 12 16 7"/>
-                        <line x1="21" y1="12" x2="9" y2="12"/>
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                        <polyline points="16 17 21 12 16 7" />
+                        <line x1="21" y1="12" x2="9" y2="12" />
                     </svg>
                     <span>Выйти</span>
                 </a>
@@ -76,4 +91,5 @@
 
     <script src="js/rules.js"></script>
 </body>
+
 </html>

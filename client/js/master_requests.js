@@ -1,427 +1,445 @@
-const container = document.getElementById("requests-container");
+document.addEventListener('DOMContentLoaded', () => {
 
-const tabs = document.querySelectorAll(".tab");
+    // =========================
+    // MENU
+    // =========================
 
-const modal = document.getElementById("imageModal");
-const modalImage = document.getElementById("modalImage");
-const closeModal = document.getElementById("closeModal");
+    const menuBtn =
+        document.getElementById('menuBtn');
 
-let currentFilter = "all";
+    const sideMenu =
+        document.getElementById('sideMenu');
 
-/* =========================
-   ЗАГРУЗКА ЗАЯВОК
-========================= */
+    const menuClose =
+        document.getElementById('menuClose');
 
-loadRequests();
+    const menuOverlay =
+        document.getElementById('sideMenuOverlay');
 
-/* АВТООБНОВЛЕНИЕ */
-setInterval(loadRequests, 5000);
+    menuBtn.addEventListener('click', () => {
 
-/* =========================
-   FILTERS
-========================= */
+        sideMenu.classList.add('active');
 
-tabs.forEach(tab => {
-
-  tab.addEventListener("click", () => {
-
-    tabs.forEach(t => t.classList.remove("active"));
-
-    tab.classList.add("active");
-
-    currentFilter = tab.dataset.filter;
-
-    loadRequests();
-
-  });
-
-});
-
-/* =========================
-   LOAD REQUESTS
-========================= */
-
-function loadRequests(){
-
-  fetch("http://127.0.0.1:5000/requests")
-    .then(res => res.json())
-    .then(data => {
-
-      container.innerHTML = "";
-
-      let filtered = data;
-
-      if(currentFilter === "Ожидают"){
-
-        filtered = data.filter(item =>
-
-            item.status === "Ожидают" ||
-            item.status === "Скоро приду"
-
-      );
-
-      }else if(currentFilter !== "all"){
-
-        filtered = data.filter(item =>
-        item.status === currentFilter
-      );
-
-      }
-
-      filtered.forEach(request => {
-
-        createCard(request);
-
-      });
+        document.body.style.overflow = 'hidden';
 
     });
 
-}
+    function closeMenu(){
 
-/* =========================
-   CREATE CARD
-========================= */
+        sideMenu.classList.remove('active');
 
-function createCard(request){
-
-  const card = document.createElement("div");
-
-  card.className = "request-card";
-
-  const photos = createPhotos(request.photos);
-
-  card.innerHTML = `
-
-    <div class="request-top">
-
-      <div>
-
-        <div class="request-title">
-          ${request.short_desc}
-        </div>
-
-        <div class="info">
-          🔧 ${request.category}
-        </div>
-
-        <div class="info">
-          📅 ${formatDates(request.dates)}
-        </div>
-
-      </div>
-
-      <div class="status ${getStatusClass(request.status)}">
-        ${request.status}
-      </div>
-
-    </div>
-
-    <div class="priority ${getPriorityClass(request.priority)}">
-      ${request.priority}
-    </div>
-
-    <div class="toggle">
-      ▼ Показать детали
-    </div>
-
-    <div class="details">
-
-      <div class="detail-title">
-        Полное описание
-      </div>
-
-      <div class="detail-text">
-        ${request.full_desc || "Описание отсутствует"}
-      </div>
-
-      <div class="detail-title">
-        Фотографии проблемы
-      </div>
-
-      <div class="photos">
-        ${photos}
-      </div>
-
-    </div>
-
-    <div class="actions">
-
-      <button class="action-btn gray soon-btn">
-        👷 Скоро приду
-      </button>
-
-      <button class="action-btn gray move-btn">
-        📅 Нужно перенести
-      </button>
-
-      <button class="action-btn gray details-btn">
-        🔧 Нет деталей
-      </button>
-
-      <button class="action-btn green done-btn">
-        ✅ Работа выполнена
-      </button>
-
-    </div>
-
-  `;
-
-  /* =========================
-     АКТИВНЫЕ КНОПКИ
-  ========================= */
-
-  const soonBtn = card.querySelector(".soon-btn");
-  const doneBtn = card.querySelector(".done-btn");
-
-  if(request.status === "Скоро приду"){
-
-    soonBtn.classList.add("active");
-
-  }
-
-  if(request.status === "Выполнено"){
-
-    doneBtn.classList.add("active");
-
-  }
-
-  /* =========================
-     TOGGLE DETAILS
-  ========================= */
-
-  const toggle = card.querySelector(".toggle");
-  const details = card.querySelector(".details");
-
-  toggle.addEventListener("click", () => {
-
-    if(details.style.display === "block"){
-
-      details.style.display = "none";
-
-      toggle.innerHTML = "▼ Показать детали";
-
-    }else{
-
-      details.style.display = "block";
-
-      toggle.innerHTML = "▲ Скрыть детали";
+        document.body.style.overflow = '';
 
     }
 
-  });
+    menuClose.addEventListener('click', closeMenu);
 
-  /* =========================
-     BUTTONS
-  ========================= */
+    menuOverlay.addEventListener('click', closeMenu);
 
-  const moveBtn = card.querySelector(".move-btn");
+    // =========================
+    // REQUESTS
+    // =========================
 
-  const detailsBtn = card.querySelector(".details-btn");
+    let requests =
+        JSON.parse(localStorage.getItem('repair_requests')) || [];
 
-  /* СКОРО ПРИДУ */
+    // ТЕСТОВЫЕ ДАННЫЕ
 
-  soonBtn.addEventListener("click", () => {
+    if(requests.length === 0){
 
-    updateStatus(request.id, "Скоро приду");
+        requests = [
 
-  });
+            {
+                id:1,
 
-  /* РАБОТА ВЫПОЛНЕНА */
+                title:'Не работает розетка',
 
-  doneBtn.addEventListener("click", () => {
+                category:'Электрика',
 
-    updateStatus(request.id, "Выполнено");
+                room:'312',
 
-  });
+                student:'Петрова А.Ф.',
 
-  /* НУЖНО ПЕРЕНЕСТИ */
+                date:'12.04.2026',
 
-  moveBtn.addEventListener("click", () => {
+                visit:'13.04.2026, 14:00 - 18:00',
 
-    const confirmDelete = confirm(
-      "Удалить заявку?"
+                status:'Ожидают',
+
+                details:'Розетка искрит.'
+            },
+
+            {
+                id:2,
+
+                title:'Протекает кран',
+
+                category:'Сантехника',
+
+                room:'215',
+
+                student:'Соколов Д.Г.',
+
+                date:'12.04.2026',
+
+                visit:'14.04.2026, 09:00 - 18:00',
+
+                status:'Ожидают',
+
+                details:'Постоянно капает вода.'
+            }
+        ];
+    }
+
+    const requestsContainer =
+        document.getElementById('requestsContainer');
+
+    const categoryFilter =
+        document.getElementById('categoryFilter');
+
+    const filterButtons =
+        document.querySelectorAll('.filter-btn');
+
+    let currentFilter = 'all';
+
+    // =========================
+    // RENDER
+    // =========================
+
+    function renderRequests(list){
+
+        requestsContainer.innerHTML = '';
+
+        if(list.length === 0){
+
+            requestsContainer.innerHTML = `
+
+                <div class="empty-block">
+
+                    Заявок пока нет
+
+                </div>
+
+            `;
+
+            return;
+        }
+
+        list.forEach(request => {
+
+            const card =
+                document.createElement('div');
+
+            card.className = 'request-card';
+
+            card.innerHTML = `
+
+                <div class="request-top">
+
+                    <div>
+
+                        <div class="request-title">
+
+                            ${request.title}
+
+                            <span class="request-date">
+
+                                ${request.date}
+
+                            </span>
+
+                        </div>
+
+                        <div class="request-info">
+
+                            <div>
+                                🔧 ${request.category}
+                            </div>
+
+                            <div>
+                                🏠 ${request.room}
+                                ${request.student}
+                            </div>
+
+                            <div>
+                                🗓 ${request.visit}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="request-status
+                        ${request.status === 'Выполнено' ? 'done' : ''}
+                        ${request.status === 'Перенесено' ? 'transfer' : ''}
+                        ${request.status === 'Нет деталей' ? 'problem' : ''}
+                        ${request.status === 'Скоро приду' ? 'arriving-status' : ''}
+                        ${request.status === 'Ожидают' ? 'waiting' : ''}">
+
+                        ${request.status}
+
+                    </div>
+
+                </div>
+
+                <div class="details-toggle">
+
+                    ▾ Показать детали
+
+                </div>
+
+                <div class="request-details">
+
+                    <div class="detail-title">
+
+                        Полное описание
+
+                    </div>
+
+                    <div class="detail-text">
+
+                        ${request.details}
+
+                    </div>
+
+                    <div class="detail-title photos-title">
+
+                        Фотографии проблемы
+
+                    </div>
+
+                    <div class="photo-list">
+
+                        <div class="photo-box"></div>
+
+                        <div class="photo-box"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <div class="actions-title">
+
+                        Изменить статус заявки:
+
+                    </div>
+
+                    <div class="actions-grid">
+
+                        <button class="action-btn arriving-btn">
+
+                            👷 Скоро приду
+
+                        </button>
+
+                        <button class="action-btn transfer-btn">
+
+                            📅 Нужно перенести
+
+                        </button>
+
+                        <button class="action-btn no-details-btn">
+
+                            🔧 Нет деталей
+
+                        </button>
+
+                        <button class="action-btn done-btn">
+
+                            ✅ Работа выполнена
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+            // =========================
+            // DETAILS
+            // =========================
+
+            const toggle =
+                card.querySelector('.details-toggle');
+
+            const details =
+                card.querySelector('.request-details');
+
+            toggle.addEventListener('click', () => {
+
+                details.classList.toggle('active');
+
+                if(details.classList.contains('active')){
+
+                    toggle.innerHTML =
+                        '▴ Скрыть детали';
+
+                } else {
+
+                    toggle.innerHTML =
+                        '▾ Показать детали';
+                }
+
+            });
+
+            // =========================
+            // BUTTONS
+            // =========================
+
+            const doneBtn =
+                card.querySelector('.done-btn');
+
+            const arrivingBtn =
+                card.querySelector('.arriving-btn');
+
+            const transferBtn =
+                card.querySelector('.transfer-btn');
+
+            const noDetailsBtn =
+                card.querySelector('.no-details-btn');
+
+            // ВЫПОЛНЕНО
+
+            doneBtn.addEventListener('click', () => {
+
+                request.status = 'Выполнено';
+
+                localStorage.setItem(
+                    'repair_requests',
+                    JSON.stringify(requests)
+                );
+
+                applyFilters();
+
+            });
+
+            // СКОРО ПРИДУ
+
+            arrivingBtn.addEventListener('click', () => {
+
+                request.status = 'Скоро приду';
+
+                localStorage.setItem(
+                    'repair_requests',
+                    JSON.stringify(requests)
+                );
+
+                applyFilters();
+
+            });
+
+            // ПЕРЕНЕСТИ
+
+            transferBtn.addEventListener('click', () => {
+
+                request.status = 'Перенесено';
+
+                localStorage.setItem(
+                    'repair_requests',
+                    JSON.stringify(requests)
+                );
+
+                applyFilters();
+
+            });
+
+            // НЕТ ДЕТАЛЕЙ
+
+            noDetailsBtn.addEventListener('click', () => {
+
+                request.status = 'Нет деталей';
+
+                localStorage.setItem(
+                    'repair_requests',
+                    JSON.stringify(requests)
+                );
+
+                applyFilters();
+
+            });
+
+            requestsContainer.appendChild(card);
+
+        });
+
+    }
+
+    // =========================
+    // FILTERS
+    // =========================
+
+    function applyFilters(){
+
+        let filtered = [...requests];
+
+        // CATEGORY
+
+        const category =
+            categoryFilter.value;
+
+        if(category !== 'all'){
+
+            filtered =
+                filtered.filter(item =>
+                    item.category === category
+                );
+        }
+
+        // STATUS
+
+        if(currentFilter === 'waiting'){
+
+            filtered =
+                filtered.filter(item =>
+                    item.status === 'Ожидают'
+                );
+        }
+
+        if(currentFilter === 'done'){
+
+            filtered =
+                filtered.filter(item =>
+                    item.status === 'Выполнено'
+                );
+        }
+
+        renderRequests(filtered);
+
+    }
+
+    // CATEGORY FILTER
+
+    categoryFilter.addEventListener(
+        'change',
+        applyFilters
     );
 
-    if(!confirmDelete) return;
+    // TOP FILTER BUTTONS
 
-    deleteRequest(request.id);
+    filterButtons.forEach(button => {
 
-  });
+        button.addEventListener('click', () => {
 
-  /* НЕТ ДЕТАЛЕЙ */
+            filterButtons.forEach(btn =>
+                btn.classList.remove('active')
+            );
 
-  detailsBtn.addEventListener("click", () => {
+            button.classList.add('active');
 
-    const confirmDelete = confirm(
-      "Удалить заявку?"
-    );
+            currentFilter =
+                button.dataset.filter;
 
-    if(!confirmDelete) return;
+            applyFilters();
 
-    deleteRequest(request.id);
-
-  });
-
-  container.appendChild(card);
-
-  /* =========================
-     FULLSCREEN PHOTO
-  ========================= */
-
-  card.querySelectorAll(".photos img").forEach(img => {
-
-    img.addEventListener("click", () => {
-
-      modal.style.display = "flex";
-
-      modalImage.src = img.src;
+        });
 
     });
 
-  });
+    // START
 
-}
-
-/* =========================
-   CREATE PHOTOS
-========================= */
-
-function createPhotos(photos){
-
-  if(!photos || photos.length === 0){
-
-    return `
-      <div class="detail-text">
-        Фото отсутствуют
-      </div>
-    `;
-
-  }
-
-  return photos.map(photo => `
-
-    <img src="http://127.0.0.1:5000/uploads/${photo}">
-
-  `).join("");
-
-}
-
-/* =========================
-   UPDATE STATUS
-========================= */
-
-function updateStatus(id, status){
-
-  fetch(`http://127.0.0.1:5000/update_status/${id}`, {
-
-    method:"POST",
-
-    headers:{
-      "Content-Type":"application/json"
-    },
-
-    body:JSON.stringify({
-      status
-    })
-
-  })
-  .then(res => res.json())
-  .then(() => {
-
-    loadRequests();
-
-  });
-
-}
-
-/* =========================
-   DELETE REQUEST
-========================= */
-
-function deleteRequest(id){
-
-  fetch(`http://127.0.0.1:5000/delete_request/${id}`, {
-
-    method:"DELETE"
-
-  })
-  .then(res => res.json())
-  .then(() => {
-
-    loadRequests();
-
-  });
-
-}
-
-/* =========================
-   FORMAT DATES
-========================= */
-
-function formatDates(dates){
-
-  if(typeof dates === "string"){
-
-    dates = JSON.parse(dates);
-
-  }
-
-  return dates.map(d =>
-
-    `${d.date} ${d.from} - ${d.to}`
-
-  ).join(", ");
-
-}
-
-/* =========================
-   PRIORITY COLORS
-========================= */
-
-function getPriorityClass(priority){
-
-  if(priority.includes("Низкая")) return "low";
-
-  if(priority.includes("Средняя")) return "medium";
-
-  return "high";
-
-}
-
-/* =========================
-   STATUS COLORS
-========================= */
-
-function getStatusClass(status){
-
-  if(status === "Скоро приду"){
-    return "status-soon";
-  }
-
-  if(status === "Выполнено"){
-    return "status-done";
-  }
-
-  return "";
-
-}
-
-/* =========================
-   MODAL
-========================= */
-
-closeModal.addEventListener("click", () => {
-
-  modal.style.display = "none";
-
-});
-
-modal.addEventListener("click", e => {
-
-  if(e.target === modal){
-
-    modal.style.display = "none";
-
-  }
+    applyFilters();
 
 });

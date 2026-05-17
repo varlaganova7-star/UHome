@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const menuItems = {
             student: [
                 { label: 'Главная', icon: 'home', href: 'glav.html' },
-                { label: 'Подача заявки на ремонт', icon: 'wrench', href: '#' },
+                { label: 'Подача заявки на ремонт', icon: 'wrench', href: 'repair_request.html' },
                 { label: 'Отслеживание статуса заявки', icon: 'clipboard', href: '#' },
                 { label: 'Объявления и новости', icon: 'news', href: 'news.html', active: true },
                 { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' },

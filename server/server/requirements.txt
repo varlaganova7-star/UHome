@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+python-socketio[asyncio]
+asyncpg
+python-jose[cryptography]
+passlib[bcrypt]

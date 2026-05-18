@@ -1,0 +1,22 @@
+{
+  "name": "UHome - Общежитие СФУ",
+  "short_name": "UHome",
+  "description": "Приложение для студентов и администрации общежития",
+  "start_url": "glav.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#F47920",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

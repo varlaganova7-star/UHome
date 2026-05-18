@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             activeIndex: 0,
             items: [
                 { label: 'Главная', icon: 'home', href: '#' },
-                { label: 'Подача заявки на ремонт', icon: 'wrench', href: '#' },
+                { label: 'Подача заявки на ремонт', icon: 'wrench', href: 'request_student.html' },
                 { label: 'Отслеживание статуса заявки', icon: 'clipboard', href: '#' },
                 { label: 'Объявления и новости', icon: 'news', href: 'news.html' },
                 { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' },
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             activeIndex: 0,
             items: [
                 { label: 'Главная', icon: 'home', href: '#' },
-                { label: 'Заявки на ремонт', icon: 'wrench', href: '#' },
+                { label: 'Заявки на ремонт', icon: 'wrench', href: 'master_requests.html' },
                 { label: 'Статусы заявок', icon: 'clipboard', href: '#' },
                 { label: 'Объявления и новости', icon: 'news', href: 'news.html' },
                 { label: 'Чаты со студентами', icon: 'students', href: 'chat.html' },
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             activeIndex: 1,
             items: [
                 { label: 'Главная', icon: 'home', href: '#' },
-                { label: 'Заявки на ремонт', icon: 'wrench', href: '#' },
+                { label: 'Заявки на ремонт', icon: 'wrench', href: 'master_requests.html' },
                 { label: 'Статусы заявок', icon: 'clipboard', href: '#' },
                 { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' }
             ]
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
             activeIndex: 1,
             items: [
                 { label: 'Главная', icon: 'home', href: '#' },
-                { label: 'Заявки на ремонт', icon: 'wrench', href: '#' },
+                { label: 'Заявки на ремонт', icon: 'wrench', href: 'master_requests.html' },
                 { label: 'Статусы заявок', icon: 'clipboard', href: '#' },
                 { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' }
             ]
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
             activeIndex: 1,
             items: [
                 { label: 'Главная', icon: 'home', href: '#' },
-                { label: 'Заявки на ремонт', icon: 'wrench', href: '#' },
+                { label: 'Заявки на ремонт', icon: 'wrench', href: 'master_requests.html' },
                 { label: 'Статусы заявок', icon: 'clipboard', href: '#' },
                 { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' }
             ]
@@ -91,6 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
             activeIndex: 0,
             items: [
                 { label: 'Главная', icon: 'home', href: '#' },
+                { label: 'Подача заявки на ремонт', icon: 'wrench', href: 'request_student.html' },
+                { label: 'Отслеживание статуса заявки', icon: 'clipboard', href: '#' },
                 { label: 'Объявления и новости', icon: 'news', href: 'news.html' },
                 { label: 'Мероприятия', icon: 'calendar', href: '#' },
                 { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' },
@@ -203,13 +205,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ===== 7. ЗАПУСК =====
     renderMenu(userRole);
-        // ===== КЛИК ПО ПРОФИЛЮ В БОКОВОМ МЕНЮ =====
+    // ===== КЛИК ПО ПРОФИЛЮ В БОКОВОМ МЕНЮ =====
     const userProfileBlock = document.querySelector('.user-profile');
-    
+
     if (userProfileBlock) {
         userProfileBlock.style.cursor = 'pointer';
         userProfileBlock.title = 'Открыть профиль';
-        
+
         userProfileBlock.addEventListener('click', () => {
             closeMenu(); // Закрываем боковое меню
             setTimeout(() => {
@@ -217,5 +219,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 300);
         });
     }
-    
+    // Регистрация Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('✅ SW зарегистрирован:', reg.scope))
+                .catch(err => console.log('❌ Ошибка SW:', err));
+        });
+    }
+
 });

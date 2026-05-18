@@ -1,0 +1,477 @@
+/* =========================================
+   layout.css
+========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+
+    --orange: #F47920;
+    --orange-dark: #D96515;
+
+    --bg: #F5F5F5;
+
+    --white: #FFFFFF;
+
+    --text: #1F1F1F;
+    --text-light: #8A8A8A;
+
+    --border: #E7E7E7;
+
+    --shadow:
+        0 6px 22px rgba(0,0,0,0.06);
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+
+    overflow-x: hidden;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.header {
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    width: 100%;
+
+    height: 82px;
+
+    background: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    border-radius: 0 0 26px 26px;
+
+    box-shadow:
+        0 4px 18px rgba(0,0,0,0.05);
+}
+
+/* LOGO */
+
+.header-logo {
+
+    display: flex;
+    align-items: center;
+
+    text-decoration: none;
+}
+
+.logo-image {
+
+    width: 92px;
+    height: auto;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+/* =========================================
+   MENU BUTTON
+========================================= */
+
+.menu-btn {
+
+    width: 48px;
+    height: 48px;
+
+    border: none;
+    background: #F4F4F4;
+
+    border-radius: 14px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 5px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.menu-btn:hover {
+
+    background: #ECECEC;
+}
+
+.menu-btn span {
+
+    width: 22px;
+    height: 2px;
+
+    background: #222;
+
+    border-radius: 10px;
+}
+
+/* =========================================
+   SIDE MENU
+========================================= */
+
+.side-menu {
+
+    position: fixed;
+    inset: 0;
+
+    z-index: 999;
+
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.side-menu.active {
+
+    visibility: visible;
+    pointer-events: all;
+}
+
+/* OVERLAY */
+
+.side-menu-overlay {
+
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0,0,0,0.34);
+
+    opacity: 0;
+
+    transition: 0.3s;
+}
+
+.side-menu.active .side-menu-overlay {
+
+    opacity: 1;
+}
+
+/* PANEL */
+
+.side-menu-content {
+
+    position: absolute;
+
+    top: 0;
+    right: -320px;
+
+    width: 300px;
+    max-width: 88vw;
+
+    height: 100%;
+
+    background: var(--white);
+
+    transition: 0.32s ease;
+
+    display: flex;
+    flex-direction: column;
+
+    border-top-left-radius: 28px;
+    border-bottom-left-radius: 28px;
+
+    overflow: hidden;
+}
+
+.side-menu.active .side-menu-content {
+
+    right: 0;
+}
+
+/* =========================================
+   TOP
+========================================= */
+
+.menu-top {
+
+    display: flex;
+    justify-content: flex-end;
+
+    padding: 16px 16px 10px;
+}
+
+.menu-close {
+
+    width: 44px;
+    height: 44px;
+
+    border: none;
+    background: #F3F3F3;
+
+    border-radius: 14px;
+
+    font-size: 28px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    color: #111;
+}
+
+/* =========================================
+   PROFILE
+========================================= */
+
+.user-profile {
+
+    padding: 6px 22px 22px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    border-bottom: 1px solid var(--border);
+
+    cursor: pointer;
+}
+
+.user-avatar {
+
+    width: 72px;
+    height: 72px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    flex-shrink: 0;
+}
+
+.user-info {
+
+    min-width: 0;
+}
+
+.user-name {
+
+    font-size: 16px;
+    font-weight: 700;
+
+    margin-bottom: 4px;
+}
+
+.user-role {
+
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+/* =========================================
+   NAV
+========================================= */
+
+.menu-nav {
+
+    flex: 1;
+
+    padding: 14px 10px 24px;
+
+    overflow-y: auto;
+
+    min-height: 0;
+}
+
+.menu-nav-link {
+
+    height: 48px;
+
+    border-radius: 18px;
+
+    padding: 0 16px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    text-decoration: none;
+
+    color: var(--text);
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+
+    margin-bottom: 6px;
+    
+    overflow: hidden;
+
+    position: relative;
+}
+
+.menu-nav-link:hover {
+
+    background: #F5F5F5;
+}
+
+.menu-nav-link.active {
+
+    background: var(--orange);
+    color: white;
+}
+
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.menu-footer {
+
+    padding: 16px;
+
+    border-top: 1px solid var(--border);
+
+    flex-shrink: 0;
+
+    background: #fff;
+}
+
+/* LOGOUT BUTTON */
+
+.logout-btn {
+
+    width: 100%;
+    height: 52px;
+
+    border: none;
+
+    border-radius: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    background: #FFF1E7;
+
+    color: #D35400;
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+
+    background: #FFE7D6;
+}
+
+/* ICON */
+
+.logout-btn svg {
+
+    width: 20px;
+    height: 20px;
+
+    transform: scale(1.15);
+
+    transform-origin: center;
+}
+
+/* TEXT */
+
+.logout-btn span {
+
+    line-height: 1;
+}
+
+/* =========================================
+   PAGE
+========================================= */
+
+.page-content {
+
+    padding-top: 24px;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .header {
+
+        height: 72px;
+
+        padding: 0 14px;
+
+        border-radius: 0 0 22px 22px;
+    }
+
+    .logo-image {
+
+        width: 84px;
+    }
+
+    .menu-btn {
+
+        width: 44px;
+        height: 44px;
+    }
+
+    .side-menu-content {
+
+        width: 300px;
+    }
+
+    .user-avatar {
+
+        width: 64px;
+        height: 64px;
+    }
+
+    .menu-nav-link {
+
+        min-height: 50px;
+
+        font-size: 14px;
+    }
+}
+
+.menu-nav-link svg,
+.logout-btn svg {
+
+    width: 22px !important;
+    height: 22px !important;
+
+    min-width: 22px;
+    min-height: 22px;
+
+    flex-shrink: 0;
+
+    display: block;
+
+    stroke-width: 2;
+}

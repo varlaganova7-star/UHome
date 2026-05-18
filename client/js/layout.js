@@ -209,15 +209,23 @@ document.addEventListener('DOMContentLoaded', () => {
 const icons = {
 
     home: `
-        <svg width="19" height="19"
+        <svg
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
-            fill="currentColor">
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+        >
 
-            <path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z"/>
+            <path d="M3 10.5L12 3L21 10.5"/>
+
+            <path d="M5 9.5V20H19V9.5"/>
 
         </svg>
     `,
-
     wrench: `
         <svg width="19" height="19"
             viewBox="0 0 24 24"
@@ -369,7 +377,7 @@ const icons = {
             {
                 label: 'Отслеживание статуса заявки',
                 icon: 'clipboard',
-                href: 'student_request.html'
+                href: 'student_requests.html'
             },
 
             {

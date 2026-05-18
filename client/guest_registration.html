@@ -1,63 +1,74 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+
     <meta charset="UTF-8" />
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
 
     <title>Регистрация гостей — UHome</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FONT -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
 
-    <link rel="stylesheet" href="css/guest_registration.css">
+    <!-- LAYOUT -->
+    <link
+        rel="stylesheet"
+        href="css/layout.css"
+    >
+
+    <!-- PAGE -->
+    <link
+        rel="stylesheet"
+        href="css/guest_registration.css"
+    >
+
 </head>
 
 <body>
 
-    <!-- ШАПКА -->
-    <header class="header">
+    <!-- =========================================
+    GLOBAL LAYOUT
+    ========================================= -->
 
-        <div class="header-logo">
-            <img src="image 10.png"
-                 alt="UHome Logo"
-                 class="logo-icon">
-        </div>
+    <div id="layout-container"></div>
 
-        <button class="menu-btn"
-                id="menuBtn"
-                aria-label="Открыть меню">
+    <!-- =========================================
+    PAGE CONTENT
+    ========================================= -->
 
-            <span></span>
-            <span></span>
-            <span></span>
-
-        </button>
-
-    </header>
-
-    <!-- КОНТЕНТ -->
     <main class="page-content">
 
-        <!-- НАЗАД -->
-        <a href="glav.html" class="back-btn">
-            ← Назад
-        </a>
-
-        <!-- ЗАГОЛОВОК -->
+        <!-- TITLE -->
         <div class="title-block">
 
             <h1 class="page-title">
 
-                <svg width="28"
-                     height="28"
-                     viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="#222"
-                     stroke-width="2">
+                <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#222"
+                    stroke-width="2"
+                >
 
                     <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                    <circle cx="8.5" cy="7" r="4"/>
+
+                    <circle
+                        cx="8.5"
+                        cy="7"
+                        r="4"
+                    />
+
                     <path d="M20 8v6"/>
+
                     <path d="M23 11h-6"/>
 
                 </svg>
@@ -72,51 +83,62 @@
 
         </div>
 
-        <!-- КАРТОЧКА -->
+        <!-- FORM -->
         <section class="guest-card">
 
-            <!-- ИМЯ -->
             <div class="form-group">
 
-                <label class="form-label">
+                <label
+                    class="form-label"
+                    for="guestName"
+                >
                     Имя гостя
                 </label>
 
-                <input type="text"
-                       class="form-input"
-                       id="guestName"
-                       placeholder="Введите полное имя">
+                <input
+                    type="text"
+                    class="form-input"
+                    id="guestName"
+                    placeholder="Введите полное имя"
+                >
 
             </div>
 
-            <!-- ДОКУМЕНТ -->
             <div class="form-group">
 
-                <label class="form-label">
+                <label
+                    class="form-label"
+                    for="guestDocument"
+                >
                     Документ
                 </label>
 
-                <input type="text"
-                       class="form-input"
-                       id="guestDocument"
-                       placeholder="Паспорт серия/номер">
+                <input
+                    type="text"
+                    class="form-input"
+                    id="guestDocument"
+                    placeholder="Паспорт серия/номер"
+                >
 
             </div>
 
-            <!-- ДАТА -->
             <div class="form-group">
 
-                <label class="form-label">
+                <label
+                    class="form-label"
+                    for="guestDate"
+                >
                     Дата визита
                 </label>
 
-                <input type="date"
-                       class="form-input"
-                       id="guestDate">
+                <input
+                    type="date"
+                    class="form-input"
+                    id="guestDate"
+                >
 
             </div>
 
-            <!-- ВРЕМЯ -->
             <div class="form-group">
 
                 <label class="form-label">
@@ -125,42 +147,49 @@
 
                 <div class="time-range">
 
-                    <input type="time"
-                           class="form-input small-input"
-                           id="timeFrom">
+                    <input
+                        type="time"
+                        class="form-input small-input"
+                        id="timeFrom"
+                    >
 
-                    <span class="time-divider">—</span>
+                    <span class="time-divider">
+                        —
+                    </span>
 
-                    <input type="time"
-                           class="form-input small-input"
-                           id="timeTo">
+                    <input
+                        type="time"
+                        class="form-input small-input"
+                        id="timeTo"
+                    >
 
                 </div>
 
             </div>
 
-            <!-- КНОПКИ -->
             <div class="button-group">
 
-                <button class="btn-cancel"
-                        id="cancelBtn">
-
+                <button
+                    type="button"
+                    class="btn-cancel"
+                    id="cancelBtn"
+                >
                     Отмена
-
                 </button>
 
-                <button class="btn-submit"
-                        id="registerBtn">
-
+                <button
+                    type="button"
+                    class="btn-submit"
+                    id="registerBtn"
+                >
                     Зарегистрировать гостя
-
                 </button>
 
             </div>
 
         </section>
 
-        <!-- ИСТОРИЯ -->
+        <!-- HISTORY -->
         <section class="history-card">
 
             <h2 class="history-title">
@@ -173,106 +202,8 @@
 
     </main>
 
-    <!-- БОКОВОЕ МЕНЮ -->
-    <div class="side-menu" id="sideMenu">
-
-        <div class="side-menu-overlay"
-             id="sideMenuOverlay"></div>
-
-        <div class="side-menu-content">
-
-            <div class="menu-header">
-
-                <div class="menu-logo">
-
-                    <svg width="24"
-                         height="24"
-                         viewBox="0 0 32 32"
-                         fill="none">
-
-                        <path d="M4 16L16 4L28 16V28H20V20H12V28H4V16Z"
-                              fill="#F47920"/>
-
-                        <path d="M12 20H20V28H12V20Z"
-                              fill="#333"/>
-
-                    </svg>
-
-                    <span>UHome</span>
-
-                </div>
-
-                <button class="menu-close"
-                        id="menuClose">
-
-                    &times;
-
-                </button>
-
-            </div>
-
-            <!-- ПРОФИЛЬ -->
-            <div class="user-profile"
-                 id="userProfileBlock">
-
-                <img src=""
-                     alt="Аватар"
-                     class="user-avatar"
-                     id="menuAvatar">
-
-                <div class="user-details">
-
-                    <div class="user-name"
-                         id="menuUserName">
-
-                        ...
-
-                    </div>
-
-                    <div class="user-role"
-                         id="menuUserRole">
-
-                        ...
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- МЕНЮ -->
-            <nav class="menu-nav"
-                 id="menuNav"></nav>
-
-            <!-- ВЫХОД -->
-            <div class="menu-footer">
-
-                <a href="sign_up.html"
-                   class="logout-link">
-
-                    <svg width="20"
-                         height="20"
-                         viewBox="0 0 24 24"
-                         fill="none"
-                         stroke="currentColor"
-                         stroke-width="2">
-
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                        <polyline points="16 17 21 12 16 7"/>
-                        <line x1="21" y1="12" x2="9" y2="12"/>
-
-                    </svg>
-
-                    <span>Выйти</span>
-
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
+    <!-- SCRIPTS -->
+    <script src="js/layout.js"></script>
     <script src="js/guest_registration.js"></script>
 
 </body>

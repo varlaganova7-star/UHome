@@ -120,9 +120,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (response.ok && !result.error) {
 
+            localStorage.setItem(
+                'uhome_logged_in',
+                'true'
+            );
+
+            localStorage.setItem(
+                'uhome_user_role',
+                data.role
+            );
+
             alert('Успешная регистрация');
 
-            window.location.href = 'glav.html';
+            window.location.href =
+                'glav.html';
 
         } else {
 
@@ -169,11 +180,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok && !result.error) {
 
             localStorage.setItem(
+                'uhome_logged_in',
+                'true'
+            );
+
+            localStorage.setItem(
                 'uhome_user_role',
                 result.role
             );
 
-            window.location.href = 'glav.html';
+            window.location.href =
+                'glav.html';
 
         } else {
 

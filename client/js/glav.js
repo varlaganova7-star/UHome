@@ -1,5 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+        const isLoggedIn =
+        localStorage.getItem(
+            'uhome_logged_in'
+        );
+
+    if (!isLoggedIn) {
+
+        window.location.href =
+            'sign_up.html';
+
+        return;
+    }
+
     // ===== 1. ЭЛЕМЕНТЫ =====
     const menuNav = document.getElementById('menuNav');
     const userName = document.getElementById('userName');
@@ -227,5 +240,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 .catch(err => console.log('❌ Ошибка SW:', err));
         });
     }
+    const logoutBtn =
+        document.getElementById(
+            'logoutBtn'
+        );
 
+    if (logoutBtn) {
+
+        logoutBtn.addEventListener(
+            'click',
+            (e) => {
+
+                e.preventDefault();
+
+                localStorage.clear();
+
+                window.location.href =
+                    'sign_up.html';
+            }
+        );
+    }
 });

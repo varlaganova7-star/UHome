@@ -1,618 +1,562 @@
-/* ===== БАЗОВЫЕ СТИЛИ ===== */
+/* ====================================== */
+/* =============== RESET ================ */
+/* ====================================== */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
 }
 
 :root {
     --orange: #F47920;
-    --orange-dark: #D96515;
-    --gray-input: #F0F0F0;
-    --text-dark: #1a1a1a;
-    --text-placeholder: #B0B0B0;
+    --orange-dark: #E56712;
+
+    --bg: #F5F5F5;
+    --input: #ECECEC;
+
+    --text: #1F1F1F;
+    --placeholder: #A5A5A5;
 }
 
 body {
-    font-family: 'Roboto', -apple-system, sans-serif;
-    background: #fff;
-    overflow: hidden;
-    height: 100vh;
-    height: 100dvh;
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    overflow-x: hidden;
 }
 
-/* ===== КОНТЕЙНЕР ===== */
+
+
+/* ====================================== */
+/* ============= CONTAINER ============== */
+/* ====================================== */
+
 .auth-container {
     position: relative;
+
     width: 100%;
-    height: 100vh;
-    height: 100dvh;
+    min-height: 100vh;
+
     overflow: hidden;
+
+    background: var(--bg);
 }
 
-/* ===== ОРАНЖЕВАЯ ПАНЕЛЬ ===== */
+
+
+/* ====================================== */
+/* ============ ORANGE PANEL ============ */
+/* ====================================== */
+
 .orange-panel {
     position: absolute;
-    left: 0%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(275deg, var(--orange) 0%, var(--orange-dark) 100%);
+
+    top: 50%;
+    left: 60%;
+
+    transform:
+        translateY(-50%)
+        translateX(0);
+
+    width: 52%;
+    height: 140%;
+
+    background: linear-gradient(
+        180deg,
+        var(--orange),
+        var(--orange-dark)
+    );
+
+    border-radius: 45% 0 0 45%;
+
+    transition:
+        transform 0.8s cubic-bezier(.77,0,.18,1),
+        border-radius 0.8s cubic-bezier(.77,0,.18,1);
+
     z-index: 1;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-        clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform, clip-path;
-}
-
-/* Регистрация: оранжевая сверху */
-.auth-container.register .orange-panel {
-    top: 0;
-    transform: translateY(0%);
-    clip-path: polygon(0 100%, 100% 0, 100% 100%, 0 100%);
-
 }
 
 
-/* Вход: оранжевая снизу */
+
+/* LOGIN MODE */
+
 .auth-container.login .orange-panel {
-    top: auto;
-    bottom: 0;
-    transform: translateY(0%);
+    transform:
+        translateY(-50%)
+        translateX(-138%);
 
-    /* Меняем форму диагонали для эффекта "переливания" при движении */
-    clip-path: polygon(0 0, 100% 0, 100% 0%, 0 100%);
-
+    border-radius: 0 45% 45% 0;
 }
 
-/* ===== КНОПКА ПЕРЕКЛЮЧЕНИЯ НА ОРАНЖЕВОЙ ЗОНЕ ===== */
-.toggle-btn {
-    position: absolute;
-    z-index: 3;
-    padding: 24px 48px;
-    border: 2px solid rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    background: transparent;
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    white-space: nowrap;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
 
-.toggle-btn:active {
-    transform: scale(0.95);
-}
 
-/* Регистрация: кнопка вверху слева на оранжевом */
-.auth-container.register .toggle-btn {
-    top: auto;
-    bottom: 252px;
-    right: 150px;
-    left: auto;
-    opacity: 1;
-    transform: translateY(0);
-}
+/* ====================================== */
+/* ============== FORMS ================= */
+/* ====================================== */
 
-/* Вход: кнопка внизу справа на оранжевом */
-.auth-container.login .toggle-btn {
-    top: 252px;
-    left: 150px;
-    opacity: 1;
-    transform: translateY(0);
-
-}
-
-/* ===== ОБЛАСТЬ ФОРМ ===== */
 .forms-area {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
+
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
+
     z-index: 2;
-    pointer-events: none;
 }
 
-/* ===== ФОРМЫ ===== */
+
+
+/* ====================================== */
+/* ============== FORM ================== */
+/* ====================================== */
+
 .auth-form {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+
+    top: 50%;
+
+    width: 420px;
+
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    padding: 24px;
-    opacity: 0;
-    transform: translateY(30px);
+
+    gap: 18px;
+
+    transform: translateY(-50%);
+
     transition:
-        opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    pointer-events: none;
-    will-change: opacity, transform;
+        opacity 0.5s ease,
+        transform 0.7s ease;
+
+    z-index: 3;
 }
 
-.auth-form.active {
+
+
+/* REGISTER */
+
+.register-form {
+    left: 11%;
+
     opacity: 1;
-    transform: translateY(0);
     pointer-events: all;
 }
 
-/* Регистрация: форма внизу */
-.auth-form.register-form {
-    justify-content: flex-start;
-    align-items: flex-start;
-    /*Отступы*/
-    padding: 80px 50px 150px 40px;
+
+
+/* LOGIN */
+
+.login-form {
+    right: 11%;
+
+    opacity: 0;
+    pointer-events: none;
+
+    transform:
+        translateY(-50%)
+        translateX(80px);
 }
 
 
-.auth-form.register-form.active {
-    transform: translateY(-40px);
+
+/* ACTIVE LOGIN */
+
+.auth-container.login .register-form {
+    opacity: 0;
+
+    pointer-events: none;
+
+    transform:
+        translateY(-50%)
+        translateX(-80px);
 }
 
-.auth-form.register-form:not(.active) {
-    transform: translateY(40px);
+.auth-container.login .login-form {
+    opacity: 1;
+
+    pointer-events: all;
+
+    transform:
+        translateY(-50%)
+        translateX(0);
 }
 
-/* Обертка для позиционирования стрелки */
-.select-wrapper {
-    position: relative;
-    width: 100%;
-    margin-top: -340px;
-    /* Сдвиг вниз от предыдущего элемента */
-    margin-left: 00px;
-    /* Или max-width: 300px, как у твоих инпутов */
+
+
+/* ====================================== */
+/* ============== TITLE ================= */
+/* ====================================== */
+
+.form-title {
+    font-size: 48px;
+    line-height: 1;
+    font-weight: 700;
+
+    color: var(--text);
+
+    margin-bottom: 14px;
 }
 
-/* Стилизация самого селекта */
+
+
+/* ====================================== */
+/* ============== INPUT ================= */
+/* ====================================== */
+
+.form-input,
 .form-select {
     width: 100%;
-    padding: 16px 225px 16px 18px;
-    /* Справа больше отступ для стрелки */
+    height: 60px;
+
     border: none;
-    border-radius: 10px;
-    background: var(--gray-input);
-    /* Твой серый цвет фона */
-    font-family: 'Roboro', sans-serif;
-    font-size: 15px;
-    color: var(--text-placeholder);
     outline: none;
-    cursor: pointer;
-    appearance: none;
-    /* Убирает стандартную стрелку браузера */
-    -webkit-appearance: none;
-    transition: all 0.3s ease;
-}
 
-/* Эффект при наведении и фокусе (как у input) */
-.form-select:hover {
-    background: #e8e8e8;
-}
+    border-radius: 20px;
 
-.form-select:focus {
-    background: #fff;
-    box-shadow: 0 0 0 2px var(--orange);
-    /* Твоя оранжевая обводка */
-}
+    background: var(--input);
 
-/* Кастомная стрелочка */
-.select-arrow {
-    position: absolute;
-    right: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    /* Чтобы клик проходил сквозь стрелку */
-    font-size: 12px;
-    color: var(--text-placeholder);
-    transition: transform 0.3s ease;
-}
+    padding: 0 22px;
 
-/* Поворот стрелки при открытии/фокусе */
-.form-select:focus+.select-arrow {
-    transform: translateY(-50%) rotate(180deg);
-    color: var(--orange);
-}
+    font-size: 16px;
+    font-family: inherit;
 
-/* Вход: форма вверху */
-.auth-form.login-form {
-    justify-content: flex-start;
-    align-items: flex-end;
+    color: var(--text);
 
-    padding: 300px 60px 200px 50px;
-
-    text-align: right;
-}
-
-.auth-form.login-form.active {
-    transform: translateY(0);
-}
-
-.auth-form.login-form:not(.active) {
-    transform: translateY(40px);
-}
-
-/* ===== ЗАГОЛОВОК ===== */
-.form-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--text-dark);
-    margin-bottom: 24px;
-    text-align: center;
-    width: 100%;
-    max-width: 400px;
-}
-
-/* ===== ПОЛЯ ВВОДА ===== */
-.form-input {
-    width: 30%;
-    padding: 16px 18px;
-    border: none;
-    border-radius: 10px;
-    background: var(--gray-input);
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    color: var(--text-dark);
-    margin-bottom: 20px;
-    outline: none;
-    transition: all 0.3s ease;
-    appearance: none;
+    transition: 0.25s ease;
 }
 
 .form-input::placeholder {
-    color: var(--text-placeholder);
+    color: var(--placeholder);
 }
 
-.form-input:focus {
-    background: #fff;
-    box-shadow: 0 0 0 2px var(--orange);
+
+
+/* FOCUS */
+
+.form-input:focus,
+.form-select:focus {
+    background: white;
+
+    box-shadow:
+        0 0 0 2px rgba(244,121,32,0.3);
 }
 
-/* ===== КНОПКА ДЕЙСТВИЯ ===== */
+
+
+/* ====================================== */
+/* ============== SELECT ================ */
+/* ====================================== */
+
+.select-wrapper {
+    position: relative;
+}
+
+.form-select {
+    appearance: none;
+
+    cursor: pointer;
+}
+
+.select-arrow {
+    position: absolute;
+
+    top: 50%;
+    right: 22px;
+
+    transform: translateY(-50%);
+
+    pointer-events: none;
+
+    color: #999;
+}
+
+
+
+/* ====================================== */
+/* ============== BUTTON ================ */
+/* ====================================== */
+
 .form-btn {
-    width: 30%;
-    padding: 16px;
+    width: 100%;
+    height: 60px;
+
     border: none;
-    border-radius: 10px;
+
+    border-radius: 20px;
+
     background: var(--orange);
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
+
+    color: white;
+
     font-size: 16px;
     font-weight: 600;
+
     cursor: pointer;
-    margin-top: 8px;
-    transition: all 0.3s ease;
-    text-align: center;
 
+    transition: 0.25s ease;
 }
 
-.form-btn:active {
-    transform: scale(0.98);
-    opacity: 0.9;
+.form-btn:hover {
+    transform: translateY(-2px);
+
+    background: var(--orange-dark);
 }
 
-/* ===== ССЫЛКА ПЕРЕКЛЮЧЕНИЯ ===== */
-.form-switch {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    color: var(--text-placeholder);
 
-}
 
-.form-switch a {
-    color: var(--orange);
-    text-decoration: none;
+/* ====================================== */
+/* ============ TOGGLE BTN ============== */
+/* ====================================== */
+
+.toggle-btn {
+    position: absolute;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 250px;
+    height: 60px;
+
+    border-radius: 20px;
+
+    border: 2px solid rgba(255,255,255,0.7);
+
+    background: rgba(255,255,255,0.05);
+
+    backdrop-filter: blur(10px);
+
+    color: white;
+
+    font-size: 16px;
     font-weight: 600;
+
     cursor: pointer;
+
+    transition: all 0.4s ease;
+
+    z-index: 5;
 }
 
-/* ===== КАСКАДНАЯ АНИМАЦИЯ ЭЛЕМЕНТОВ ===== */
-.auth-form>* {
-    opacity: 0;
-    transform: translateY(10px);
-    transition:
-        opacity 0.3s ease,
-        transform 0.3s ease;
+
+
+/* REGISTER MODE */
+
+.auth-container.register .toggle-btn {
+    right: 14%;
 }
 
-.auth-form.active>* {
-    opacity: 1;
-    transform: translateY(0);
+
+
+/* LOGIN MODE */
+
+.auth-container.login .toggle-btn {
+    left: 14%;
 }
 
-.auth-form.active>*:nth-child(1) {
-    transition-delay: 0.1s;
-}
 
-.auth-form.active>*:nth-child(2) {
-    transition-delay: 0.15s;
-}
 
-.auth-form.active>*:nth-child(3) {
-    transition-delay: 0.2s;
-}
+/* ====================================== */
+/* ============== TABLET ================ */
+/* ====================================== */
 
-.auth-form.active>*:nth-child(4) {
-    transition-delay: 0.25s;
-}
+@media (max-width: 1024px) {
 
-.auth-form.active>*:nth-child(5) {
-    transition-delay: 0.3s;
-}
-
-.auth-form.active>*:nth-child(6) {
-    transition-delay: 0.35s;
-}
-
-/* ===== МОБИЛЬНАЯ ВЕРСТКА ===== */
-
-/* Планшеты и большие телефоны (до 768px) */
-@media (max-width: 768px) {
-
-    /* Оранжевая панель адаптируется */
-    .orange-panel {
-        position: absolute;
-        left: 0%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(275deg, var(--orange) 0%, var(--orange-dark) 100%);
-        z-index: 1;
-        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-            clip-path 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        will-change: transform, clip-path;
+    .form-title {
+        font-size: 42px;
     }
 
-    .auth-container.register .orange-panel {
-        top: 0;
-        transform: translateY(0%);
-        clip-path: polygon(0 100%, 100% 0, 100% 100%, 0 100%);
+    .auth-form {
+        width: 360px;
+    }
+
+    .register-form {
+        left: 8%;
+    }
+
+    .login-form {
+        right: 8%;
+    }
+
+    .orange-panel {
+        width: 58%;
+    }
+
+    .auth-container.register .toggle-btn {
+        right: 10%;
+    }
+
+    .auth-container.login .toggle-btn {
+        left: 10%;
+    }
+}
+
+
+
+/* ====================================== */
+/* ============== MOBILE ================ */
+/* ====================================== */
+
+@media (max-width: 768px) {
+
+    body {
+        overflow-y: auto;
+    }
+
+    .auth-container {
+        padding:
+            40px
+            24px
+            220px;
+    }
+
+
+
+    /* ORANGE PANEL */
+
+    .orange-panel {
+        position: fixed;
+
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        transform: none;
+
+        width: 100%;
+        height: 180px;
+
+        border-radius: 40px 40px 0 0;
     }
 
     .auth-container.login .orange-panel {
+        left: 0;
+
+        border-radius: 40px 40px 0 0;
+    }
+
+
+
+    /* FORMS */
+
+    .auth-form {
+        position: relative;
+
         top: auto;
-        bottom: 0;
-        transform: translateY(0%);
-        clip-path: polygon(0 0, 100% 0, 100% 0%, 0 100%);
+        left: auto !important;
+        right: auto !important;
 
-        .auth-container.register .toggle-btn {
-            bottom: 30px;
-            right: 50%;
-            transform: translateX(50%);
-        }
+        transform: none !important;
 
-        .auth-container.login .toggle-btn {
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
+        width: 100%;
+        max-width: 100%;
 
-        .auth-form {
-            padding: 20px;
-            align-items: center;
-            justify-content: center;
-        }
+        margin: 0 auto;
 
-        .auth-form.register-form {
-            padding: 100px 20px 40px 20px;
-            align-items: center;
-        }
+        gap: 16px;
+    }
 
-        .auth-form.login-form {
-            padding: 100px 20px 120px 20px;
-            align-items: center;
-            text-align: center;
-        }
 
-        /* Поля ввода и кнопки на всю ширину */
-        .form-input,
-        .form-btn {
-            width: 100%;
-            max-width: 320px;
-        }
 
-        /* Заголовок */
-        .form-title {
-            font-size: 24px;
-            font-weight: 200;
-            color: var(--text-dark);
-            margin-bottom: 20px;
-            text-align: center;
+    /* SHOW HIDE */
 
-        }
+    .login-form {
+        display: none;
+    }
+
+    .auth-container.login .register-form {
+        display: none;
+    }
+
+    .auth-container.login .login-form {
+        display: flex;
+
+        opacity: 1;
+    }
+
+
+
+    /* TITLE */
+
+    .form-title {
+        font-size: 42px;
+    }
+
+
+
+    /* INPUTS */
+
+    .form-input,
+    .form-select,
+    .form-btn {
+        height: 62px;
+
+        border-radius: 22px;
+
+        font-size: 17px;
+    }
+
+
+
+    /* TOGGLE BTN */
+
+    .toggle-btn {
+        position: fixed;
+
+        left: 50% !important;
+        top: auto;
+
+        transform: translateX(-50%) !important;
+
+        bottom: 50px;
+
+        width: calc(100% - 48px);
+        max-width: 360px;
+
+        height: 62px;
+
+        border-radius: 22px;
+
+        z-index: 100;
     }
 }
 
-/* Маленькие телефоны (до 480px) */
+
+
+/* ====================================== */
+/* ============ SMALL MOBILE ============ */
+/* ====================================== */
+
 @media (max-width: 480px) {
 
-    /* Оранжевая панель меньше */
-    .orange-panel,
-
-    .auth-container.register .orange-panel,
-    .auth-container.login .orange-panel,
-
-    /* Кнопка переключения */
-    .auth-container.register .toggle-btn {
-        bottom: 20px;
-        padding: 10px 20px;
-        font-size: 13px;
+    .auth-container {
+        padding:
+            32px
+            20px
+            200px;
     }
 
-    .auth-container.login .toggle-btn {
-        top: 20px;
-        padding: 10px 20px;
-        font-size: 13px;
-    }
-
-    /* Формы */
-    .auth-form {
-        padding: 40px;
-    }
-
-    .auth-form.register-form {
-        padding: 90px 16px 30px 16px;
-    }
-
-    .auth-form.login-form {
-        padding: 90px 16px 100px 16px;
-    }
-
-    /* Поля ввода компактнее */
-    .form-input {
-        padding: 14px 16px;
-        font-size: 14px;
-        margin-bottom: 16px;
-        max-width: 280px;
-    }
-
-    /* Кнопка */
-    .form-btn {
-        padding: 14px;
-        font-size: 15px;
-        max-width: 280px;
-    }
-
-    /* Заголовок меньше */
     .form-title {
-        font-size: 20px;
-        margin-bottom: 16px;
+        font-size: 36px;
     }
 
-    /* Ссылка */
-    .form-switch {
-        font-size: 13px;
-        margin-top: 16px;
-    }
-}
-
-/* Очень маленькие экраны (до 360px) */
-@media (max-width: 360px) {
-
-    .orange-panel,
-
-    .auth-container.register .orange-panel,
-    .auth-container.login .orange-panel,
-
-    /* Кнопка переключения */
-    .auth-container.register .toggle-btn {
-        bottom: 60px;
-
-        padding: 10px 20px;
-        font-size: 13px;
-    }
-
-    .auth-container.login .toggle-btn {
-        top: 20px;
-        padding: 10px 20px;
-        font-size: 13px;
-    }
-
-    /* Формы */
-    .auth-form {
-        padding: 40px;
-    }
-
-    .auth-form.register-form {
-        padding: 90px 16px 30px 16px;
-    }
-
-    .auth-form.login-form {
-        padding: 90px 16px 100px 1px;
-    }
-
-    /* Поля ввода компактнее */
-    .form-input {
-        padding: 16px 0px 16px 18px;
-        font-size: 14px;
-        margin-bottom: 16px;
-        max-width: 280px;
-        
-    }
-
-    /* Обертка для позиционирования стрелки */
-    .select-wrapper {
-        position: relative;
-        width: 100%;
-        margin-top: -310px;
-        /* Сдвиг вниз от предыдущего элемента */
-        margin-left: 00px;
-        /* Или max-width: 300px, как у твоих инпутов */
-    }
-
-    /* Стилизация самого селекта */
-    .form-select {
-        width: 100%;
-        padding: 16px 0px 18px 18px;
-        /* Справа больше отступ для стрелки */
-        border: none;
-        border-radius: 12px;
-        background: var(--gray-input);
-        /* Твой серый цвет фона */
-        font-family: 'Roboro', sans-serif;
-        font-size: 12px;
-        color: var(--text-placeholder);
-        outline: none;
-        cursor: pointer;
-        appearance: none;
-        /* Убирает стандартную стрелку браузера */
-        -webkit-appearance: none;
-        transition: all 0.3s ease;
-    }
-
-    /* Эффект при наведении и фокусе (как у input) */
-    .form-select:hover {
-        background: #e8e8e8;
-    }
-
-    .form-select:focus {
-        background: #fff;
-        box-shadow: 0 0 0 2px var(--orange);
-        /* Твоя оранжевая обводка */
-    }
-
-    /* Кастомная стрелочка */
-    .select-arrow {
-        position: absolute;
-        right: 18px;
-        top: 50%;
-        transform: translateY(-50%);
-        pointer-events: none;
-        /* Чтобы клик проходил сквозь стрелку */
-        font-size: 12px;
-        color: var(--text-placeholder);
-        transition: transform 0.3s ease;
-    }
-
-    /* Поворот стрелки при открытии/фокусе */
-    .form-select:focus+.select-arrow {
-        transform: translateY(-50%) rotate(180deg);
-        color: var(--orange);
-    }
-
-
-    /* Кнопка */
+    .form-input,
+    .form-select,
     .form-btn {
-        padding: 14px;
-        font-size: 15px;
-        max-width: 280px;
+        height: 58px;
+
+        font-size: 16px;
     }
 
-    /* Заголовок меньше */
-    .form-title {
-        font-size: 20px;
-        margin-bottom: 16px;
+    .toggle-btn {
+        height: 58px;
+
+        font-size: 16px;
+
+        bottom: 40px;
     }
 
-    /* Ссылка */
-    .form-switch {
-        font-size: 13px;
-        margin-top: 16px;
+    .orange-panel {
+        height: 150px;
     }
 }

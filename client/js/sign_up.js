@@ -1,68 +1,147 @@
+
 document.addEventListener('DOMContentLoaded', () => {
-    
+
+    // =====================================
+    // ELEMENTS
+    // =====================================
+
     const container = document.getElementById('authContainer');
+
     const registerForm = document.getElementById('registerForm');
     const loginForm = document.getElementById('loginForm');
+
     const toggleBtn = document.getElementById('toggleBtn');
+
     const roleSelect = document.getElementById('role');
 
-    // ===== ПЕРЕКЛЮЧЕНИЕ ФОРМ =====
+
+
+    // =====================================
+    // INITIAL STATE
+    // =====================================
+
+    let isLogin = false;
+
+
+
+    // =====================================
+    // SWITCH TO LOGIN
+    // =====================================
+
     function showLogin() {
-        registerForm?.classList.remove('active');
-        setTimeout(() => {
-            container?.classList.replace('register', 'login');
-            loginForm?.classList.add('active');
-            if(toggleBtn) toggleBtn.textContent = 'Зарегистрироваться';
-        }, 200);
+
+        isLogin = true;
+
+        container.classList.add('login');
+        container.classList.remove('register');
+
+        registerForm.classList.remove('active');
+        loginForm.classList.add('active');
+
+        toggleBtn.textContent = 'Зарегистрироваться';
     }
+
+
+
+    // =====================================
+    // SWITCH TO REGISTER
+    // =====================================
 
     function showRegister() {
-        loginForm?.classList.remove('active');
+
+        isLogin = false;
+
+        container.classList.add('register');
+        container.classList.remove('login');
+
+        loginForm.classList.remove('active');
+        registerForm.classList.add('active');
+
+        toggleBtn.textContent = 'Авторизоваться';
+    }
+
+
+
+    // =====================================
+    // TOGGLE BUTTON
+    // =====================================
+
+    toggleBtn.addEventListener('click', () => {
+
+        if (isLogin) {
+
+            showRegister();
+
+        } else {
+
+            showLogin();
+        }
+    });
+
+
+
+    // =====================================
+    // REGISTER SUBMIT
+    // =====================================
+
+    registerForm.addEventListener('submit', (e) => {
+
+        e.preventDefault();
+
+        const selectedRole = roleSelect.value;
+
+        localStorage.setItem(
+            'uhome_user_role',
+            selectedRole
+        );
+
+        const submitBtn =
+            registerForm.querySelector('.form-btn');
+
+        submitBtn.textContent = 'Готово!';
+        submitBtn.disabled = true;
+
         setTimeout(() => {
-            container?.classList.replace('login', 'register');
-            registerForm?.classList.add('active');
-            if(toggleBtn) toggleBtn.textContent = 'Авторизоваться';
-        }, 200);
-    }
 
-    if(toggleBtn) {
-        toggleBtn.addEventListener('click', () => {
-            container?.classList.contains('register') ? showLogin() : showRegister();
-        });
-    }
-
-    // ===== РЕГИСТРАЦИЯ: СОХРАНЯЕМ РОЛЬ И ПЕРЕХОДИМ =====
-    if(registerForm) {
-        registerForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const selectedRole = roleSelect?.value || 'student';
-            
-            console.log('✅ Регистрация:', selectedRole);
-            
-            // 🔥 СОХРАНЯЕМ РОЛЬ В ПАМЯТИ БРАУЗЕРА
-            localStorage.setItem('uhome_user_role', selectedRole);
-            
-            const btn = registerForm.querySelector('.form-btn');
-            if(btn) {
-                btn.textContent = 'Готово!';
-                btn.disabled = true;
-            }
-
-            // Переход на главную
-            setTimeout(() => {
-                window.location.href = 'glav.html';
-            }, 600);
-        });
-    }
-
-    // ===== ВХОД: ПЕРЕХОД НА ГЛАВНУЮ =====
-    if(loginForm) {
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            // Для входа можно тоже сохранять роль, если нужно
-            localStorage.setItem('uhome_user_role', 'student');
             window.location.href = 'glav.html';
-        });
-    }
+
+        }, 700);
+    });
+
+
+
+    // =====================================
+    // LOGIN SUBMIT
+    // =====================================
+
+    loginForm.addEventListener('submit', (e) => {
+
+        e.preventDefault();
+
+        localStorage.setItem(
+            'uhome_user_role',
+            'student'
+        );
+
+        const submitBtn =
+            loginForm.querySelector('.form-btn');
+
+        submitBtn.textContent = 'Вход...';
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+
+            window.location.href = 'glav.html';
+
+        }, 500);
+    });
+
+
+
+    // =====================================
+    // START MODE
+    // =====================================
+
+    showRegister();
+
 });

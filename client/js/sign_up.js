@@ -84,28 +84,50 @@ document.addEventListener('DOMContentLoaded', () => {
     // REGISTER SUBMIT
     // =====================================
 
-    registerForm.addEventListener('submit', (e) => {
+    registerForm.addEventListener('submit', async (e) => {
 
         e.preventDefault();
 
-        const selectedRole = roleSelect.value;
+        const inputs =
+            registerForm.querySelectorAll('.form-input');
 
-        localStorage.setItem(
-            'uhome_user_role',
-            selectedRole
+        const data = {
+
+            role: roleSelect.value,
+
+            fullname: inputs[0].value,
+
+            email: inputs[1].value,
+
+            password: inputs[2].value
+        };
+
+        const response = await fetch(
+            'http://127.0.0.1:8000/register',
+            {
+
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(data)
+            }
         );
 
-        const submitBtn =
-            registerForm.querySelector('.form-btn');
+        const result = await response.json();
 
-        submitBtn.textContent = 'Готово!';
-        submitBtn.disabled = true;
+        if (response.ok && !result.error) {
 
-        setTimeout(() => {
+            alert('Успешная регистрация');
 
             window.location.href = 'glav.html';
 
-        }, 700);
+        } else {
+
+            alert(result.error);
+        }
     });
 
 
@@ -114,26 +136,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // LOGIN SUBMIT
     // =====================================
 
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
 
         e.preventDefault();
 
-        localStorage.setItem(
-            'uhome_user_role',
-            'student'
+        const inputs =
+            loginForm.querySelectorAll('.form-input');
+
+        const data = {
+
+            email: inputs[0].value,
+
+            password: inputs[1].value
+        };
+
+        const response = await fetch(
+            'http://127.0.0.1:8000/login',
+            {
+
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                body: JSON.stringify(data)
+            }
         );
 
-        const submitBtn =
-            loginForm.querySelector('.form-btn');
+        const result = await response.json();
 
-        submitBtn.textContent = 'Вход...';
-        submitBtn.disabled = true;
+        if (response.ok && !result.error) {
 
-        setTimeout(() => {
+            localStorage.setItem(
+                'uhome_user_role',
+                result.role
+            );
 
             window.location.href = 'glav.html';
 
-        }, 500);
+        } else {
+
+            alert(result.error);
+        }
     });
 
 

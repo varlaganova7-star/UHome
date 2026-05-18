@@ -1,0 +1,94 @@
+<!-- student_requests.html -->
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>Мои заявки — UHome</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/student_requests.css">
+
+</head>
+
+<body>
+
+    <!-- =========================================
+    GLOBAL LAYOUT
+    ========================================= -->
+
+    <div id="layout-container"></div>
+
+    <!-- =========================================
+    PAGE CONTENT
+    ========================================= -->
+
+    <main class="page-content">
+
+        <div class="title-block">
+
+            <h1 class="page-title">
+
+                <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#222"
+                    stroke-width="2"
+                >
+                    <path d="M9 11l3 3L22 4"/>
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                </svg>
+
+                Мои заявки
+
+            </h1>
+
+            <p class="page-subtitle">
+                Здесь отображаются все ваши заявки и их текущий статус
+            </p>
+
+        </div>
+
+        <!-- АКТИВНЫЕ -->
+
+        <div class="section-title">
+            Активные заявки
+        </div>
+
+        <div id="activeRequests"></div>
+
+        <!-- ИСТОРИЯ -->
+
+        <div class="section-title history-title">
+            История заявок
+        </div>
+
+        <div id="historyRequests"></div>
+
+    </main>
+
+    <!-- =========================================
+    SCRIPTS
+    ========================================= -->
+
+    <script src="js/layout.js"></script>
+    <script src="js/student_requests.js"></script>
+
+</body>
+
+</html>

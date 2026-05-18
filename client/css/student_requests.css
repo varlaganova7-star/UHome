@@ -1,0 +1,328 @@
+/* student_requests.css */
+
+*,
+*::before,
+*::after{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+
+    --orange:#F47920;
+
+    --gray-bg:#F5F5F5;
+
+    --text-dark:#1A1A1A;
+    --text-secondary:#666666;
+
+    --shadow:0 2px 14px rgba(0,0,0,0.08);
+
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:var(--gray-bg);
+    color:var(--text-dark);
+}
+
+/* =========================================
+CONTENT
+========================================= */
+
+.page-content{
+
+    max-width: 760px;
+    margin: 0 auto;
+
+    padding: 32px 20px 60px;
+
+}
+
+.back-btn{
+
+    text-decoration:none;
+
+    color:var(--text-secondary);
+
+    font-size:16px;
+
+    display:inline-block;
+
+    margin-bottom:18px;
+
+}
+
+.title-block{
+    margin-bottom:24px;
+}
+
+.page-title{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    font-size:34px;
+    font-weight:700;
+
+    margin-bottom:8px;
+
+}
+
+.page-subtitle{
+
+    font-size:17px;
+    line-height:1.4;
+
+    color:var(--text-secondary);
+
+}
+
+.section-title{
+
+    font-size:20px;
+    font-weight:700;
+
+    margin:34px 0 18px;
+
+}
+
+.history-title{
+    margin-top:40px;
+}
+
+/* =========================================
+CARD
+========================================= */
+
+.request-card{
+
+    background:#fff;
+
+    border-radius:24px;
+
+    padding:22px;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:18px;
+
+}
+
+.request-top{
+
+    display:flex;
+    justify-content:space-between;
+    gap:14px;
+
+    margin-bottom:14px;
+
+}
+
+.request-title{
+
+    font-size:17px;
+    font-weight:700;
+
+    line-height:1.35;
+
+    margin-bottom:6px;
+
+}
+
+.request-category{
+
+    font-size:15px;
+    color:var(--text-secondary);
+
+}
+
+.request-date{
+
+    font-size:14px;
+    color:#888;
+
+    margin-top:10px;
+
+}
+
+.status{
+
+    min-width:120px;
+
+    height:38px;
+
+    border-radius:12px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0 14px;
+
+    font-size:13px;
+    font-weight:600;
+
+}
+
+.status.pending{
+    background:#ECECEC;
+    color:#666;
+}
+
+.status.soon{
+    background:#F4DF72;
+    color:#222;
+}
+
+.status.done{
+    background:#BFE5B8;
+    color:#4D8D4D;
+}
+
+.status.transfer{
+    background:#FFD6D6;
+    color:#B94B4B;
+}
+
+.status.details{
+    background:#E7E7E7;
+    color:#555;
+}
+
+.request-description{
+
+    font-size:15px;
+    line-height:1.5;
+
+    margin-top:10px;
+
+}
+
+/* =========================================
+BUTTONS
+========================================= */
+
+.request-actions{
+
+    display:flex;
+    gap:12px;
+
+    margin-top:20px;
+
+}
+
+.action-btn{
+
+    flex:1;
+
+    height:46px;
+
+    border:none;
+    border-radius:12px;
+
+    font-family:inherit;
+    font-size:14px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.2s;
+
+}
+
+.edit-btn{
+
+    background:#ECECEC;
+    color:#333;
+
+}
+
+.delete-btn{
+
+    background:#FFD9D9;
+    color:#C54343;
+
+}
+
+.action-btn:active{
+    transform:scale(0.98);
+}
+
+/* =========================================
+HISTORY
+========================================= */
+
+.history-block{
+
+    margin-top:18px;
+
+    border-top:1px solid #eee;
+
+    padding-top:16px;
+
+}
+
+.history-item{
+
+    font-size:14px;
+    color:#555;
+
+    margin-bottom:8px;
+
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+
+}
+
+.history-item span{
+    color:#999;
+}
+
+/* =========================================
+ADAPTIVE
+========================================= */
+
+@media(max-width:768px){
+
+    .page-title{
+        font-size:28px;
+    }
+
+}
+
+@media(max-width:480px){
+
+    .page-content{
+        padding:20px 16px 40px;
+    }
+
+    .page-title{
+        font-size:22px;
+    }
+
+    .page-subtitle{
+        font-size:15px;
+    }
+
+    .request-card{
+        padding:18px 16px;
+    }
+
+    .request-top{
+        flex-direction:column;
+    }
+
+    .status{
+        width:100%;
+    }
+
+    .request-actions{
+        flex-direction:column;
+    }
+
+}

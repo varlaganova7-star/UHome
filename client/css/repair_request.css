@@ -1,0 +1,477 @@
+/* repair_request.css */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+:root {
+    --orange: #F47920;
+    --orange-dark: #D96515;
+
+    --white: #ffffff;
+
+    --gray-bg: #F5F5F5;
+    --gray-light: #ECECEC;
+    --gray-medium: #A8A8A8;
+
+    --text-dark: #1A1A1A;
+    --text-secondary: #666666;
+
+    --shadow: 0 2px 14px rgba(0,0,0,0.08);
+
+    --radius: 18px;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--gray-bg);
+    color: var(--text-dark);
+
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+/* =========================================
+   ОСНОВНОЙ КОНТЕНТ
+========================================= */
+
+.page-content {
+    max-width: 760px;
+    margin: 0 auto;
+
+    padding: 32px 20px 60px;
+}
+
+/* =========================================
+   КНОПКА НАЗАД
+========================================= */
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    margin-bottom: 22px;
+
+    color: var(--text-secondary);
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    transition: 0.2s ease;
+}
+
+.back-btn:hover {
+    color: var(--orange);
+}
+
+/* =========================================
+   ЗАГОЛОВОК
+========================================= */
+
+.title-block {
+    margin-bottom: 28px;
+}
+
+.page-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.15;
+
+    margin-bottom: 10px;
+
+    color: var(--text-dark);
+}
+
+.page-title svg {
+    flex-shrink: 0;
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+/* =========================================
+   КАРТОЧКА
+========================================= */
+
+.repair-card {
+    background: var(--white);
+
+    border-radius: 24px;
+
+    padding: 32px;
+
+    box-shadow: var(--shadow);
+}
+
+/* =========================================
+   ФОРМА
+========================================= */
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-label {
+    display: block;
+
+    margin-bottom: 12px;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    color: var(--text-dark);
+}
+
+.helper-text {
+    margin-bottom: 14px;
+
+    font-size: 14px;
+    line-height: 1.45;
+
+    color: var(--text-secondary);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+
+    background: var(--gray-light);
+
+    border: 2px solid transparent;
+    border-radius: 14px;
+
+    padding: 14px 16px;
+
+    font-size: 15px;
+    font-family: inherit;
+
+    outline: none;
+
+    transition: 0.25s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    background: var(--white);
+
+    border-color: var(--orange);
+
+    box-shadow: 0 0 0 4px rgba(244, 121, 32, 0.12);
+}
+
+.form-textarea {
+    min-height: 130px;
+
+    resize: vertical;
+}
+
+.form-select {
+    appearance: none;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+
+    padding-right: 44px;
+}
+
+/* =========================================
+   ЗАГРУЗКА ФОТО
+========================================= */
+
+.upload-area {
+    position: relative;
+
+    border: 2px dashed #C5C5C5;
+    border-radius: 16px;
+
+    padding: 30px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    text-align: center;
+
+    color: var(--text-secondary);
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.upload-area:hover {
+    border-color: var(--orange);
+
+    background: rgba(244, 121, 32, 0.04);
+}
+
+.upload-area input {
+    position: absolute;
+    inset: 0;
+
+    opacity: 0;
+
+    cursor: pointer;
+}
+
+.uploaded-photos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-top: 16px;
+}
+
+.photo-preview {
+    width: 78px;
+    height: 78px;
+
+    border-radius: 12px;
+
+    object-fit: cover;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* =========================================
+   ДАТА И ВРЕМЯ
+========================================= */
+
+.date-time-row {
+    display: flex;
+    gap: 14px;
+
+    align-items: center;
+}
+
+.time-range {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    flex: 1;
+}
+
+.small-input {
+    min-width: 0;
+}
+
+.time-divider {
+    color: var(--text-secondary);
+
+    font-size: 14px;
+}
+
+/* =========================================
+   СРОЧНОСТЬ
+========================================= */
+
+.priority-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.priority-item {
+    cursor: pointer;
+}
+
+.priority-item input {
+    display: none;
+}
+
+.priority-content {
+    height: 54px;
+
+    border-radius: 14px;
+    border: 2px solid #E5E5E5;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition: 0.25s ease;
+}
+
+.priority-item input:checked + .priority-content {
+    border-color: var(--orange);
+
+    background: rgba(244,121,32,0.06);
+}
+
+.priority-dot {
+    width: 12px;
+    height: 12px;
+
+    border-radius: 50%;
+}
+
+.green {
+    background: #59C36A;
+}
+
+.yellow {
+    background: #D9C74D;
+}
+
+.red {
+    background: #D64545;
+}
+
+/* =========================================
+   КНОПКИ
+========================================= */
+
+.button-group {
+    display: flex;
+    gap: 14px;
+
+    margin-top: 34px;
+}
+
+.btn-cancel,
+.btn-submit {
+    flex: 1;
+
+    height: 56px;
+
+    border: none;
+    border-radius: 14px;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.25s ease;
+}
+
+.btn-cancel {
+    background: #DCDCDC;
+    color: #444;
+}
+
+.btn-cancel:hover {
+    background: #D2D2D2;
+}
+
+.btn-submit {
+    background: linear-gradient(
+        135deg,
+        var(--orange),
+        var(--orange-dark)
+    );
+
+    color: var(--white);
+
+    box-shadow: 0 6px 18px rgba(244,121,32,0.3);
+}
+
+.btn-submit:hover {
+    transform: translateY(-1px);
+}
+
+.btn-submit:active,
+.btn-cancel:active {
+    transform: scale(0.98);
+}
+
+/* =========================================
+   АДАПТИВ
+========================================= */
+
+@media (max-width: 768px) {
+
+    .page-content {
+        padding: 26px 18px 50px;
+    }
+
+    .page-title {
+        font-size: 28px;
+    }
+
+    .repair-card {
+        padding: 24px 20px;
+        border-radius: 22px;
+    }
+
+    .date-time-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .time-range {
+        width: 100%;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .page-content {
+        padding: 22px 16px 40px;
+    }
+
+    .page-title {
+        font-size: 23px;
+    }
+
+    .page-subtitle {
+        font-size: 14px;
+    }
+
+    .repair-card {
+        padding: 18px 16px;
+        border-radius: 18px;
+    }
+
+    .form-label {
+        font-size: 15px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+        font-size: 14px;
+    }
+
+    .priority-content {
+        height: 50px;
+        font-size: 14px;
+    }
+
+    .photo-preview {
+        width: 70px;
+        height: 70px;
+    }
+}

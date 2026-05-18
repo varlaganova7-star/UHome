@@ -2,6 +2,18 @@
 <html lang="ru">
 
 <head>
+    <!-- PWA Манифест -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#F47920">
+
+    <!-- Для iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="UHome">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+    <!-- Запрет зума на мобильных -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Авторизация</title>
@@ -15,55 +27,128 @@
 
     <div class="auth-container register" id="authContainer">
 
-        <!-- Оранжевая панель -->
+        <!-- ORANGE PANEL -->
         <div class="orange-panel"></div>
 
-        <!-- Кнопка переключения -->
-        <button class="toggle-btn" id="toggleBtn">Авторизоваться</button>
+        <!-- TOGGLE BUTTON -->
+        <button class="toggle-btn" id="toggleBtn">
+            Авторизоваться
+        </button>
 
-        <!-- Область форм -->
+        <!-- FORMS -->
         <div class="forms-area">
 
-            <!-- Форма регистрации -->
+            <!-- REGISTER -->
             <form class="auth-form register-form active" id="registerForm">
-                <h1 class="form-title">Создать аккаунт</h1>
-                <input type="text" class="form-input" placeholder="Кем являетесь">
-                <input type="text" class="form-input" placeholder="ФИО">
-                <input type="email" class="form-input" placeholder="Почта">
-                <input type="password" class="form-input" placeholder="Пароль">
-                <button type="submit" class="form-btn">Зарегистрироваться</button>
-                <div class="form-group">
-                    <div class="select-wrapper">
-                        <select id="role" class="form-select" required>
-                            <option value="" disabled selected>Кем являетесь?</option>
-                            <option value="student">Студент</option>
-                            <option value="Studsovet">Член студенческого совета</option>
-                            <option value="admin">Комендант</option>
-                            <option value="Electrick">Электрик</option>
-                            <option value="Slesar">Слесарь</option>
-                            <option value="Santex">Сантехник</option>
-                        </select>
 
-                        <!-- Иконка стрелочки -->
-                        <span class="select-arrow">▼</span>
-                    </div>
+                <h1 class="form-title">
+                    Создать аккаунт
+                </h1>
+
+                <div class="select-wrapper">
+
+                    <select
+                        id="role"
+                        class="form-select"
+                        required
+                    >
+                        <option value="" disabled selected>
+                            Кем являетесь?
+                        </option>
+
+                        <option value="student">
+                            Студент
+                        </option>
+
+                        <option value="Studsovet">
+                            Студсовет
+                        </option>
+
+                        <option value="admin">
+                            Комендант
+                        </option>
+
+                        <option value="Electrick">
+                            Электрик
+                        </option>
+
+                        <option value="Slesar">
+                            Слесарь
+                        </option>
+
+                        <option value="Santex">
+                            Сантехник
+                        </option>
+
+                    </select>
+
+                    <span class="select-arrow">
+                        ▼
+                    </span>
+
                 </div>
+
+                <input
+                    type="text"
+                    class="form-input"
+                    placeholder="ФИО"
+                >
+
+                <input
+                    type="email"
+                    class="form-input"
+                    placeholder="Почта"
+                >
+
+                <input
+                    type="password"
+                    class="form-input"
+                    placeholder="Пароль"
+                >
+
+                <button
+                    type="submit"
+                    class="form-btn"
+                >
+                    Зарегистрироваться
+                </button>
+
             </form>
 
-            <!-- Форма входа -->
+            <!-- LOGIN -->
             <form class="auth-form login-form" id="loginForm">
-                <h1 class="form-title">Войти в аккаунт</h1>
-                <input type="email" class="form-input" placeholder="Почта">
-                <input type="password" class="form-input" placeholder="Пароль">
-                <a href="glav.html" class="form-btn">Войти</a>
+
+                <h1 class="form-title">
+                    Войти в аккаунт
+                </h1>
+
+                <input
+                    type="email"
+                    class="form-input"
+                    placeholder="Почта"
+                >
+
+                <input
+                    type="password"
+                    class="form-input"
+                    placeholder="Пароль"
+                >
+
+                <button
+                    type="submit"
+                    class="form-btn"
+                >
+                    Войти
+                </button>
+
             </form>
 
         </div>
 
     </div>
 
-    <!--  Подключение JS -->
     <script src="js/sign_up.js"></script>
+
 </body>
 
 </html>

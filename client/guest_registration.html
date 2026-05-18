@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    />
+
+    <title>Регистрация гостей — UHome</title>
+
+    <!-- FONT -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- LAYOUT -->
+    <link
+        rel="stylesheet"
+        href="css/layout.css"
+    >
+
+    <!-- PAGE -->
+    <link
+        rel="stylesheet"
+        href="css/guest_registration.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- =========================================
+    GLOBAL LAYOUT
+    ========================================= -->
+
+    <div id="layout-container"></div>
+
+    <!-- =========================================
+    PAGE CONTENT
+    ========================================= -->
+
+    <main class="page-content">
+
+        <!-- TITLE -->
+        <div class="title-block">
+
+            <h1 class="page-title">
+
+                <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#222"
+                    stroke-width="2"
+                >
+
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+
+                    <circle
+                        cx="8.5"
+                        cy="7"
+                        r="4"
+                    />
+
+                    <path d="M20 8v6"/>
+
+                    <path d="M23 11h-6"/>
+
+                </svg>
+
+                Регистрация гостей
+
+            </h1>
+
+            <p class="page-subtitle">
+                Зарегистрируйте своих гостей заранее
+            </p>
+
+        </div>
+
+        <!-- FORM -->
+        <section class="guest-card">
+
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="guestName"
+                >
+                    Имя гостя
+                </label>
+
+                <input
+                    type="text"
+                    class="form-input"
+                    id="guestName"
+                    placeholder="Введите полное имя"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="guestDocument"
+                >
+                    Документ
+                </label>
+
+                <input
+                    type="text"
+                    class="form-input"
+                    id="guestDocument"
+                    placeholder="Паспорт серия/номер"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label
+                    class="form-label"
+                    for="guestDate"
+                >
+                    Дата визита
+                </label>
+
+                <input
+                    type="date"
+                    class="form-input"
+                    id="guestDate"
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label class="form-label">
+                    Время
+                </label>
+
+                <div class="time-range">
+
+                    <input
+                        type="time"
+                        class="form-input small-input"
+                        id="timeFrom"
+                    >
+
+                    <span class="time-divider">
+                        —
+                    </span>
+
+                    <input
+                        type="time"
+                        class="form-input small-input"
+                        id="timeTo"
+                    >
+
+                </div>
+
+            </div>
+
+            <div class="button-group">
+
+                <button
+                    type="button"
+                    class="btn-cancel"
+                    id="cancelBtn"
+                >
+                    Отмена
+                </button>
+
+                <button
+                    type="button"
+                    class="btn-submit"
+                    id="registerBtn"
+                >
+                    Зарегистрировать гостя
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- HISTORY -->
+        <section class="history-card">
+
+            <h2 class="history-title">
+                Зарегистрированные гости
+            </h2>
+
+            <div id="guestHistory"></div>
+
+        </section>
+
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="js/layout.js"></script>
+    <script src="js/guest_registration.js"></script>
+
+</body>
+</html>

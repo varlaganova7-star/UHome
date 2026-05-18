@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+
+    <meta
+        name="theme-color"
+        content="#F47920"
+    >
+
+    <!-- IOS -->
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
+    >
+
+    <meta
+        name="apple-mobile-web-app-title"
+        content="UHome"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="icons/icon-192.png"
+    >
+
+    <!-- VIEWPORT -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>
+        Все заявки — UHome
+    </title>
+
+    <!-- FONT -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="css/layout.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/master_requests.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- =========================================
+    GLOBAL LAYOUT
+    ========================================= -->
+
+    <div id="layout-container"></div>
+
+    <!-- =========================================
+    PAGE CONTENT
+    ========================================= -->
+
+    <main class="page-content">
+
+        <!-- TITLE -->
+        <div class="title-block">
+
+            <h1 class="page-title">
+
+                <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+
+                    <path d="M9 11l3 3L22 4"/>
+
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+
+                </svg>
+
+                Все заявки
+
+            </h1>
+
+            <p class="page-subtitle">
+                Управление заявками на ремонт
+            </p>
+
+        </div>
+
+        <!-- FILTERS -->
+        <div class="filter-tabs">
+
+            <button
+                class="filter-btn active"
+                data-filter="all"
+            >
+                Все
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="waiting"
+            >
+                Ожидают
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="done"
+            >
+                Выполнены
+            </button>
+
+        </div>
+
+        <!-- CATEGORY -->
+        <div class="sort-block">
+
+            <select
+                id="categoryFilter"
+                class="category-select"
+            >
+
+                <option value="all">
+                    Все категории
+                </option>
+
+                <option value="Электрика">
+                    Электрика
+                </option>
+
+                <option value="Сантехника">
+                    Сантехника
+                </option>
+
+                <option value="Мебель">
+                    Мебель
+                </option>
+
+                <option value="Окна / двери">
+                    Окна / двери
+                </option>
+
+                <option value="Другое">
+                    Другое
+                </option>
+
+            </select>
+
+        </div>
+
+        <!-- REQUESTS -->
+        <div id="requestsContainer"></div>
+
+    </main>
+
+    <!-- IMAGE MODAL -->
+    <div
+        class="image-modal"
+        id="imageModal"
+    >
+
+        <span
+            class="close-modal"
+            id="closeModal"
+        >
+            ✕
+        </span>
+
+        <img id="modalImage">
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/layout.js"></script>
+    <script src="js/master_requests.js"></script>
+
+</body>
+
+</html>

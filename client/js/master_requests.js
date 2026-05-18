@@ -1,95 +1,96 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // =========================
-    // MENU
-    // =========================
+    // =========================================
+    // ПРОВЕРКА РОЛИ
+    // =========================================
 
-    const menuBtn =
-        document.getElementById('menuBtn');
+    const userRole =
+        localStorage.getItem('uhome_user_role');
 
-    const sideMenu =
-        document.getElementById('sideMenu');
+    // Разрешаем доступ только мастерам
 
-    const menuClose =
-        document.getElementById('menuClose');
+    const allowedRoles = [
+        'Electrick',
+        'Slesar',
+        'Santex'
+    ];
 
-    const menuOverlay =
-        document.getElementById('sideMenuOverlay');
+    if (!allowedRoles.includes(userRole)) {
 
-    menuBtn.addEventListener('click', () => {
+        // Можно вернуть на главную
 
-        sideMenu.classList.add('active');
+        window.location.href = 'glav.html';
 
-        document.body.style.overflow = 'hidden';
-
-    });
-
-    function closeMenu(){
-
-        sideMenu.classList.remove('active');
-
-        document.body.style.overflow = '';
-
+        return;
     }
 
-    menuClose.addEventListener('click', closeMenu);
-
-    menuOverlay.addEventListener('click', closeMenu);
-
-    // =========================
+    // =========================================
     // REQUESTS
-    // =========================
+    // =========================================
 
     let requests =
-        JSON.parse(localStorage.getItem('repair_requests')) || [];
+        JSON.parse(
+            localStorage.getItem('repair_requests')
+        ) || [];
 
-    // ТЕСТОВЫЕ ДАННЫЕ
+    // =========================================
+    // TEST DATA
+    // =========================================
 
-    if(requests.length === 0){
+    if (requests.length === 0) {
 
         requests = [
 
             {
-                id:1,
+                id: 1,
 
-                title:'Не работает розетка',
+                title: 'Не работает розетка',
 
-                category:'Электрика',
+                category: 'Электрика',
 
-                room:'312',
+                room: '312',
 
-                student:'Петрова А.Ф.',
+                student: 'Петрова А.Ф.',
 
-                date:'12.04.2026',
+                date: '12.04.2026',
 
-                visit:'13.04.2026, 14:00 - 18:00',
+                visit: '13.04.2026, 14:00 - 18:00',
 
-                status:'Ожидают',
+                status: 'Ожидают',
 
-                details:'Розетка искрит.'
+                details: 'Розетка искрит.'
             },
 
             {
-                id:2,
+                id: 2,
 
-                title:'Протекает кран',
+                title: 'Протекает кран',
 
-                category:'Сантехника',
+                category: 'Сантехника',
 
-                room:'215',
+                room: '215',
 
-                student:'Соколов Д.Г.',
+                student: 'Соколов Д.Г.',
 
-                date:'12.04.2026',
+                date: '12.04.2026',
 
-                visit:'14.04.2026, 09:00 - 18:00',
+                visit: '14.04.2026, 09:00 - 18:00',
 
-                status:'Ожидают',
+                status: 'Ожидают',
 
-                details:'Постоянно капает вода.'
+                details: 'Постоянно капает вода.'
             }
         ];
+
+        localStorage.setItem(
+            'repair_requests',
+            JSON.stringify(requests)
+        );
     }
+
+    // =========================================
+    // ELEMENTS
+    // =========================================
 
     const requestsContainer =
         document.getElementById('requestsContainer');
@@ -102,24 +103,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentFilter = 'all';
 
-    // =========================
+    // =========================================
     // RENDER
-    // =========================
+    // =========================================
 
-    function renderRequests(list){
+    function renderRequests(list) {
 
         requestsContainer.innerHTML = '';
 
-        if(list.length === 0){
+        if (!list.length) {
 
             requestsContainer.innerHTML = `
-
                 <div class="empty-block">
-
                     Заявок пока нет
-
                 </div>
-
             `;
 
             return;
@@ -143,9 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             ${request.title}
 
                             <span class="request-date">
-
                                 ${request.date}
-
                             </span>
 
                         </div>
@@ -183,29 +178,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
 
                 <div class="details-toggle">
-
                     ▾ Показать детали
-
                 </div>
 
                 <div class="request-details">
 
                     <div class="detail-title">
-
                         Полное описание
-
                     </div>
 
                     <div class="detail-text">
-
                         ${request.details}
-
                     </div>
 
                     <div class="detail-title photos-title">
-
                         Фотографии проблемы
-
                     </div>
 
                     <div class="photo-list">
@@ -221,35 +208,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="actions">
 
                     <div class="actions-title">
-
                         Изменить статус заявки:
-
                     </div>
 
                     <div class="actions-grid">
 
                         <button class="action-btn arriving-btn">
-
                             👷 Скоро приду
-
                         </button>
 
                         <button class="action-btn transfer-btn">
-
                             📅 Нужно перенести
-
                         </button>
 
                         <button class="action-btn no-details-btn">
-
                             🔧 Нет деталей
-
                         </button>
 
                         <button class="action-btn done-btn">
-
                             ✅ Работа выполнена
-
                         </button>
 
                     </div>
@@ -258,9 +235,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             `;
 
-            // =========================
+            // =========================================
             // DETAILS
-            // =========================
+            // =========================================
 
             const toggle =
                 card.querySelector('.details-toggle');
@@ -272,22 +249,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 details.classList.toggle('active');
 
-                if(details.classList.contains('active')){
-
-                    toggle.innerHTML =
-                        '▴ Скрыть детали';
-
-                } else {
-
-                    toggle.innerHTML =
-                        '▾ Показать детали';
-                }
+                toggle.innerHTML =
+                    details.classList.contains('active')
+                        ? '▴ Скрыть детали'
+                        : '▾ Показать детали';
 
             });
 
-            // =========================
+            // =========================================
             // BUTTONS
-            // =========================
+            // =========================================
 
             const doneBtn =
                 card.querySelector('.done-btn');
@@ -301,63 +272,43 @@ document.addEventListener('DOMContentLoaded', () => {
             const noDetailsBtn =
                 card.querySelector('.no-details-btn');
 
-            // ВЫПОЛНЕНО
+            // =========================================
+            // STATUS UPDATE
+            // =========================================
+
+            function updateStatus(status) {
+
+                request.status = status;
+
+                localStorage.setItem(
+                    'repair_requests',
+                    JSON.stringify(requests)
+                );
+
+                applyFilters();
+            }
 
             doneBtn.addEventListener('click', () => {
 
-                request.status = 'Выполнено';
-
-                localStorage.setItem(
-                    'repair_requests',
-                    JSON.stringify(requests)
-                );
-
-                applyFilters();
+                updateStatus('Выполнено');
 
             });
-
-            // СКОРО ПРИДУ
 
             arrivingBtn.addEventListener('click', () => {
 
-                request.status = 'Скоро приду';
-
-                localStorage.setItem(
-                    'repair_requests',
-                    JSON.stringify(requests)
-                );
-
-                applyFilters();
+                updateStatus('Скоро приду');
 
             });
-
-            // ПЕРЕНЕСТИ
 
             transferBtn.addEventListener('click', () => {
 
-                request.status = 'Перенесено';
-
-                localStorage.setItem(
-                    'repair_requests',
-                    JSON.stringify(requests)
-                );
-
-                applyFilters();
+                updateStatus('Перенесено');
 
             });
 
-            // НЕТ ДЕТАЛЕЙ
-
             noDetailsBtn.addEventListener('click', () => {
 
-                request.status = 'Нет деталей';
-
-                localStorage.setItem(
-                    'repair_requests',
-                    JSON.stringify(requests)
-                );
-
-                applyFilters();
+                updateStatus('Нет деталей');
 
             });
 
@@ -367,11 +318,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    // =========================
+    // =========================================
     // FILTERS
-    // =========================
+    // =========================================
 
-    function applyFilters(){
+    function applyFilters() {
 
         let filtered = [...requests];
 
@@ -380,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const category =
             categoryFilter.value;
 
-        if(category !== 'all'){
+        if (category !== 'all') {
 
             filtered =
                 filtered.filter(item =>
@@ -390,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // STATUS
 
-        if(currentFilter === 'waiting'){
+        if (currentFilter === 'waiting') {
 
             filtered =
                 filtered.filter(item =>
@@ -398,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
         }
 
-        if(currentFilter === 'done'){
+        if (currentFilter === 'done') {
 
             filtered =
                 filtered.filter(item =>
@@ -410,14 +361,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
+    // =========================================
     // CATEGORY FILTER
+    // =========================================
 
-    categoryFilter.addEventListener(
-        'change',
-        applyFilters
-    );
+    if (categoryFilter) {
 
-    // TOP FILTER BUTTONS
+        categoryFilter.addEventListener(
+            'change',
+            applyFilters
+        );
+
+    }
+
+    // =========================================
+    // FILTER BUTTONS
+    // =========================================
 
     filterButtons.forEach(button => {
 
@@ -438,7 +397,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
+    // =========================================
     // START
+    // =========================================
 
     applyFilters();
 

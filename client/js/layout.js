@@ -6,10 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ROLE
     // =====================================
 
-    const userRole =
-        localStorage.getItem('uhome_user_role') || 'student';
-
-    // =====================================
+// =====================================
     // INSERT LAYOUT
     // =====================================
 
@@ -146,6 +143,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const userProfileBlock =
         document.getElementById('userProfileBlock');
 
+    // =====================================
+    // ROLE
+    // =====================================
+
+    const savedRole =
+        localStorage.getItem('uhome_user_role');
+
+    let userRole = 'student';
+
+    // MASTER ROLES
+
+    if (
+        savedRole === 'Electrick' ||
+        savedRole === 'Plumber' ||
+        savedRole === 'Carpenter' ||
+        savedRole === 'master'
+    ) {
+
+        userRole = 'master';
+    }
+
+    // ADMIN
+
+    else if (
+        savedRole === 'admin'
+    ) {
+
+        userRole = 'admin';
+    }
     // =====================================
     // USERS
     // =====================================
@@ -426,7 +452,7 @@ const icons = {
             },
 
             {
-                label: 'Чат',
+                label: 'Чат с администрацией',
                 icon: 'chat',
                 href: 'chat.html'
             }

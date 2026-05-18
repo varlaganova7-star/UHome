@@ -2,334 +2,200 @@
 <html lang="ru">
 
 <head>
-  fix-chat
-  <!-- PWA Манифест -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#F47920">
 
-  <!-- Для iOS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="UHome">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-
-  <!-- Запрет зума на мобильных -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Заявки мастера</title>
-
-  <link rel="stylesheet" href="css/master_requests.css" />
-=======
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
 
-    <title>Все заявки — UHome</title>
+    <meta
+        name="theme-color"
+        content="#F47920"
+    >
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet">
+    <!-- IOS -->
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
 
-    <link rel="stylesheet"
-          href="css/master_requests.css">
-main
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black-translucent"
+    >
+
+    <meta
+        name="apple-mobile-web-app-title"
+        content="UHome"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="icons/icon-192.png"
+    >
+
+    <!-- VIEWPORT -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>
+        Все заявки — UHome
+    </title>
+
+    <!-- FONT -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link
+        rel="stylesheet"
+        href="css/layout.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/master_requests.css"
+    >
+
 </head>
 
 <body>
 
-fix-chat
-  <div class="app">
+    <!-- =========================================
+    GLOBAL LAYOUT
+    ========================================= -->
 
-    <!-- HEADER -->
-    <div class="header">
+    <div id="layout-container"></div>
 
-      <div class="logo">
-        <img src="image 10 (1).png" class="logo-img" />
-      </div>
+    <!-- =========================================
+    PAGE CONTENT
+    ========================================= -->
 
-      <img src="Group 22.png" class="menu-img" />
+    <main class="page-content">
 
-    </div>
+        <!-- TITLE -->
+        <div class="title-block">
 
-    <!-- CONTENT -->
-    <div class="content">
+            <h1 class="page-title">
 
-      <div class="back">← Назад</div>
+                <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
 
-      <h1>📝 Все заявки</h1>
-      <p class="subtitle">Управление заявками на ремонт</p>
+                    <path d="M9 11l3 3L22 4"/>
 
-      <!-- FILTERS -->
-      <div class="tabs">
-
-        <div class="tab active" data-filter="all">
-          Все
-        </div>
-
-        <div class="tab" data-filter="Ожидают">
-          Ожидают
-        </div>
-
-        <div class="tab" data-filter="Выполнено">
-          Выполнены
-        </div>
-
-      </div>
-
-      <!-- REQUESTS -->
-      <div id="requests-container"></div>
-
-    </div>
-
-  </div>
-
-  <!-- FULLSCREEN IMAGE -->
-  <div class="image-modal" id="imageModal">
-
-    <span class="close-modal" id="closeModal">✕</span>
-
-    <img id="modalImage" />
-
-  </div>
-=======
-<!-- HEADER -->
-
-<header class="header">
-
-    <div class="header-logo">
-
-        <img src="image 10.png"
-             alt="UHome"
-             class="logo-icon">
-
-    </div>
-
-    <button class="menu-btn"
-            id="menuBtn">
-
-        <span></span>
-        <span></span>
-        <span></span>
-
-    </button>
-
-</header>
-
-<!-- CONTENT -->
-
-<main class="page-content">
-
-    <a href="glav.html"
-       class="back-btn">
-
-        ← Назад
-
-    </a>
-
-    <div class="title-block">
-
-        <h1 class="page-title">
-
-            <svg width="28"
-                 height="28"
-                 viewBox="0 0 24 24"
-                 fill="none"
-                 stroke="#222"
-                 stroke-width="2">
-
-                <path d="M9 11H3"/>
-                <path d="M9 16H3"/>
-                <path d="M13 6H3"/>
-                <path d="M14 8l7-7"/>
-                <path d="M18 5l3 3"/>
-                <path d="M21 2l1 1"/>
-                <path d="M14 8v3h3"/>
-                <path d="M5 21h14a2 2 0 0 0 2-2v-7"/>
-                <path d="M3 3v18"/>
-
-            </svg>
-
-            Все заявки
-
-        </h1>
-
-        <p class="page-subtitle">
-            Управление заявками на ремонт
-        </p>
-
-    </div>
-
-    <!-- FILTERS -->
-
-    <div class="filter-tabs">
-
-        <button class="filter-btn active"
-                data-filter="all">
-
-            Все
-
-        </button>
-
-        <button class="filter-btn"
-                data-filter="waiting">
-
-            Ожидают
-
-        </button>
-
-        <button class="filter-btn"
-                data-filter="done">
-
-            Выполнены
-
-        </button>
-
-    </div>
-
-    <!-- CATEGORY -->
-
-    <div class="sort-block">
-
-        <select id="categoryFilter"
-                class="category-select">
-
-            <option value="all">
-                Все категории
-            </option>
-
-            <option value="Электрика">
-                Электрика
-            </option>
-
-            <option value="Сантехника">
-                Сантехника
-            </option>
-
-            <option value="Мебель">
-                Мебель
-            </option>
-
-            <option value="Окна / двери">
-                Окна / двери
-            </option>
-
-            <option value="Другое">
-                Другое
-            </option>
-
-        </select>
-
-    </div>
-
-    <!-- REQUESTS -->
-
-    <div id="requestsContainer"></div>
-
-</main>
-
-<!-- SIDE MENU -->
-
-<div class="side-menu"
-     id="sideMenu">
-
-    <div class="side-menu-overlay"
-         id="sideMenuOverlay"></div>
-
-    <div class="side-menu-content">
-
-        <div class="menu-header">
-
-            <div class="menu-logo">
-
-                <svg width="24"
-                     height="24"
-                     viewBox="0 0 32 32"
-                     fill="none">
-
-                    <path d="M4 16L16 4L28 16V28H20V20H12V28H4V16Z"
-                          fill="#F47920"/>
-
-                    <path d="M12 20H20V28H12V20Z"
-                          fill="#333"/>
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
 
                 </svg>
 
-                <span>UHome</span>
+                Все заявки
 
-            </div>
+            </h1>
 
-            <button class="menu-close"
-                    id="menuClose">
+            <p class="page-subtitle">
+                Управление заявками на ремонт
+            </p>
 
-                &times;
+        </div>
 
+        <!-- FILTERS -->
+        <div class="filter-tabs">
+
+            <button
+                class="filter-btn active"
+                data-filter="all"
+            >
+                Все
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="waiting"
+            >
+                Ожидают
+            </button>
+
+            <button
+                class="filter-btn"
+                data-filter="done"
+            >
+                Выполнены
             </button>
 
         </div>
 
-        <div class="user-profile">
+        <!-- CATEGORY -->
+        <div class="sort-block">
 
-            <img src="https://ui-avatars.com/api/?name=Павел+Краскин&background=F47920&color=fff&size=300"
-                 class="user-avatar"
-                 alt="avatar">
+            <select
+                id="categoryFilter"
+                class="category-select"
+            >
 
-            <div class="user-details">
+                <option value="all">
+                    Все категории
+                </option>
 
-                <div class="user-name">
-                    Павел Краскин
-                </div>
+                <option value="Электрика">
+                    Электрика
+                </option>
 
-                <div class="user-role">
-                    Электрик
-                </div>
+                <option value="Сантехника">
+                    Сантехника
+                </option>
 
-            </div>
+                <option value="Мебель">
+                    Мебель
+                </option>
 
-        </div>
+                <option value="Окна / двери">
+                    Окна / двери
+                </option>
 
-        <nav class="menu-nav">
+                <option value="Другое">
+                    Другое
+                </option>
 
-            <a href="glav.html"
-               class="menu-nav-link">
-
-                🏠 Главная
-
-            </a>
-
-            <a href="master-requests.html"
-               class="menu-nav-link active">
-
-                🔧 Просмотр заявок
-
-            </a>
-
-            <a href="chat.html"
-               class="menu-nav-link">
-
-                💬 Чат с администрацией
-
-            </a>
-
-        </nav>
-
-        <div class="menu-footer">
-
-            <a href="sign_up.html"
-               class="logout-link">
-
-                Выйти
-
-            </a>
+            </select>
 
         </div>
+
+        <!-- REQUESTS -->
+        <div id="requestsContainer"></div>
+
+    </main>
+
+    <!-- IMAGE MODAL -->
+    <div
+        class="image-modal"
+        id="imageModal"
+    >
+
+        <span
+            class="close-modal"
+            id="closeModal"
+        >
+            ✕
+        </span>
+
+        <img id="modalImage">
 
     </div>
 
-</div>
-main
-
-  <script src="js/master_requests.js"></script>
+    <!-- SCRIPTS -->
+    <script src="js/layout.js"></script>
+    <script src="js/master_requests.js"></script>
 
 </body>
 

@@ -60,6 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     img.className = 'photo-preview';
 
+                    img.style.animationDelay =
+                        `${uploadedFiles.length * 0.08}s`;
+
                     uploadedPhotos.appendChild(img);
 
                     photoCount.textContent =

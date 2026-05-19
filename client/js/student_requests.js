@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        studentRequests.forEach(request => {
+        studentRequests.forEach((request, index) => {
 
             const isHistory =
                 request.status === 'Выполнено';
@@ -78,6 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('div');
 
             card.className = 'request-card';
+
+            card.style.animationDelay =
+               `${index * 0.08}s`;
 
             let statusClass = 'pending';
 
@@ -239,6 +242,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     request.shortDescription = newText;
 
+                    if (!request.history) {
+                        request.history = [];
+                    }
                     request.history.push({
 
                         status:'Заявка изменена',

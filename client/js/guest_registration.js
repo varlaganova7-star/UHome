@@ -174,13 +174,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         }
 
-        guests.forEach((guest) => {
+        guests.forEach((guest, index) => {
 
             const card =
                 document.createElement('div');
 
             card.className =
                 'history-item';
+
+            card.style.animationDelay =
+                `${index * 0.08}s`;
 
             card.innerHTML = `
 

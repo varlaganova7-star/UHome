@@ -1,192 +1,313 @@
-
 document.addEventListener('DOMContentLoaded', () => {
 
-    // =====================================
-    // ELEMENTS
-    // =====================================
+// =====================================
+// ELEMENTS
+// =====================================
 
-    const container = document.getElementById('authContainer');
+const container =
+    document.getElementById('authContainer');
 
-    const registerForm = document.getElementById('registerForm');
-    const loginForm = document.getElementById('loginForm');
+const registerForm =
+    document.getElementById('registerForm');
 
-    const toggleBtn = document.getElementById('toggleBtn');
+const loginForm =
+    document.getElementById('loginForm');
 
-    const roleSelect = document.getElementById('role');
+const toggleBtn =
+    document.getElementById('toggleBtn');
 
+const roleSelect =
+    document.getElementById('role');
 
+// =====================================
+// INITIAL STATE
+// =====================================
 
-    // =====================================
-    // INITIAL STATE
-    // =====================================
+let isLogin = false;
 
-    let isLogin = false;
+// =====================================
+// SWITCH LOGIN
+// =====================================
 
+function showLogin() {
 
+    isLogin = true;
 
-    // =====================================
-    // SWITCH TO LOGIN
-    // =====================================
+    container.classList.add('login');
 
-    function showLogin() {
+    container.classList.remove('register');
 
-        isLogin = true;
+    registerForm.classList.remove('active');
 
-        container.classList.add('login');
-        container.classList.remove('register');
+    loginForm.classList.add('active');
 
-        registerForm.classList.remove('active');
-        loginForm.classList.add('active');
+    toggleBtn.textContent =
+        'Зарегистрироваться';
+}
 
-        toggleBtn.textContent = 'Зарегистрироваться';
+// =====================================
+// SWITCH REGISTER
+// =====================================
+
+function showRegister() {
+
+    isLogin = false;
+
+    container.classList.add('register');
+
+    container.classList.remove('login');
+
+    loginForm.classList.remove('active');
+
+    registerForm.classList.add('active');
+
+    toggleBtn.textContent =
+        'Авторизоваться';
+}
+
+// =====================================
+// TOGGLE BUTTON
+// =====================================
+
+toggleBtn.addEventListener('click', () => {
+
+    if (isLogin) {
+
+        showRegister();
+
+    } else {
+
+        showLogin();
+    }
+});
+
+// =====================================
+// REGISTER
+// =====================================
+
+registerForm.addEventListener('submit', async (e) => {
+
+    e.preventDefault();
+
+    const inputs =
+        registerForm.querySelectorAll('.form-input');
+
+    const fullname =
+        inputs[0].value.trim();
+
+    const email =
+        inputs[1].value.trim();
+
+    const password =
+        inputs[2].value.trim();
+
+    const role =
+        roleSelect.value;
+
+    // ===== ПРОВЕРКА ПУСТЫХ ПОЛЕЙ =====
+
+    if (!role ||
+        !fullname ||
+        !email ||
+        !password) {
+
+        alert(
+            'Заполните все поля'
+        );
+
+        return;
     }
 
+    // ===== ПРОВЕРКА EMAIL =====
 
+    if (!email.includes('@')) {
 
-    // =====================================
-    // SWITCH TO REGISTER
-    // =====================================
+        alert(
+            'Введите корректную почту'
+        );
 
-    function showRegister() {
-
-        isLogin = false;
-
-        container.classList.add('register');
-        container.classList.remove('login');
-
-        loginForm.classList.remove('active');
-        registerForm.classList.add('active');
-
-        toggleBtn.textContent = 'Авторизоваться';
+        return;
     }
 
+    // ===== ПРОВЕРКА ПАРОЛЯ =====
 
+    if (password.length < 6) {
 
-    // =====================================
-    // TOGGLE BUTTON
-    // =====================================
+        alert(
+            'Пароль минимум 6 символов'
+        );
 
-    toggleBtn.addEventListener('click', () => {
+        return;
+    }
 
-        if (isLogin) {
+    const data = {
 
-            showRegister();
+        role,
+        fullname,
+        email,
+        password
+    };
 
-        } else {
-
-            showLogin();
-        }
-    });
-
-
-
-    // =====================================
-    // REGISTER SUBMIT
-    // =====================================
-
-    registerForm.addEventListener('submit', async (e) => {
-
-        e.preventDefault();
-
-        const inputs =
-            registerForm.querySelectorAll('.form-input');
-
-        const data = {
-
-            role: roleSelect.value,
-
-            fullname: inputs[0].value,
-
-            email: inputs[1].value,
-
-            password: inputs[2].value
-        };
+    try {
 
         const response = await fetch(
             'http://127.0.0.1:8000/register',
             {
-
                 method: 'POST',
 
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type':
+                        'application/json'
                 },
 
                 body: JSON.stringify(data)
             }
         );
 
-        const result = await response.json();
+        const result =
+            await response.json();
 
-        if (response.ok && !result.error) {
+        // ===== ОШИБКА =====
 
-            alert('Успешная регистрация');
-
-            window.location.href = 'glav.html';
-
-        } else {
+        if (result.error) {
 
             alert(result.error);
+
+            return;
         }
-    });
 
+        // ===== SUCCESS =====
 
+        localStorage.setItem(
+            'uhome_logged_in',
+            'true'
+        );
 
-    // =====================================
-    // LOGIN SUBMIT
-    // =====================================
+        localStorage.setItem(
+            'uhome_user_role',
+            role
+        );
 
-    loginForm.addEventListener('submit', async (e) => {
+        localStorage.setItem(
+            'uhome_user_fullname',
+            fullname
+        );
 
-        e.preventDefault();
+        alert(
+            'Регистрация успешна'
+        );
 
-        const inputs =
-            loginForm.querySelectorAll('.form-input');
+        window.location.href =
+            'glav.html';
 
-        const data = {
+    } catch (error) {
 
-            email: inputs[0].value,
+        alert(
+            'Ошибка подключения к серверу'
+        );
+    }
+});
 
-            password: inputs[1].value
-        };
+// =====================================
+// LOGIN
+// =====================================
+
+loginForm.addEventListener('submit', async (e) => {
+
+    e.preventDefault();
+
+    const inputs =
+        loginForm.querySelectorAll('.form-input');
+
+    const email =
+        inputs[0].value.trim();
+
+    const password =
+        inputs[1].value.trim();
+
+    // ===== ПРОВЕРКА =====
+
+    if (!email || !password) {
+
+        alert(
+            'Введите почту и пароль'
+        );
+
+        return;
+    }
+
+    try {
 
         const response = await fetch(
             'http://127.0.0.1:8000/login',
             {
-
                 method: 'POST',
 
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type':
+                        'application/json'
                 },
 
-                body: JSON.stringify(data)
+                body: JSON.stringify({
+                    email,
+                    password
+                })
             }
         );
 
-        const result = await response.json();
+        const result =
+            await response.json();
 
-        if (response.ok && !result.error) {
+        // ===== НЕВЕРНЫЕ ДАННЫЕ =====
 
-            localStorage.setItem(
-                'uhome_user_role',
-                result.role
+        if (
+            result.error ||
+            !response.ok
+        ) {
+
+            alert(
+                'Неверная почта или пароль'
             );
 
-            window.location.href = 'glav.html';
-
-        } else {
-
-            alert(result.error);
+            return;
         }
-    });
 
+        // ===== SUCCESS =====
 
+        localStorage.setItem(
+            'uhome_logged_in',
+            'true'
+        );
 
-    // =====================================
-    // START MODE
-    // =====================================
+        localStorage.setItem(
+            'uhome_user_role',
+            result.role
+        );
 
-    showRegister();
+        localStorage.setItem(
+            'uhome_user_fullname',
+            result.fullname
+        );
+
+        alert(
+            'Вход выполнен'
+        );
+
+        window.location.href =
+            'glav.html';
+
+    } catch (error) {
+
+        alert(
+            'Ошибка подключения к серверу'
+        );
+    }
+});
+
+// =====================================
+// START
+// =====================================
+
+showRegister();
 
 });

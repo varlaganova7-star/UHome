@@ -121,5 +121,6 @@ def login(user: UserLogin):
 
     return {
         "message": "Success",
-        "role": db_user.role
+        "role": db_user.role,
+        "fullname": db_user.fullname
     }

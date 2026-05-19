@@ -1,151 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ===== 1. ЭЛЕМЕНТЫ =====
-    const menuNav = document.getElementById('menuNav');
-    const userName = document.getElementById('userName');
-    const userRoleEl = document.getElementById('userRole');
-    const userAvatar = document.getElementById('userAvatar');
-    const sideMenu = document.getElementById('sideMenu');
-    const menuBtn = document.getElementById('menuBtn');
-    const menuClose = document.getElementById('menuClose');
-    const menuOverlay = document.getElementById('sideMenuOverlay');
+    // =====================================
+    // ROLE
+    // =====================================
 
-    // ===== 2. ЧТЕНИЕ РОЛИ =====
-    const userRole = localStorage.getItem('uhome_user_role') || 'student';
-    console.log(`🔑 Загружена роль: "${userRole}"`);
+    // =====================================
+    // INSERT LAYOUT
+    // =====================================
 
+    const layoutContainer =
+        document.getElementById('layout-container');
 
+    if (layoutContainer) {
 
-    // ===== 5. ФУНКЦИЯ ОТРИСОВКИ МЕНЮ =====
-    function renderMenu(roleKey) {
-        if (!menuNav) {
-            console.error('❌ Не найден элемент #menuNav в HTML!');
-            return;
-        }
-
-        const role = roles[roleKey] || roles.student;
-
-        console.log(`🎨 Рендерю меню для: "${role.name}" (${role.role})`);
-        console.log(`📋 Пунктов: ${role.items.length}`);
-
-        // Обновляем профиль
-        if (userName) userName.textContent = role.name;
-        if (userRoleEl) userRoleEl.textContent = role.role;
-        if (userAvatar) {
-            userAvatar.src = role.avatar;
-            userAvatar.alt = role.name;
-            userAvatar.onerror = () => {
-                userAvatar.src = 'https://ui-avatars.com/api/?name=User&background=ccc&color=fff&size=150';
-            };
-        }
-
-        // Генерируем пункты меню
-        let html = '';
-        role.items.forEach((item, index) => {
-            const isActive = index === role.activeIndex ? 'active' : '';
-            const svgIcon = icons[item.icon] || icons.home;
-            html += `
-                <a href="${item.href}" class="menu-nav-link ${isActive}">
-                    ${svgIcon}
-                    <span>${item.label}</span>
-                </a>
-            `;
-        });
-
-        // Вставляем в меню
-        menuNav.innerHTML = html;
-        console.log('✅ Меню отрисовано!');
-    }
-    // ===== ОБРАБОТКА КЛИКОВ ПО ПУНКТАМ МЕНЮ =====
-    if (menuNav) {
-        menuNav.addEventListener('click', (e) => {
-            const link = e.target.closest('.menu-nav-link');
-            if (!link) return;
-
-            const href = link.getAttribute('href');
-
-            // Если это переход на подбор соседа — сохраняем роль в URL
-            if (href && href.includes('neighbor.html')) {
-                e.preventDefault(); // Останавливаем стандартный переход
-
-                // 🔥 Сохраняем роль для следующей страницы
-                const currentRole = localStorage.getItem('uhome_user_role') || 'student';
-
-                // Закрываем меню
-                closeMenu();
-
-                // Переходим с параметром роли
-                setTimeout(() => {
-                    window.location.href = `neighbor.html?role=${currentRole}`;
-                }, 300);
-                return;
-            }
-
-            // Для остальных ссылок — просто закрываем меню
-            closeMenu();
-        });
-    }
-
-    // ===== 6. УПРАВЛЕНИЕ БОКОВЫМ МЕНЮ =====
-    function openMenu() {
-        sideMenu?.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeMenu() {
-        sideMenu?.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    if (menuBtn) menuBtn.addEventListener('click', openMenu);
-    if (menuClose) menuClose.addEventListener('click', closeMenu);
-    if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMenu();
-    });
-
-    // ===== 7. ЗАПУСК =====
-    renderMenu(userRole);
-    // ===== КЛИК ПО ПРОФИЛЮ В БОКОВОМ МЕНЮ =====
-    const userProfileBlock = document.querySelector('.user-profile');
-
-    if (userProfileBlock) {
-        userProfileBlock.style.cursor = 'pointer';
-        userProfileBlock.title = 'Открыть профиль';
-
-        userProfileBlock.addEventListener('click', () => {
-            closeMenu(); // Закрываем боковое меню
-            setTimeout(() => {
-                window.location.href = 'profile.html';
-            }, 300);
-        });
-    }
-    // Регистрация Service Worker
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('✅ SW зарегистрирован:', reg.scope))
-                .catch(err => console.log('❌ Ошибка SW:', err));
-        });
-    }
-    // layout.js
-
-    document.addEventListener('DOMContentLoaded', () => {
-
-        // =====================================
-        // ROLE
-        // =====================================
-
-        // =====================================
-        // INSERT LAYOUT
-        // =====================================
-
-        const layoutContainer =
-            document.getElementById('layout-container');
-
-        if (layoutContainer) {
-
-            layoutContainer.innerHTML = `
+        layoutContainer.innerHTML = `
 
             <!-- HEADER -->
             <header class="header">
@@ -237,134 +105,147 @@ document.addEventListener('DOMContentLoaded', () => {
 
             </aside>
         `;
-        }
+    }
 
-        // =====================================
-        // DOM
-        // =====================================
+    // =====================================
+    // DOM
+    // =====================================
 
-        const menuBtn =
-            document.getElementById('menuBtn');
+    const menuBtn =
+        document.getElementById('menuBtn');
 
-        const sideMenu =
-            document.getElementById('sideMenu');
+    const sideMenu =
+        document.getElementById('sideMenu');
 
-        const menuClose =
-            document.getElementById('menuClose');
+    const menuClose =
+        document.getElementById('menuClose');
 
-        const menuOverlay =
-            document.getElementById('sideMenuOverlay');
+    const menuOverlay =
+        document.getElementById('sideMenuOverlay');
 
-        const menuNav =
-            document.getElementById('menuNav');
+    const menuNav =
+        document.getElementById('menuNav');
 
-        const menuFooter =
-            document.getElementById('menuFooter');
+    const menuFooter =
+        document.getElementById('menuFooter');
 
-        const menuAvatar =
-            document.getElementById('menuAvatar');
+    const menuAvatar =
+        document.getElementById('menuAvatar');
 
-        const menuUserName =
-            document.getElementById('menuUserName');
+    const menuUserName =
+        document.getElementById('menuUserName');
 
-        const menuUserRole =
-            document.getElementById('menuUserRole');
+    const menuUserRole =
+        document.getElementById('menuUserRole');
 
-        const userProfileBlock =
-            document.getElementById('userProfileBlock');
+    const userProfileBlock =
+        document.getElementById('userProfileBlock');
 
-        // =====================================
-        // ROLE
-        // =====================================
+    // =====================================
+    // ROLE
+    // =====================================
 
-        const savedRole =
-            localStorage.getItem('uhome_user_role');
+    const savedRole =
+        localStorage.getItem('uhome_user_role');
 
-        let userRole = 'student';
+    let userRole = 'student';
 
-        // MASTER ROLES
+    // MASTER ROLES
 
-        if (
-            savedRole === 'Electrick' ||
-            savedRole === 'Plumber' ||
-            savedRole === 'Carpenter' ||
-            savedRole === 'master'
-        ) {
+    if (
+        savedRole === 'Electrick' ||
+        savedRole === 'Plumber' ||
+        savedRole === 'Carpenter' ||
+        savedRole === 'master'
+    ) {
 
-            userRole = 'master';
-        }
+        userRole = 'master';
+    }
 
-        // ADMIN
+    // ADMIN
 
-        else if (
-            savedRole === 'admin'
-        ) {
+    else if (
+        savedRole === 'admin'
+    ) {
 
-            userRole = 'admin';
-        }
-        // =====================================
-        // USERS
-        // =====================================
+        userRole = 'admin';
+    }
+    else if (
+        savedRole === 'studsovet'
+    ) {
 
-        const users = {
+        userRole = 'studsovet';
+    }
+    // =====================================
+    // USERS
+    // =====================================
 
-            student: {
+    const users = {
 
-                name: 'Игорь Иванов',
+        student: {
 
-                role: 'Студент',
+            name: 'Игорь Иванов',
 
-                avatar:
-                    'https://ui-avatars.com/api/?name=Игорь+Иванов&background=F47920&color=fff'
-            },
+            role: 'Студент',
 
-            admin: {
+            avatar:
+                'https://ui-avatars.com/api/?name=Игорь+Иванов&background=F47920&color=fff'
+        },
 
-                name: 'Ирина Павлова',
+        admin: {
 
-                role: 'Администрация',
+            name: 'Ирина Павлова',
 
-                avatar:
-                    'https://ui-avatars.com/api/?name=Ирина+Павлова&background=F47920&color=fff'
-            },
+            role: 'Администрация',
 
-            master: {
+            avatar:
+                'https://ui-avatars.com/api/?name=Ирина+Павлова&background=F47920&color=fff'
+        },
 
-                name: 'Павел Краскин',
+        master: {
 
-                role: 'Мастер',
+            name: 'Павел Краскин',
 
-                avatar:
-                    'https://ui-avatars.com/api/?name=Павел+Краскин&background=F47920&color=fff'
-            }
-        };
+            role: 'Мастер',
 
-        const currentUser =
-            users[userRole] || users.student;
+            avatar:
+                'https://ui-avatars.com/api/?name=Павел+Краскин&background=F47920&color=fff'
+        },
+        studsovet: {
+            name: 'Анна Советова',
+            role: 'Студсовет',
+            avatar: 'https://ui-avatars.com/api/?name=Анна+Советова&background=2E8B57&color=fff&size=300'
+        },
 
-        // =====================================
-        // PROFILE
-        // =====================================
 
-        if (menuAvatar) {
-            menuAvatar.src = currentUser.avatar;
-        }
+    };
 
-        if (menuUserName) {
-            menuUserName.textContent = currentUser.name;
-        }
+    const currentUser =
+        users[userRole] || users.student;
 
-        if (menuUserRole) {
-            menuUserRole.textContent = currentUser.role;
-        }
+    // =====================================
+    // PROFILE
+    // =====================================
 
-        // =====================================
-        // ICONS
-        // =====================================
+    if (menuAvatar) {
+        menuAvatar.src = currentUser.avatar;
+    }
 
-        const icons = {
+    if (menuUserName) {
+        menuUserName.textContent = currentUser.name;
+    }
 
-            home: `
+    if (menuUserRole) {
+        menuUserRole.textContent = currentUser.role;
+    }
+
+    // =====================================
+    // ICONS
+    // =====================================
+
+    const icons = {
+
+        home: `
         <svg
             width="20"
             height="20"
@@ -382,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         </svg>
     `,
-            wrench: `
+        wrench: `
         <svg width="19" height="19"
             viewBox="0 0 24 24"
             fill="none"
@@ -394,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </svg>
     `,
 
-            clipboard: `
+        clipboard: `
         <svg width="19" height="19"
             viewBox="0 0 24 24"
             fill="none"
@@ -411,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </svg>
     `,
 
-            news: `
+        news: `
         <svg
             width="20"
             height="20"
@@ -431,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <line x1="7" y1="16" x2="13" y2="16"/>
         </svg>
     `,
-            chat: `
+        chat: `
         <svg width="19" height="19"
             viewBox="0 0 24 24"
             fill="none"
@@ -443,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </svg>
     `,
 
-            rules: `
+        rules: `
         <svg width="19" height="19"
             viewBox="0 0 24 24"
             fill="none"
@@ -457,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </svg>
     `,
 
-            guest: `
+        guest: `
         <svg width="19" height="19"
             viewBox="0 0 24 24"
             fill="none"
@@ -475,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </svg>
     `,
 
-            neighbor: `
+        neighbor: `
         <svg width="19" height="19"
             viewBox="0 0 24 24"
             fill="none"
@@ -493,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </svg>
     `,
 
-            logout: `
+        logout: `
         <svg width="19" height="19"
             viewBox="0 0 24 24"
             fill="none"
@@ -508,138 +389,150 @@ document.addEventListener('DOMContentLoaded', () => {
 
         </svg>
     `
-        };
+    };
 
-        // =====================================
-        // MENU ITEMS
-        // =====================================
+    // =====================================
+    // MENU ITEMS
+    // =====================================
 
-        const menuItems = {
+    const menuItems = {
 
-            student: [
+        student: [
 
-                {
-                    label: 'Главная',
-                    icon: 'home',
-                    href: 'glav.html'
-                },
+            {
+                label: 'Главная',
+                icon: 'home',
+                href: 'glav.html'
+            },
 
-                {
-                    label: 'Подача заявки на ремонт',
-                    icon: 'wrench',
-                    href: 'repair_request.html'
-                },
+            {
+                label: 'Подача заявки на ремонт',
+                icon: 'wrench',
+                href: 'repair_request.html'
+            },
 
-                {
-                    label: 'Отслеживание статуса заявки',
-                    icon: 'clipboard',
-                    href: 'student_requests.html'
-                },
+            {
+                label: 'Отслеживание статуса заявки',
+                icon: 'clipboard',
+                href: 'student_requests.html'
+            },
 
-                {
-                    label: 'Объявления и новости',
-                    icon: 'news',
-                    href: 'news.html'
-                },
+            {
+                label: 'Объявления и новости',
+                icon: 'news',
+                href: 'news.html'
+            },
 
-                {
-                    label: 'Чат с администрацией',
-                    icon: 'chat',
-                    href: 'chat.html'
-                },
+            {
+                label: 'Чат с администрацией',
+                icon: 'chat',
+                href: 'chat.html'
+            },
 
-                {
-                    label: 'Правила проживания',
-                    icon: 'rules',
-                    href: 'rules.html'
-                },
+            {
+                label: 'Правила проживания',
+                icon: 'rules',
+                href: 'rules.html'
+            },
 
-                {
-                    label: 'Регистрация гостей',
-                    icon: 'guest',
-                    href: 'guest_registration.html'
-                },
+            {
+                label: 'Регистрация гостей',
+                icon: 'guest',
+                href: 'guest_registration.html'
+            },
 
-                {
-                    label: 'Подбор соседа',
-                    icon: 'neighbor',
-                    href: 'neighbor.html'
-                }
-            ],
+            {
+                label: 'Подбор соседа',
+                icon: 'neighbor',
+                href: 'neighbor.html'
+            }
+        ],
 
-            master: [
+        master: [
 
-                {
-                    label: 'Главная',
-                    icon: 'home',
-                    href: 'glav.html'
-                },
+            {
+                label: 'Главная',
+                icon: 'home',
+                href: 'glav.html'
+            },
 
-                {
-                    label: 'Все заявки',
-                    icon: 'clipboard',
-                    href: 'master_requests.html'
-                },
+            {
+                label: 'Все заявки',
+                icon: 'clipboard',
+                href: 'master_requests.html'
+            },
 
-                {
-                    label: 'Чат с администрацией',
-                    icon: 'chat',
-                    href: 'chat.html'
-                }
-            ],
+            {
+                label: 'Чат с администрацией',
+                icon: 'chat',
+                href: 'chat.html'
+            }
+        ],
 
-            admin: [
+        admin: [
 
-                {
-                    label: 'Главная',
-                    icon: 'home',
-                    href: 'glav.html'
-                },
+            {
+                label: 'Главная',
+                icon: 'home',
+                href: 'glav.html'
+            },
 
-                {
-                    label: 'Новости',
-                    icon: 'news',
-                    href: 'news.html'
-                },
-                {
-                    label: 'Все заявки',
-                    icon: 'clipboard',
-                    href: 'master_requests.html'
-                },
+            {
+                label: 'Новости',
+                icon: 'news',
+                href: 'news.html'
+            },
+            {
+                label: 'Все заявки',
+                icon: 'clipboard',
+                href: 'master_requests.html'
+            },
 
 
-                {
-                    label: 'Чат',
-                    icon: 'chat',
-                    href: 'chat.html'
-                }
-            ]
-        };
+            {
+                label: 'Чат',
+                icon: 'chat',
+                href: 'chat.html'
+            }
 
-        // =====================================
-        // RENDER MENU
-        // =====================================
+        ],
+        studsovet: [
+            { label: 'Главная', icon: 'home', href:  'glav.html', active: currentPage === 'glav.html'},
+            { label: 'Подача заявки на ремонт', icon: 'wrench', href: 'repair_request.html' },
+            { label: 'Отслеживание статуса заявки', icon: 'clipboard', href: 'student_requests.html' },
+            { label: 'Объявления и новости', icon: 'news', href: 'news.html' },
+            { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' },
+            { label: 'Правила проживания', icon: 'rules', href: 'rules.html' },
+            { label: 'Регистрация гостей', icon: 'guest', href: 'guest_registration.html' },
+            { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html' },
+            { label: 'Профиль', icon: 'user', href: 'profile.html'}
+        ]
+    };
 
-        function renderMenu() {
+    // =====================================
+    // RENDER MENU
+    // =====================================
 
-            if (!menuNav) return;
+    function renderMenu() {
 
-            const currentPage =
-                window.location.pathname.split('/').pop();
+        if (!menuNav) return;
 
-            const items =
-                menuItems[userRole] || menuItems.student;
+        const currentPage =
+            window.location.pathname.split('/').pop();
 
-            let html = '';
+        const items =
+            menuItems[userRole] || menuItems.student;
 
-            items.forEach(item => {
+        let html = '';
 
-                const active =
-                    item.href === currentPage
-                        ? 'active'
-                        : '';
+        items.forEach(item => {
 
-                html += `
+            const active =
+                item.href === currentPage
+                    ? 'active'
+                    : '';
+
+            html += `
                 <a
                     href="${item.href}"
                     class="menu-nav-link ${active}"
@@ -653,20 +546,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 </a>
             `;
-            });
+        });
 
-            menuNav.innerHTML = html;
-        }
+        menuNav.innerHTML = html;
+    }
 
-        renderMenu();
+    renderMenu();
 
-        // =====================================
-        // FOOTER
-        // =====================================
+    // =====================================
+    // FOOTER
+    // =====================================
 
-        if (menuFooter) {
+    if (menuFooter) {
 
-            menuFooter.innerHTML = `
+        menuFooter.innerHTML = `
             <button class="logout-btn" id="logoutBtn">
 
                 ${icons.logout}
@@ -675,119 +568,129 @@ document.addEventListener('DOMContentLoaded', () => {
 
             </button>
         `;
+    }
+
+    // =====================================
+    // LOGOUT
+    // =====================================
+
+    const logoutBtn =
+        document.getElementById('logoutBtn');
+
+    if (logoutBtn) {
+
+        logoutBtn.addEventListener('click', () => {
+
+            // очищаем роль
+            localStorage.removeItem('uhome_user_role');
+
+            // закрываем меню
+            closeMenu();
+
+            // переход
+            setTimeout(() => {
+
+                window.location.href = 'sign_up.html';
+
+            }, 200);
+        });
+    }
+
+    // =====================================
+    // MENU FUNCTIONS
+    // =====================================
+
+    function openMenu() {
+
+        if (!sideMenu) return;
+
+        sideMenu.classList.add('active');
+
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+
+        if (!sideMenu) return;
+
+        sideMenu.classList.remove('active');
+
+        document.body.style.overflow = '';
+    }
+
+    // =====================================
+    // EVENTS
+    // =====================================
+
+    if (menuBtn) {
+        menuBtn.addEventListener(
+            'click',
+            openMenu
+        );
+    }
+
+    if (menuClose) {
+        menuClose.addEventListener(
+            'click',
+            closeMenu
+        );
+    }
+
+    if (menuOverlay) {
+        menuOverlay.addEventListener(
+            'click',
+            closeMenu
+        );
+    }
+
+    document.addEventListener('keydown', (e) => {
+
+        if (e.key === 'Escape') {
+            closeMenu();
         }
+    });
 
-        // =====================================
-        // LOGOUT
-        // =====================================
+    if (menuNav) {
 
-        const logoutBtn =
-            document.getElementById('logoutBtn');
+        menuNav.addEventListener('click', (e) => {
 
-        if (logoutBtn) {
+            const link =
+                e.target.closest('.menu-nav-link');
 
-            logoutBtn.addEventListener('click', () => {
-
-                // очищаем роль
-                localStorage.removeItem('uhome_user_role');
-
-                // закрываем меню
-                closeMenu();
-
-                // переход
-                setTimeout(() => {
-
-                    window.location.href = 'sign_up.html';
-
-                }, 200);
-            });
-        }
-
-        // =====================================
-        // MENU FUNCTIONS
-        // =====================================
-
-        function openMenu() {
-
-            if (!sideMenu) return;
-
-            sideMenu.classList.add('active');
-
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeMenu() {
-
-            if (!sideMenu) return;
-
-            sideMenu.classList.remove('active');
-
-            document.body.style.overflow = '';
-        }
-
-        // =====================================
-        // EVENTS
-        // =====================================
-
-        if (menuBtn) {
-            menuBtn.addEventListener(
-                'click',
-                openMenu
-            );
-        }
-
-        if (menuClose) {
-            menuClose.addEventListener(
-                'click',
-                closeMenu
-            );
-        }
-
-        if (menuOverlay) {
-            menuOverlay.addEventListener(
-                'click',
-                closeMenu
-            );
-        }
-
-        document.addEventListener('keydown', (e) => {
-
-            if (e.key === 'Escape') {
+            if (link) {
                 closeMenu();
             }
         });
+    }
 
-        if (menuNav) {
+    if (userProfileBlock) {
 
-            menuNav.addEventListener('click', (e) => {
+        userProfileBlock.addEventListener(
+            'click',
+            () => {
 
-                const link =
-                    e.target.closest('.menu-nav-link');
+                closeMenu();
 
-                if (link) {
-                    closeMenu();
-                }
-            });
-        }
+                setTimeout(() => {
 
-        if (userProfileBlock) {
+                    window.location.href =
+                        'profile.html';
 
-            userProfileBlock.addEventListener(
-                'click',
-                () => {
-
-                    closeMenu();
-
-                    setTimeout(() => {
-
-                        window.location.href =
-                            'profile.html';
-
-                    }, 250);
-                }
-            );
-        }
-
-    });
+                }, 250);
+            }
+        );
+    }
 
 });
+
+
+
+
+
+
+
+
+
+
+
+

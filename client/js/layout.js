@@ -173,59 +173,69 @@ document.addEventListener('DOMContentLoaded', () => {
         userRole = 'admin';
     }
     // =====================================
-    // USERS
+    // USER DATA
     // =====================================
 
-    const users = {
+    const savedFullname =
+        localStorage.getItem('uhome_user_fullname') || 'Пользователь';
 
-        student: {
+    const savedRoleText =
+        localStorage.getItem('uhome_user_role') || 'student';
 
-            name: 'Игорь Иванов',
+    // Нормальное название роли
 
-            role: 'Студент',
+    let roleText = 'Студент';
 
-            avatar:
-                'https://ui-avatars.com/api/?name=Игорь+Иванов&background=F47920&color=fff'
-        },
+    if (savedRoleText === 'admin') {
 
-        admin: {
+        roleText = 'Администрация';
 
-            name: 'Ирина Павлова',
+    } else if (
+        savedRoleText === 'Electrick' ||
+        savedRoleText === 'Slesar' ||
+        savedRoleText === 'Santex'
+    ) {
 
-            role: 'Администрация',
+        roleText = 'Мастер';
 
-            avatar:
-                'https://ui-avatars.com/api/?name=Ирина+Павлова&background=F47920&color=fff'
-        },
+    } else if (savedRoleText === 'Studsovet') {
 
-        master: {
+        roleText = 'Студсовет';
+    }
 
-            name: 'Павел Краскин',
+    // =====================================
+    // AVATAR
+    // =====================================
 
-            role: 'Мастер',
+    // Первая буква имени
 
-            avatar:
-                'https://ui-avatars.com/api/?name=Павел+Краскин&background=F47920&color=fff'
-        }
-    };
+    const firstLetter =
+        savedFullname.charAt(0).toUpperCase();
 
-    const currentUser =
-        users[userRole] || users.student;
+    // Генерация аватарки
+
+    const avatarUrl =
+        `https://ui-avatars.com/api/?name=${firstLetter}&background=F47920&color=fff&size=128`;
 
     // =====================================
     // PROFILE
     // =====================================
 
     if (menuAvatar) {
-        menuAvatar.src = currentUser.avatar;
+
+        menuAvatar.src = avatarUrl;
     }
 
     if (menuUserName) {
-        menuUserName.textContent = currentUser.name;
+
+        menuUserName.textContent =
+            savedFullname;
     }
 
     if (menuUserRole) {
-        menuUserRole.textContent = currentUser.role;
+
+        menuUserRole.textContent =
+            roleText;
     }
 
     // =====================================
@@ -554,6 +564,10 @@ const icons = {
 
             // очищаем роль
             localStorage.removeItem('uhome_user_role');
+
+            localStorage.removeItem('uhome_user_fullname');
+
+            localStorage.removeItem('uhome_logged_in');
 
             // закрываем меню
             closeMenu();

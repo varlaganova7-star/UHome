@@ -25,15 +25,19 @@
 
     <!-- ===== ШАПКА ===== -->
     <header class="header">
-        <div class="header-logo">
-            <img src="image 10.png" alt="UHome Logo" class="logo-icon">
 
-        </div>
-        <button class="menu-btn" id="menuBtn" aria-label="Открыть меню">
+        <a href="glav.html" class="header-logo">
+            <img src="image 10.png" alt="UHome">
+        </a>
+
+        <button class="menu-btn" id="menuBtn">
+
             <span></span>
             <span></span>
             <span></span>
+
         </button>
+
     </header>
 
     <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
@@ -86,61 +90,71 @@
         </div>
     </main>
 
-    <!-- ===== БОКОВОЕ МЕНЮ ===== -->
     <div class="side-menu" id="sideMenu">
+
         <div class="side-menu-overlay" id="sideMenuOverlay"></div>
-        <div class="side-menu-content">
 
-            <!-- Шапка меню -->
-            <div class="menu-header">
-                <div class="menu-logo">
-                    <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
-                        <path d="M4 16L16 4L28 16V28H20V20H12V28H4V16Z" fill="#F47920" />
-                        <path d="M12 20H20V28H12V20Z" fill="#333" />
-                    </svg>
-                    <span>UHome</span>
+        <aside class="side-menu-content">
+
+            <!-- TOP -->
+
+            <div class="menu-top">
+
+                <button class="menu-close" id="menuClose">
+                    ✕
+                </button>
+
+            </div>
+
+            <!-- PROFILE -->
+
+            <div class="user-profile" id="userProfileBlock">
+
+                <img src="" alt="avatar" class="user-avatar" id="menuAvatar">
+
+                <div class="user-info">
+
+                    <div class="user-name" id="menuUserName">
+                        ...
+                    </div>
+
+                    <div class="user-role" id="menuUserRole">
+                        ...
+                    </div>
+
                 </div>
-                <button class="menu-close" id="menuClose">&times;</button>
+
             </div>
 
-            <!-- Профиль пользователя -->
-            <div class="user-profile">
-                <img src="https://i.pravatar.cc/150?img=12" alt="Аватар" class="user-avatar" id="userAvatar">
-                <div class="user-details">
-                    <div class="user-name" id="userName">Игорь Иванов</div>
-                    <div class="user-role" id="userRole">Студент</div>
-                </div>
-            </div>
+            <!-- NAV -->
 
-            <!-- Поиск -->
-            <div class="menu-search">
-                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#999"
-                    stroke-width="2">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <path d="m21 21-4.35-4.35"></path>
-                </svg>
-                <input type="text" placeholder="Поиск..." class="search-input" id="searchInput">
-            </div>
-            <nav class="menu-nav" id="menuNav">
-                <!-- ⚠️ УДАЛИТЕ ВСЕ СТАРЫЕ ССЫЛКИ <a> ОТКУДА! JavaScript сам заполнит этот блок -->
-            </nav>
+            <nav class="menu-nav" id="menuNav"></nav>
 
+            <!-- FOOTER -->
 
-            <!-- Кнопка выхода -->
             <div class="menu-footer">
-                <a href="sing_up.html" class="logout-link" id="logoutBtn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
+                <a href="sign_up.html" class="logout-btn">
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                         <polyline points="16 17 21 12 16 7" />
                         <line x1="21" y1="12" x2="9" y2="12" />
                     </svg>
-                    <span>Выйти</span>
-                </a>
-            </div>
-        </div>
-    </div>
 
-    <script src="js/glav.js"></script>
+                    <span>Выйти</span>
+                    
+
+                </a>
+
+            </div>
+
+        </aside>
+
+    </div>
+    <script src="js/layout.js?v=2"></script>
+    <script src="js/neighbor.js"></script>
+
 
 </body>
 

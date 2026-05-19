@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // =====================================
-    // INITIAL STATE
+    // STATE
     // =====================================
 
     let isLogin = false;
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // =====================================
-    // SWITCH LOGIN
+    // SHOW LOGIN
     // =====================================
 
     function showLogin() {
@@ -41,10 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         container.classList.remove('register');
 
-        registerForm.classList.remove('active');
-
-        loginForm.classList.add('active');
-
         toggleBtn.textContent =
             'Зарегистрироваться';
     }
@@ -52,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // =====================================
-    // SWITCH REGISTER
+    // SHOW REGISTER
     // =====================================
 
     function showRegister() {
@@ -63,10 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         container.classList.remove('login');
 
-        loginForm.classList.remove('active');
-
-        registerForm.classList.add('active');
-
         toggleBtn.textContent =
             'Авторизоваться';
     }
@@ -74,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // =====================================
-    // TOGGLE BUTTON
+    // TOGGLE
     // =====================================
 
     toggleBtn.addEventListener('click', () => {
@@ -116,9 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        // =====================================
         // VALIDATION
-        // =====================================
 
         if (
             !role ||
@@ -127,36 +117,25 @@ document.addEventListener('DOMContentLoaded', () => {
             !password
         ) {
 
-            alert(
-                'Заполните все поля'
-            );
-
+            alert('Заполните все поля');
             return;
         }
 
         if (!email.includes('@')) {
 
-            alert(
-                'Введите корректную почту'
-            );
-
+            alert('Введите корректную почту');
             return;
         }
 
         if (password.length < 6) {
 
-            alert(
-                'Пароль минимум 6 символов'
-            );
-
+            alert('Пароль минимум 6 символов');
             return;
         }
 
 
 
-        // =====================================
-        // LOCAL AUTH ONLY
-        // =====================================
+        // SAVE USER
 
         localStorage.setItem(
             'uhome_logged_in',
@@ -180,11 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        alert(
-            'Регистрация успешна'
-        );
-
-
+        // REDIRECT
 
         window.location.href =
             'glav.html';
@@ -211,9 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        // =====================================
         // VALIDATION
-        // =====================================
 
         if (!email || !password) {
 
@@ -226,9 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        // =====================================
-        // LOCAL AUTH ONLY
-        // =====================================
+        // LOGIN
 
         localStorage.setItem(
             'uhome_logged_in',
@@ -242,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        // если данных нет — ставим дефолт
+        // DEFAULT USER
 
         if (!localStorage.getItem('uhome_user_role')) {
 
@@ -262,40 +233,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-        alert(
-            'Вход выполнен'
-        );
-
-
+        // REDIRECT
 
         window.location.href =
             'glav.html';
     });
-
-
-
-    // =====================================
-    // OLD BACKEND CODE
-    // =====================================
-
-    /*
-    
-    СТАРЫЙ КОД С FETCH И BACKEND ОСТАВЛЕН ТУТ
-    ЧТОБЫ МОЖНО БЫЛО ВЕРНУТЬ ПОТОМ
-
-    fetch(
-        'http://127.0.0.1:8000/register'
-    )
-
-    fetch(
-        'http://127.0.0.1:8000/login'
-    )
-
-    try / catch
-    response.json()
-    await fetch()
-
-    */
 
 
 

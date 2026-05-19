@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Читаем роль: из URL → localStorage → по умолчанию
     const urlParams = new URLSearchParams(window.location.search);
     let savedRole = urlParams.get('role') || localStorage.getItem('uhome_user_role');
-    
+
     // Нормализация ролей мастеров (приводим к единому формату)
     if (['Electrick', 'Plumber', 'Carpenter', 'master', 'Slesar', 'Santex'].includes(savedRole)) {
         savedRole = 'master';
     }
-    
+
     let userRole = savedRole || 'student';
     localStorage.setItem('uhome_user_role', userRole);
     console.log(`🔑 Роль: "${userRole}" на странице: ${window.location.pathname}`);
@@ -148,19 +148,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             { label: 'Главная', icon: 'home', href: 'glav.html' },
             { label: 'Все заявки', icon: 'clipboard', href: 'master_requests.html' },
             { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' },
-            { label: 'Правила проживания', icon: 'rules', href: 'rules.html', active: currentPage === 'rules.html' }
         ],
         admin: [
             { label: 'Главная', icon: 'home', href: 'glav.html' },
             { label: 'Новости', icon: 'news', href: 'news.html' },
+            { label: 'Правила проживания', icon: 'rules', href: 'rules.html' },
+            { label: 'Все заявки', icon: 'clipboard', href: 'master_requests.html' },
             { label: 'Чат', icon: 'chat', href: 'chat.html' },
             { label: 'Правила проживания', icon: 'rules', href: 'rules.html', active: currentPage === 'rules.html' }
         ],
         studsovet: [
             { label: 'Главная', icon: 'home', href: 'glav.html' },
-            { label: 'Новости', icon: 'news', href: 'news.html' },
-            { label: 'Чат', icon: 'chat', href: 'chat.html' },
-            { label: 'Правила проживания', icon: 'rules', href: 'rules.html', active: currentPage === 'rules.html' }
+            { label: 'Подача заявки на ремонт', icon: 'wrench', href: 'repair_request.html' },
+            { label: 'Отслеживание статуса заявки', icon: 'clipboard', href: 'student_requests.html' },
+            { label: 'Объявления и новости', icon: 'news', href: 'news.html' },
+            { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' },
+            { label: 'Правила проживания', icon: 'rules', href: 'rules.html', active: currentPage === 'rules.html' },
+            { label: 'Регистрация гостей', icon: 'guest', href: 'guest_registration.html' },
+            { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html' }
         ]
     };
 
@@ -411,7 +416,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderRules();
 
         // ===== ПЕРЕКЛЮЧЕНИЕ ПРАВИЛ (глобальная функция) =====
-        window.toggleRule = function(id) {
+        window.toggleRule = function (id) {
             const ruleItem = document.querySelector(`.rule-item[data-id="${id}"]`);
             if (!ruleItem) return;
 
@@ -425,7 +430,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             rulesSearch.addEventListener('input', (e) => {
                 const query = e.target.value.toLowerCase().trim();
                 const ruleItems = document.querySelectorAll('.rule-item');
-                
+
                 ruleItems.forEach(item => {
                     const title = item.querySelector('.rule-title')?.textContent.toLowerCase() || '';
                     const content = item.querySelector('.rule-text')?.textContent.toLowerCase() || '';

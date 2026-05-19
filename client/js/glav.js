@@ -482,6 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon: 'news',
                 href: 'news.html'
             },
+            { label: 'Правила проживания', icon: 'rules', href: 'rules.html' },
             {
                 label: 'Все заявки',
                 icon: 'clipboard',

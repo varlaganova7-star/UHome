@@ -1,84 +1,478 @@
 /* ============================================
    СБРОС И БАЗОВЫЕ СТИЛИ
    ============================================ */
-*, *::before, *::after {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
 }
 
 :root {
+
     --orange: #F47920;
     --orange-dark: #D96515;
-    --white: #ffffff;
-    --gray-bg: #F5F5F5;
-    --gray-light: #E8E8E8;
-    --gray-medium: #B0B0B0;
-    --text-dark: #1a1a1a;
-    --text-secondary: #555555;
-    --shadow: rgba(0, 0, 0, 0.08);
-    --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.08);
-    --success: #28A745;
-    --radius: 16px;
+
+    --bg: #F5F5F5;
+
+    --white: #FFFFFF;
+
+    --text: #1F1F1F;
+    --text-light: #8A8A8A;
+
+    --border: #E7E7E7;
+
+    --shadow:
+        0 6px 22px rgba(0,0,0,0.06);
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: var(--gray-bg);
-    color: var(--text-dark);
-    min-height: 100vh;
-    min-height: 100dvh;
+
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+
     overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
 }
 
-/* ============================================
-   ШАПКА
-   ============================================ */
+/* =========================================
+   HEADER
+========================================= */
+
 .header {
-    background: var(--white);
-    padding: 14px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 10px var(--shadow);
+
     position: sticky;
     top: 0;
-    z-index: 50;
-}
+    z-index: 100;
 
-.header-logo {
+    width: 100%;
+
+    height: 82px;
+
+    background: #fff;
+
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    border-radius: 0 0 26px 26px;
+
+    box-shadow:
+        0 4px 18px rgba(0,0,0,0.05);
+}
+
+/* LOGO */
+
+.header-logo {
+
+    display: flex;
+    align-items: center;
+
     text-decoration: none;
 }
 
-.logo-icon {
-    width: 90px;       /* Ширина как у старой иконки */
-    height: 40px;      /* Высота как у старой иконки */
-    object-fit: contain; /* Чтобы картинка не сплющилась */
-    display: block;    /* Убирает лишние отступы снизу */
+.logo-image {
+
+    width: 92px;
+    height: auto;
+
+    object-fit: contain;
+
+    display: block;
 }
 
+/* =========================================
+   MENU BUTTON
+========================================= */
+
 .menu-btn {
+
+    width: 48px;
+    height: 48px;
+
+    border: none;
+    background: #F4F4F4;
+
+    border-radius: 14px;
+
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
     gap: 5px;
-    background: none;
-    border: none;
+
     cursor: pointer;
-    padding: 10px;
+
+    transition: 0.2s ease;
+}
+
+.menu-btn:hover {
+
+    background: #ECECEC;
 }
 
 .menu-btn span {
+
+    width: 22px;
+    height: 2px;
+
+    background: #222;
+
+    border-radius: 10px;
+}
+
+/* =========================================
+   SIDE MENU
+========================================= */
+
+.side-menu {
+
+    position: fixed;
+    inset: 0;
+
+    z-index: 999;
+
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.side-menu.active {
+
+    visibility: visible;
+    pointer-events: all;
+}
+
+/* OVERLAY */
+
+.side-menu-overlay {
+
+    position: absolute;
+    inset: 0;
+
+    background: rgba(0,0,0,0.34);
+
+    opacity: 0;
+
+    transition: 0.3s;
+}
+
+.side-menu.active .side-menu-overlay {
+
+    opacity: 1;
+}
+
+/* PANEL */
+
+.side-menu-content {
+
+    position: absolute;
+
+    top: 0;
+    right: -320px;
+
+    width: 300px;
+    max-width: 88vw;
+
+    height: 100%;
+
+    background: var(--white);
+
+    transition: 0.32s ease;
+
+    display: flex;
+    flex-direction: column;
+
+    border-top-left-radius: 28px;
+    border-bottom-left-radius: 28px;
+
+    overflow: hidden;
+}
+
+.side-menu.active .side-menu-content {
+
+    right: 0;
+}
+
+/* =========================================
+   TOP
+========================================= */
+
+.menu-top {
+
+    display: flex;
+    justify-content: flex-end;
+
+    padding: 16px 16px 10px;
+}
+
+.menu-close {
+
+    width: 44px;
+    height: 44px;
+
+    border: none;
+    background: #F3F3F3;
+
+    border-radius: 14px;
+
+    font-size: 28px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    color: #111;
+}
+
+/* =========================================
+   PROFILE
+========================================= */
+
+.user-profile {
+
+    padding: 6px 22px 22px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    border-bottom: 1px solid var(--border);
+
+    cursor: pointer;
+}
+
+.user-avatar {
+
+    width: 72px;
+    height: 72px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    flex-shrink: 0;
+}
+
+.user-info {
+
+    min-width: 0;
+}
+
+.user-name {
+
+    font-size: 16px;
+    font-weight: 700;
+
+    margin-bottom: 4px;
+}
+
+.user-role {
+
+    font-size: 13px;
+    color: var(--text-light);
+}
+
+/* =========================================
+   NAV
+========================================= */
+
+.menu-nav {
+
+    flex: 1;
+
+    padding: 14px 10px 24px;
+
+    overflow-y: auto;
+
+    min-height: 0;
+}
+
+.menu-nav-link {
+
+    height: 48px;
+
+    border-radius: 18px;
+
+    padding: 0 16px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    text-decoration: none;
+
+    color: var(--text);
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+
+    margin-bottom: 6px;
+    
+    overflow: hidden;
+
+    position: relative;
+}
+
+.menu-nav-link:hover {
+
+    background: #F5F5F5;
+}
+
+.menu-nav-link.active {
+
+    background: var(--orange);
+    color: white;
+}
+
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.menu-footer {
+
+    padding: 16px;
+
+    border-top: 1px solid var(--border);
+
+    flex-shrink: 0;
+
+    background: #fff;
+}
+
+/* LOGOUT BUTTON */
+
+.logout-btn {
+
+    width: 100%;
+    height: 52px;
+
+    border: none;
+
+    border-radius: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    background: #FFF1E7;
+
+    color: #D35400;
+
+    text-decoration: none;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+
+    background: #FFE7D6;
+}
+
+/* ICON */
+
+.logout-btn svg {
+
+    width: 20px;
+    height: 20px;
+
+    transform: scale(1.15);
+
+    transform-origin: center;
+}
+
+/* TEXT */
+
+.logout-btn span {
+
+    line-height: 1;
+}
+
+/* =========================================
+   PAGE
+========================================= */
+
+.page-content {
+
+    padding-top: 24px;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+    .header {
+
+        height: 72px;
+
+        padding: 0 14px;
+
+        border-radius: 0 0 22px 22px;
+    }
+
+    .logo-image {
+
+        width: 84px;
+    }
+
+    .menu-btn {
+
+        width: 44px;
+        height: 44px;
+    }
+
+    .side-menu-content {
+
+        width: 300px;
+    }
+
+    .user-avatar {
+
+        width: 64px;
+        height: 64px;
+    }
+
+    .menu-nav-link {
+
+        min-height: 50px;
+
+        font-size: 14px;
+    }
+}
+
+.menu-nav-link svg,
+.logout-btn svg {
+
+    width: 22px !important;
+    height: 22px !important;
+
+    min-width: 22px;
+    min-height: 22px;
+
+    flex-shrink: 0;
+
     display: block;
-    width: 26px;
-    height: 2.5px;
-    background: var(--text-dark);
-    border-radius: 2px;
-    transition: all 0.3s ease;
+
+    stroke-width: 2;
 }
 
 /* ============================================
@@ -200,207 +594,6 @@ body {
     stroke-linejoin: round;
 }
 
-/* ============================================
-   БОКОВОЕ МЕНЮ
-   ============================================ */
-.side-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.side-menu.active {
-    visibility: visible;
-    pointer-events: all;
-}
-
-.side-menu-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.35);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.side-menu.active .side-menu-overlay {
-    opacity: 1;
-}
-
-.side-menu-content {
-    position: absolute;
-    top: 0;
-    right: -300px;
-    width: 300px;
-    height: 100%;
-    background: var(--gray-light);
-    transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.side-menu.active .side-menu-content {
-    right: 0;
-}
-
-.menu-header {
-    background: var(--white);
-    padding: 14px 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #d5d5d5;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-    flex-shrink: 0;
-}
-
-.menu-logo {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    font-weight: 700;
-    font-size: 17px;
-    color: var(--text-dark);
-}
-
-.menu-close {
-    background: none;
-    border: none;
-    font-size: 30px;
-    line-height: 1;
-    cursor: pointer;
-    color: var(--text-secondary);
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.2s;
-}
-
-.menu-close:hover {
-    background: #f0f0f0;
-}
-
-.user-profile {
-    background: var(--white);
-    padding: 16px 18px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    border-bottom: 1px solid #d5d5d5;
-    flex-shrink: 0;
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.user-profile:hover {
-    background: #f0f0f0;
-}
-
-.user-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--gray-light);
-    flex-shrink: 0;
-}
-
-.user-details {
-    flex: 1;
-    min-width: 0;
-}
-
-.user-name {
-    font-weight: 600;
-    font-size: 15px;
-    color: var(--text-dark);
-    margin-bottom: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.user-role {
-    font-size: 13px;
-    color: var(--gray-medium);
-}
-
-.menu-nav {
-    flex: 1;
-    padding: 8px 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-}
-
-.menu-nav-link {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 13px 18px;
-    color: var(--text-dark);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s;
-}
-
-.menu-nav-link:hover {
-    background: rgba(0, 0, 0, 0.06);
-}
-
-.menu-nav-link.active {
-    background: var(--text-secondary);
-    color: var(--white);
-}
-
-.menu-nav-link.active svg {
-    color: var(--white);
-}
-
-.menu-nav-link svg {
-    flex-shrink: 0;
-    color: var(--text-secondary);
-}
-
-.menu-footer {
-    padding: 14px 18px;
-    border-top: 1px solid #ccc;
-    background: var(--white);
-    flex-shrink: 0;
-}
-
-.logout-link {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    color: #c0392b;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 14px;
-    border-radius: 8px;
-    transition: all 0.2s;
-}
-
-.logout-link:hover {
-    background: #fde8e6;
-}
-
-.logout-link svg {
-    color: #c0392b;
-}
 
 /* ============================================
    АДАПТИВ

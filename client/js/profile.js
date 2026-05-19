@@ -174,6 +174,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         admin: [
             { label: 'Главная', icon: 'home', href: 'glav.html' },
             { label: 'Новости', icon: 'news', href: 'news.html' },
+            { label: 'Правила проживания', icon: 'rules', href: 'rules.html' },
             { label: 'Все заявки', icon: 'clipboard', href: 'master_requests.html' },
             { label: 'Чат', icon: 'chat', href: 'chat.html' },
             { label: 'Профиль', icon: 'user', href: 'profile.html', active: currentPage === 'profile.html' }

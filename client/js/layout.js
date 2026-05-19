@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         roleText = 'Мастер';
 
-    } else if (savedRoleText === 'Studsovet') {
+    } else if (savedRoleText === 'studsovet') {
 
         roleText = 'Студсовет';
     }

@@ -122,12 +122,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        list.forEach(request => {
+        list.forEach((request, index) => {
 
             const card =
                 document.createElement('div');
 
             card.className = 'request-card';
+
+            card.style.animationDelay =
+                `${index * 0.08}s`;
 
             card.innerHTML = `
 

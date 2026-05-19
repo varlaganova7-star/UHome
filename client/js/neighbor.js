@@ -158,15 +158,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html', active: currentPage === 'neighbor.html' }
         ],
         studsovet: [
-             { label: 'Главная', icon: 'home', href: 'glav.html' },
+            { label: 'Главная', icon: 'home', href: 'glav.html' },
             { label: 'Подача заявки на ремонт', icon: 'wrench', href: 'repair_request.html' },
             { label: 'Отслеживание статуса заявки', icon: 'clipboard', href: 'student_requests.html' },
             { label: 'Объявления и новости', icon: 'news', href: 'news.html' },
             { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' },
             { label: 'Правила проживания', icon: 'rules', href: 'rules.html' },
             { label: 'Регистрация гостей', icon: 'guest', href: 'guest_registration.html' },
-            { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html' },
-            { label: 'Профиль', icon: 'user', href: 'profile.html', active: currentPage === 'profile.html' }
+            { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html', active: currentPage === 'neighbor.html'},
+            { label: 'Профиль', icon: 'user', href: 'profile.html' }
         ]
         
     };

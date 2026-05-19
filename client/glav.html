@@ -2,7 +2,7 @@
 <html lang="ru">
 
 <head>
-    <!-- PWA Манифест -->
+    
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#F47920">
 
@@ -18,45 +18,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>UHome — Студенческое общежитие СФУ</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/glav.css">
 </head>
 
 <body>
-
-    <!-- ===== ШАПКА ===== -->
-    <header class="header">
-
-        <a href="glav.html" class="header-logo">
-            <img src="image 10.png" alt="UHome">
-        </a>
-
-        <button class="menu-btn" id="menuBtn">
-
-            <span></span>
-            <span></span>
-            <span></span>
-
-        </button>
-
-    </header>
-
+    <div id="layout-container"></div>
     <!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
-    <main class="main-content dark-theme">
+    <main class="main-content">
         <div class="container">
             <!-- Хлебные крошки -->
             <nav class="breadcrumb">
-                <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z" />
+                <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+
+                    <path d="M3 10.5L12 3L21 10.5"/>
+
+                    <path d="M5 9.5V20H19V9.5"/>
+
                 </svg>
-                <span class="breadcrumb-text-light">Главная</span>
+                <span class="breadcrumb-text">Главная</span>
             </nav>
 
             <!-- Заголовок -->
-            <h1 class="main-title">
-                Пространство<br>
-                для студенческого<br>
-                общежития СФУ
-            </h1>
+            <p class="main-title">
+                Пространство для студенческого общежития СФУ
+            </p>
 
             <!-- Список функций -->
             <ul class="features-list">
@@ -72,9 +67,9 @@
                     <span class="feature-dash">—</span>
                     <span class="feature-text">Узнай о последних новостях</span>
                 </li>
-                <li class="feature-item">
+                <li class="feature-item feature-highlight">
                     <span class="feature-dash">—</span>
-                    <span class="feature-text"><strong>Функция: подбор соседа</span>
+                    <span class="feature-text"><strong>Функция: подбор соседа</strong></span>
                 </li>
             </ul>
 
@@ -84,79 +79,8 @@
                     который будет вам подходить по представленным в анкете критериям, согласовав всё с администрацией
                 </p>
             </div>
-
-            <!-- Кнопка меню -->
-            <button class="btn-primary" id="menuButton">меню</button>
-        </div>
-    </main>
-
-    <div class="side-menu" id="sideMenu">
-
-        <div class="side-menu-overlay" id="sideMenuOverlay"></div>
-
-        <aside class="side-menu-content">
-
-            <!-- TOP -->
-
-            <div class="menu-top">
-
-                <button class="menu-close" id="menuClose">
-                    ✕
-                </button>
-
-            </div>
-
-            <!-- PROFILE -->
-
-            <div class="user-profile" id="userProfileBlock">
-
-                <img src="" alt="avatar" class="user-avatar" id="menuAvatar">
-
-                <div class="user-info">
-
-                    <div class="user-name" id="menuUserName">
-                        ...
-                    </div>
-
-                    <div class="user-role" id="menuUserRole">
-                        ...
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- NAV -->
-
-            <nav class="menu-nav" id="menuNav"></nav>
-
-            <!-- FOOTER -->
-
-            <div class="menu-footer">
-
-                <a href="sign_up.html" class="logout-btn">
-
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <a href="sign_up.html" class="logout-link" id="logoutBtn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"05d698b45624a3dc38ea449c9dd2600743d4b0b4
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                        <polyline points="16 17 21 12 16 7" />
-                        <line x1="21" y1="12" x2="9" y2="12" />
-                    </svg>
-
-                    <span>Выйти</span>
-                    
-
-                </a>
-
-            </div>
-
-        </aside>
-
-    </div>
     <script src="js/layout.js?v=2"></script>
-    <script src="js/neighbor.js"></script>
-
+    <script src="js/glav.js"></script>
 
 </body>
 

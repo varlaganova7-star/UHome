@@ -8,7 +8,7 @@ import os
 # ==========================================
 # КОНФИГУРА
 # ==========================================
-DB_DSN = "postgresql://postgres:888777666@localhost:5432/uhome_chat"
+DB_DSN = "postgresql://postgres:ВАШ_ПАРОЛЬ@localhost:5432/uhome_chat"
 JWT_SECRET = "super_secret_key" # Должен совпадать с тем, что в JS
 
 # Инициализация Socket.IO (Совместим с клиентом JS Socket.IO)

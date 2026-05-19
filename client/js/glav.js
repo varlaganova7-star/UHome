@@ -1,12 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // =====================================
-    // ROLE
-    // =====================================
 
-    // =====================================
-    // INSERT LAYOUT
-    // =====================================
 
     const layoutContainer =
         document.getElementById('layout-container');
@@ -150,8 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let userRole = 'student';
 
-    // MASTER ROLES
-
     if (
         savedRole === 'Electrick' ||
         savedRole === 'Plumber' ||
@@ -162,81 +154,76 @@ document.addEventListener('DOMContentLoaded', () => {
         userRole = 'master';
     }
 
-    // ADMIN
-
     else if (
         savedRole === 'admin'
     ) {
 
         userRole = 'admin';
     }
+
     else if (
         savedRole === 'studsovet'
     ) {
 
         userRole = 'studsovet';
     }
+
     // =====================================
-    // USERS
+    // USER DATA
     // =====================================
 
-    const users = {
+    const savedFullname =
+        localStorage.getItem(
+            'uhome_user_fullname'
+        );
 
-        student: {
+    let userName =
+        savedFullname || 'Пользователь';
 
-            name: 'Игорь Иванов',
+    let userPosition =
+        'Студент';
 
-            role: 'Студент',
+    if (userRole === 'admin') {
 
-            avatar:
-                'https://ui-avatars.com/api/?name=Игорь+Иванов&background=F47920&color=fff'
-        },
+        userPosition =
+            'Администрация';
+    }
 
-        admin: {
+    else if (userRole === 'master') {
 
-            name: 'Ирина Павлова',
+        userPosition =
+            'Мастер';
+    }
 
-            role: 'Администрация',
+    else if (userRole === 'studsovet') {
 
-            avatar:
-                'https://ui-avatars.com/api/?name=Ирина+Павлова&background=F47920&color=fff'
-        },
+        userPosition =
+            'Студсовет';
+    }
 
-        master: {
-
-            name: 'Павел Краскин',
-
-            role: 'Мастер',
-
-            avatar:
-                'https://ui-avatars.com/api/?name=Павел+Краскин&background=F47920&color=fff'
-        },
-        studsovet: {
-            name: 'Анна Советова',
-            role: 'Студсовет',
-            avatar: 'https://ui-avatars.com/api/?name=Анна+Советова&background=2E8B57&color=fff&size=300'
-        },
-
-
-    };
-
-    const currentUser =
-        users[userRole] || users.student;
+    const avatarUrl =
+    `https://ui-avatars.com/api/?name=${encodeURIComponent(userName)}&background=F47920&color=fff&size=256&length=1`;
 
     // =====================================
     // PROFILE
     // =====================================
 
     if (menuAvatar) {
-        menuAvatar.src = currentUser.avatar;
+
+        menuAvatar.src =
+            avatarUrl;
     }
 
     if (menuUserName) {
-        menuUserName.textContent = currentUser.name;
+
+        menuUserName.textContent =
+            userName;
     }
 
     if (menuUserRole) {
-        menuUserRole.textContent = currentUser.role;
+
+        menuUserRole.textContent =
+            userPosition;
     }
 
     // =====================================
@@ -262,27 +249,31 @@ document.addEventListener('DOMContentLoaded', () => {
             <path d="M5 9.5V20H19V9.5"/>
 
         </svg>
-    `,
+        `,
+
         wrench: `
-        <svg width="19" height="19"
+        <svg
+            width="19"
+            height="19"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+        >
 
             <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
 
         </svg>
-    `,
+        `,
 
         clipboard: `
-        <svg width="19" height="19"
+        <svg
+            width="19"
+            height="19"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            stroke-width="2"
         >
 
             <path d="M9 11l3 3L22 4"/>
@@ -290,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
 
         </svg>
-    `,
+        `,
 
         news: `
         <svg
@@ -300,9 +291,8 @@ document.addEventListener('DOMContentLoaded', () => {
             fill="none"
             stroke="currentColor"
             stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
         >
+
             <rect x="3" y="4" width="18" height="16" rx="2"/>
 
             <line x1="7" y1="8" x2="17" y2="8"/>
@@ -310,40 +300,51 @@ document.addEventListener('DOMContentLoaded', () => {
             <line x1="7" y1="12" x2="17" y2="12"/>
 
             <line x1="7" y1="16" x2="13" y2="16"/>
+
         </svg>
-    `,
+        `,
+
         chat: `
-        <svg width="19" height="19"
+        <svg
+            width="19"
+            height="19"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+        >
 
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
 
         </svg>
-    `,
+        `,
 
         rules: `
-        <svg width="19" height="19"
+        <svg
+            width="19"
+            height="19"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+        >
 
             <path d="M9 12l2 2 4-4"/>
 
             <circle cx="12" cy="12" r="9"/>
 
         </svg>
-    `,
+        `,
 
         guest: `
-        <svg width="19" height="19"
+        <svg
+            width="19"
+            height="19"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+        >
 
             <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
 
@@ -354,14 +355,17 @@ document.addEventListener('DOMContentLoaded', () => {
             <path d="M23 11h-6"/>
 
         </svg>
-    `,
+        `,
 
         neighbor: `
-        <svg width="19" height="19"
+        <svg
+            width="19"
+            height="19"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+        >
 
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
 
@@ -372,14 +376,17 @@ document.addEventListener('DOMContentLoaded', () => {
             <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
 
         </svg>
-    `,
+        `,
 
         logout: `
-        <svg width="19" height="19"
+        <svg
+            width="19"
+            height="19"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2">
+            stroke-width="2"
+        >
 
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
 
@@ -388,7 +395,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <line x1="21" y1="12" x2="9" y2="12"/>
 
         </svg>
-    `
+        `
     };
 
     // =====================================
@@ -446,6 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 icon: 'neighbor',
                 href: 'neighbor.html'
             }
+
         ],
 
         master: [
@@ -507,6 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { label: 'Регистрация гостей', icon: 'guest', href: 'guest_registration.html' },
             { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html' },
             { label: 'Профиль', icon: 'user', href: 'profile.html'}
+
         ]
     };
 
@@ -519,10 +528,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!menuNav) return;
 
         const currentPage =
-            window.location.pathname.split('/').pop();
+            window.location.pathname
+                .split('/')
+                .pop();
 
         const items =
-            menuItems[userRole] || menuItems.student;
+            menuItems[userRole] ||
+            menuItems.student;
 
         let html = '';
 
@@ -561,7 +573,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (menuFooter) {
 
         menuFooter.innerHTML = `
-            <button class="logout-btn" id="logoutBtn">
+            <button
+                class="logout-btn"
+                id="logoutBtn"
+            >
 
                 ${icons.logout}
 
@@ -580,21 +595,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (logoutBtn) {
 
-        logoutBtn.addEventListener('click', () => {
+        logoutBtn.addEventListener(
+            'click',
+            () => {
 
-            // очищаем роль
-            localStorage.removeItem('uhome_user_role');
+                localStorage.removeItem(
+                    'uhome_user_role'
+                );
 
-            // закрываем меню
-            closeMenu();
+                localStorage.removeItem(
+                    'uhome_user_fullname'
+                );
 
-            // переход
-            setTimeout(() => {
+                localStorage.removeItem(
+                    'uhome_user_email'
+                );
 
-                window.location.href = 'sign_up.html';
+                closeMenu();
 
-            }, 200);
-        });
+                setTimeout(() => {
+
+                    window.location.href =
+                        'sign_up.html';
+
+                }, 200);
+            }
+        );
     }
 
     // =====================================
@@ -607,7 +633,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         sideMenu.classList.add('active');
 
-        document.body.style.overflow = 'hidden';
+        document.body.style.overflow =
+            'hidden';
     }
 
     function closeMenu() {
@@ -616,7 +643,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         sideMenu.classList.remove('active');
 
-        document.body.style.overflow = '';
+        document.body.style.overflow =
+            '';
     }
 
     // =====================================
@@ -624,6 +652,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =====================================
 
     if (menuBtn) {
+
         menuBtn.addEventListener(
             'click',
             openMenu
@@ -631,6 +660,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (menuClose) {
+
         menuClose.addEventListener(
             'click',
             closeMenu
@@ -638,30 +668,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (menuOverlay) {
+
         menuOverlay.addEventListener(
             'click',
             closeMenu
         );
     }
 
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener(
+        'keydown',
+        (e) => {
 
-        if (e.key === 'Escape') {
-            closeMenu();
+            if (e.key === 'Escape') {
+
+                closeMenu();
+            }
         }
-    });
+    );
 
     if (menuNav) {
 
-        menuNav.addEventListener('click', (e) => {
+        menuNav.addEventListener(
+            'click',
+            (e) => {
 
-            const link =
-                e.target.closest('.menu-nav-link');
+                const link =
+                    e.target.closest(
+                        '.menu-nav-link'
+                    );
 
-            if (link) {
-                closeMenu();
+                if (link) {
+
+                    closeMenu();
+                }
             }
-        });
+        );
     }
 
     if (userProfileBlock) {
@@ -683,15 +724,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 });
-
-
-
-
-
-
-
-
-
-
-
-

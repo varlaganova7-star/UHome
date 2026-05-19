@@ -1,576 +1,165 @@
 /* ============================================
-   СБРОС И БАЗОВЫЕ СТИЛИ
-   ============================================ */
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-:root {
-
-    --orange: #F47920;
-    --orange-dark: #D96515;
-
-    --bg: #595959;
-
-    --white: #FFFFFF;
-
-    --text: #1F1F1F;
-    --text-light: #FFFFFF;
-
-    --border: #E7E7E7;
-
-    --shadow:
-        0 6px 22px rgba(0,0,0,0.06);
-}
-
-html,
-body {
-    margin: 0;
-    padding: 0;
-}
-
-body {
-
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-
-    overflow-x: hidden;
-}
-
-/* =========================================
-   HEADER
-========================================= */
-
-.header {
-
-    position: sticky;
-    top: 0;
-    z-index: 100;
-
-    width: 100%;
-
-    height: 82px;
-
-    background: #fff;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 18px;
-
-    border-radius: 0 0 26px 26px;
-
-    box-shadow:
-        0 4px 18px rgba(0,0,0,0.05);
-}
-
-/* LOGO */
-
-.header-logo {
-
-    display: flex;
-    align-items: center;
-
-    text-decoration: none;
-}
-
-.logo-image {
-
-    width: 92px;
-    height: auto;
-
-    object-fit: contain;
-
-    display: block;
-}
-
-.main-content.dark-theme {
-    color: #ffffff; /* Белый текст */
-    background-color: #595959; /* Тёмный фон (опционально) */
-}
-.main-content.dark-theme h1,
-.main-content.dark-theme h2,
-.main-content.dark-theme h3 {
-    color: #ffffff;
-}
-/* =========================================
-   MENU BUTTON
-========================================= */
-
-.menu-btn {
-
-    width: 48px;
-    height: 48px;
-
-    border: none;
-    background: #F4F4F4;
-
-    border-radius: 14px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    gap: 5px;
-
-    cursor: pointer;
-
-    transition: 0.2s ease;
-}
-
-.menu-btn:hover {
-
-    background: #ECECEC;
-}
-
-.menu-btn span {
-
-    width: 22px;
-    height: 2px;
-
-    background: #222;
-
-    border-radius: 10px;
-}
-
-/* =========================================
-   SIDE MENU
-========================================= */
-
-.side-menu {
-
-    position: fixed;
-    inset: 0;
-
-    z-index: 999;
-
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.side-menu.active {
-
-    visibility: visible;
-    pointer-events: all;
-}
-
-/* OVERLAY */
-
-.side-menu-overlay {
-
-    position: absolute;
-    inset: 0;
-
-    background: rgba(0,0,0,0.34);
-
-    opacity: 0;
-
-    transition: 0.3s;
-}
-
-.side-menu.active .side-menu-overlay {
-
-    opacity: 1;
-}
-
-/* PANEL */
-
-.side-menu-content {
-
-    position: absolute;
-
-    top: 0;
-    right: -320px;
-
-    width: 300px;
-    max-width: 88vw;
-
-    height: 100%;
-
-    background: var(--white);
-
-    transition: 0.32s ease;
-
-    display: flex;
-    flex-direction: column;
-
-    border-top-left-radius: 28px;
-    border-bottom-left-radius: 28px;
-
-    overflow: hidden;
-}
-
-.side-menu.active .side-menu-content {
-
-    right: 0;
-}
-
-/* =========================================
-   TOP
-========================================= */
-
-.menu-top {
-
-    display: flex;
-    justify-content: flex-end;
-
-    padding: 16px 16px 10px;
-}
-
-.menu-close {
-
-    width: 44px;
-    height: 44px;
-
-    border: none;
-    background: #F3F3F3;
-
-    border-radius: 14px;
-
-    font-size: 28px;
-    line-height: 1;
-
-    cursor: pointer;
-
-    color: #111;
-}
-
-/* =========================================
-   PROFILE
-========================================= */
-
-.user-profile {
-
-    padding: 6px 22px 22px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 16px;
-
-    border-bottom: 1px solid var(--border);
-
-    cursor: pointer;
-}
-
-.user-avatar {
-
-    width: 72px;
-    height: 72px;
-
-    border-radius: 50%;
-
-    object-fit: cover;
-
-    flex-shrink: 0;
-}
-
-.user-info {
-
-    min-width: 0;
-}
-
-.user-name {
-
-    font-size: 16px;
-    font-weight: 700;
-
-    margin-bottom: 4px;
-}
-
-.user-role {
-
-    font-size: 13px;
-    color: var(--text-light);
-}
-
-/* =========================================
-   NAV
-========================================= */
-
-.menu-nav {
-
-    flex: 1;
-
-    padding: 14px 10px 24px;
-
-    overflow-y: auto;
-
-    min-height: 0;
-}
-
-.menu-nav-link {
-
-    height: 48px;
-
-    border-radius: 18px;
-
-    padding: 0 16px;
-
-    display: flex;
-    align-items: center;
-
-    gap: 14px;
-
-    text-decoration: none;
-
-    color: var(--text);
-
-    font-size: 15px;
-    font-weight: 600;
-
-    transition: 0.2s ease;
-
-    margin-bottom: 6px;
-    
-    overflow: hidden;
-
-    position: relative;
-}
-
-.menu-nav-link:hover {
-
-    background: #F5F5F5;
-}
-
-.menu-nav-link.active {
-
-    background: var(--orange);
-    color: white;
-}
-
-
-
-/* =========================================
-   FOOTER
-========================================= */
-
-.menu-footer {
-
-    padding: 16px;
-
-    border-top: 1px solid var(--border);
-
-    flex-shrink: 0;
-
-    background: #fff;
-}
-
-/* LOGOUT BUTTON */
-
-.logout-btn {
-
-    width: 100%;
-    height: 52px;
-
-    border: none;
-
-    border-radius: 16px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 10px;
-
-    background: #FFF1E7;
-
-    color: #D35400;
-
-    text-decoration: none;
-
-    font-size: 15px;
-    font-weight: 600;
-
-    transition: 0.2s ease;
-}
-
-.logout-btn:hover {
-
-    background: #FFE7D6;
-}
-
-/* ICON */
-
-.logout-btn svg {
-
-    width: 20px;
-    height: 20px;
-
-    transform: scale(1.15);
-
-    transform-origin: center;
-}
-
-/* TEXT */
-
-.logout-btn span {
-
-    line-height: 1;
-}
-
-/* =========================================
+   glav.css
+   Стили главной страницы
+============================================ */
+
+/* ============================================
    PAGE
-========================================= */
+============================================ */
 
-.page-content {
+.main-content {
 
-    padding-top: 24px;
-}
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 480px) {
-
-    .header {
-
-        height: 72px;
-
-        padding: 0 14px;
-
-        border-radius: 0 0 22px 22px;
-    }
-
-    .logo-image {
-
-        width: 84px;
-    }
-
-    .menu-btn {
-
-        width: 44px;
-        height: 44px;
-    }
-
-    .side-menu-content {
-
-        width: 300px;
-    }
-
-    .user-avatar {
-
-        width: 64px;
-        height: 64px;
-    }
-
-    .menu-nav-link {
-
-        min-height: 50px;
-
-        font-size: 14px;
-    }
-}
-
-.menu-nav-link svg,
-.logout-btn svg {
-
-    width: 22px !important;
-    height: 22px !important;
-
-    min-width: 22px;
-    min-height: 22px;
-
-    flex-shrink: 0;
-
-    display: block;
-
-    stroke-width: 2;
-}
-
-.page-content {
     max-width: 760px;
+
     margin: 0 auto;
 
     padding: 32px 20px 60px;
 }
 
+.container {
+
+    width: 100%;
+
+    animation:
+        fadeInUp .7s ease;
+}
 
 /* ============================================
-   ОСНОВНОЙ КОНТЕНТ
-   ============================================ */
-.main-content {
-    padding: 28px 20px 40px;
-    max-width: 500px;
-    margin: 0 auto;
-}
-
-.container {
-    animation: fadeInUp 0.6s ease;
-}
+   ANIMATIONS
+============================================ */
 
 @keyframes fadeInUp {
+
     from {
+
         opacity: 0;
-        transform: translateY(20px);
+
+        transform:
+            translateY(20px);
     }
+
     to {
+
         opacity: 1;
-        transform: translateY(0);
+
+        transform:
+            translateY(0);
     }
 }
 
-/* Хлебные крошки */
+/* ============================================
+   BREADCRUMB
+============================================ */
+.breadcrumb-text {
+
+    font-size: 34px;
+
+    font-weight: 700;
+
+    line-height: 1.1;
+
+    color: var(--text);
+}
+
 .breadcrumb {
+
     display: flex;
     align-items: center;
+
     gap: 8px;
-    margin-bottom: 32px;
-    font-size: 18px;
+
+    margin-bottom: 10px;
+
+    font-size: 15px;
     font-weight: 500;
+
+    color: var(--text);
 }
 
-.breadcrumb-icon {
-    font-size: 20px;
+.breadcrumb svg {
+
+    width: 28px;
+    height: 28px;
+
+    flex-shrink: 0;
 }
 
-.breadcrumb-text {
-    color: var(--text-white);
-}
+/* ============================================
+   TITLE
+============================================ */
 
-/* Заголовок */
 .main-title {
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 36px;
-    letter-spacing: -0.5px;
+
+    color: #7A7A7A;;
+    font-size: 16px;
+    line-height: 1.5;
+
+    margin-bottom: 24px;
 }
 
-/* Список функций */
+/* ============================================
+   FEATURES
+============================================ */
+
 .features-list {
+
     list-style: none;
+
     margin-bottom: 36px;
+}
+
+.feature-text {
+
+    color: var(--text);
 }
 
 .feature-item {
+
     display: flex;
     align-items: flex-start;
+
     gap: 10px;
+
     margin-bottom: 22px;
+
     font-size: 16px;
+    line-height: 1.5;
+
     color: var(--text-light);
-    line-height: 1.4;
+
+    opacity: 0;
+
+    transform:
+        translateY(20px);
+
+    animation:
+        revealUp .7s forwards;
+}
+
+.feature-item:nth-child(1){
+    animation-delay: .12s;
+}
+
+.feature-item:nth-child(2){
+    animation-delay: .2s;
+}
+
+.feature-item:nth-child(3){
+    animation-delay: .28s;
+}
+
+.feature-item:nth-child(4){
+    animation-delay: .36s;
 }
 
 .feature-dash {
-    font-weight: 700;
+
     flex-shrink: 0;
-    font-size: 18px;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    color: var(--orange);
 }
 
 .feature-text {
@@ -578,227 +167,319 @@ body {
 }
 
 .feature-highlight {
+
     margin-top: 28px;
-    color: var(--text-white);
-    font-size: 17px;
+
+    color: var(--text);
+
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .feature-highlight .feature-text {
-    font-size: 18px;
+
+    font-size: 16px;
 }
 
-/* Описание функции */
+/* ============================================
+   DESCRIPTION
+============================================ */
+
 .feature-description {
-    background: var(--bg-darker);
-    padding: 20px 18px;
-    border-radius: 12px;
+
+    background: var(--white);
+
+    border-radius: 24px;
+
+    padding: 24px;
+
+    box-shadow: var(--shadow);
+
     margin-bottom: 32px;
-    font-size: 14px;
-    line-height: 1.65;
+
+    font-size: 16px;
+    line-height: 1.7;
+
     color: var(--text-light);
+
+    opacity: 0;
+
+    transform:
+        translateY(35px)
+        scale(.98);
+
+    filter: blur(8px);
+
+    animation:
+        cardReveal .85s
+        cubic-bezier(.2,.8,.2,1)
+        .45s forwards;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
 }
 
-/* Оранжевая кнопка */
+.feature-description:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.07);
+}
+
+/* ============================================
+   BUTTON
+============================================ */
+
 .btn-primary {
+
     width: 100%;
-    padding: 16px 32px;
-    background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
-    color: #ffffff;
+    height: 56px;
+
     border: none;
-    border-radius: 10px;
+    border-radius: 14px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange-dark)
+        );
+
+    color: #fff;
+
     font-family: inherit;
+
     font-size: 15px;
     font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 18px rgba(244, 121, 32, 0.45);
-    transition: all 0.3s ease;
+
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    position: relative;
-    overflow: hidden;
+
+    letter-spacing: .5px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 18px rgba(244,121,32,.3);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+    opacity: 0;
+
+    transform:
+        translateY(25px);
+
+    animation:
+        revealUp .8s .6s forwards;
 }
 
-.btn-primary::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.5s, height 0.5s;
-}
+.btn-primary:hover {
 
-.btn-primary:active::after {
-    width: 300px;
-    height: 300px;
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 28px rgba(244,121,32,.35);
 }
 
 .btn-primary:active {
-    transform: scale(0.97);
-    box-shadow: 0 2px 10px rgba(244, 121, 32, 0.3);
+
+    transform:
+        scale(.98);
+}
+
+.btn-primary::before {
+
+    content: '';
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.28),
+            transparent
+        );
+
+    transform:
+        translateX(-100%);
+
+    transition: .8s;
+}
+
+.btn-primary:hover::before {
+
+    transform:
+        translateX(100%);
 }
 
 
 
+@keyframes revealUp {
 
+    from {
 
+        opacity: 0;
 
+        transform:
+            translateY(25px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+@keyframes cardReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(45px)
+            scale(.96);
+
+        filter: blur(10px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter: blur(0);
+    }
+}
 
 /* ============================================
-   АДАПТИВ: ПЛАНШЕТЫ
-   ============================================ */
+   TABLET
+============================================ */
+
 @media (max-width: 768px) {
+
     .main-content {
-        padding: 24px 18px 36px;
+
+        padding: 28px 18px 48px;
     }
 
     .main-title {
+
         font-size: 28px;
     }
 
-    .side-menu-content {
-        width: 290px;
-        right: -290px;
+    .feature-description {
+
+        padding: 22px 20px;
+
+        border-radius: 20px;
     }
 }
 
 /* ============================================
-   АДАПТИВ: ТЕЛЕФОНЫ
-   ============================================ */
+   MOBILE
+============================================ */
+
 @media (max-width: 480px) {
-    .header {
-        padding: 12px 16px;
-    }
-
-    .logo-text {
-        font-size: 18px;
-    }
-
-    .logo-icon {
-        width: 26px;
-        height: 26px;
-    }
 
     .main-content {
-        padding: 20px 16px 32px;
+
+        padding: 24px 16px 40px;
     }
 
     .breadcrumb {
+
         margin-bottom: 24px;
+
         font-size: 16px;
     }
 
     .main-title {
+
         font-size: 24px;
+
         margin-bottom: 28px;
     }
 
     .features-list {
+
         margin-bottom: 28px;
     }
 
     .feature-item {
-        font-size: 15px;
+
         margin-bottom: 18px;
+
+        font-size: 15px;
     }
 
     .feature-highlight {
+
         font-size: 16px;
     }
 
     .feature-description {
-        padding: 16px 14px;
-        font-size: 13px;
+
+        padding: 18px 16px;
+
         margin-bottom: 28px;
+
+        border-radius: 18px;
+
+        font-size: 13px;
     }
 
     .btn-primary {
-        padding: 14px 28px;
+
+        height: 52px;
+
         font-size: 14px;
-    }
-
-    /* Боковое меню на маленьких экранах */
-    .side-menu-content {
-        width: 270px;
-        right: -270px;
-    }
-
-    .user-avatar {
-        width: 44px;
-        height: 44px;
-    }
-
-    .user-name {
-        font-size: 14px;
-    }
-
-    .user-role {
-        font-size: 12px;
-    }
-
-    .menu-nav-link {
-        padding: 12px 16px;
-        font-size: 13px;
-        gap: 12px;
-    }
-
-    .role-switcher {
-        bottom: 12px;
-        padding: 8px 12px;
-    }
-
-    .role-btn {
-        padding: 5px 10px;
-        font-size: 11px;
     }
 }
 
 /* ============================================
-   АДАПТИВ: МАЛЕНЬКИЕ ТЕЛЕФОНЫ
-   ============================================ */
+   SMALL MOBILE
+============================================ */
+
 @media (max-width: 360px) {
+
+    .main-content {
+
+        padding: 20px 14px 32px;
+    }
+
     .main-title {
+
         font-size: 22px;
     }
 
-    .main-content {
-        padding: 16px 14px 28px;
-    }
-
     .feature-item {
+
         font-size: 14px;
     }
 
     .feature-description {
-        font-size: 12px;
+
         padding: 14px 12px;
-    }
 
-    .side-menu-content {
-        width: 250px;
-        right: -250px;
-    }
-
-    .user-profile {
-        padding: 12px 14px;
-    }
-
-    .user-avatar {
-        width: 40px;
-        height: 40px;
-    }
-
-    .menu-nav-link {
-        padding: 11px 14px;
-        font-size: 13px;
+        font-size: 12px;
     }
 }
-
-/* ============================================
-   СКРЫТИЕ ПЕРЕКЛЮЧАТЕЛЯ НА ПРОДАКШЕНЕ
-   ============================================ */
-/* Раскомментируйте для скрытия демо-переключателя: */
-/* .role-switcher { display: none; } */

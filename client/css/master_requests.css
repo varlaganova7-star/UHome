@@ -438,3 +438,209 @@ body {
         height: 82px;
     }
 }
+
+/* =========================================
+ANIMATIONS
+========================================= */
+
+@keyframes fadeUp {
+
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+@keyframes fadeScale {
+
+    from{
+        opacity:0;
+        transform:scale(0.96);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+
+}
+
+/* PAGE */
+
+.title-block{
+    animation:fadeUp 0.7s ease;
+}
+
+.filter-tabs{
+    animation:fadeUp 0.8s ease;
+}
+
+.sort-block{
+    animation:fadeUp 0.9s ease;
+}
+
+/* CARDS */
+
+.request-card{
+
+    opacity:0;
+
+    animation:fadeUp 0.65s ease forwards;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
+}
+
+.request-card:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 10px 28px rgba(0,0,0,0.10);
+
+}
+
+/* DETAILS */
+
+.request-details.active{
+    animation:fadeScale 0.3s ease;
+}
+
+/* BUTTONS */
+
+.action-btn,
+.filter-btn{
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+.action-btn:hover,
+.filter-btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* STATUS */
+
+.request-status{
+
+    animation:fadeScale 0.45s ease;
+
+}
+
+/* =========================================
+FILTER BUTTON HOVER SHIMMER
+========================================= */
+
+.filter-btn{
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+
+}
+
+/* HOVER */
+
+.filter-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 6px 18px rgba(0,0,0,0.10);
+
+}
+
+/* SHIMMER */
+
+.filter-btn::before{
+
+    content:'';
+
+    position:absolute;
+
+    top:0;
+    left:-130%;
+
+    width:70%;
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.35),
+        transparent
+    );
+
+    transform:skewX(-20deg);
+
+    opacity:0;
+
+}
+
+/* PLAY ON HOVER */
+
+.filter-btn:hover::before{
+
+    opacity:1;
+
+    animation:shimmer 1.4s ease;
+
+}
+
+/* ACTIVE BUTTON */
+
+.filter-btn.active{
+
+    background:linear-gradient(
+        135deg,
+        var(--orange),
+        var(--orange-dark)
+    );
+
+    color:#fff;
+
+    box-shadow:
+        0 6px 18px rgba(244,121,32,0.30),
+        0 0 14px rgba(244,121,32,0.18);
+
+}
+
+/* ACTIVE CONTINUOUS SHIMMER */
+
+.filter-btn.active::before{
+
+    opacity:1;
+
+    animation:shimmer 2.5s infinite;
+
+}
+
+@keyframes shimmer{
+
+    0%{
+        left:-130%;
+    }
+
+    100%{
+        left:140%;
+    }
+
+}

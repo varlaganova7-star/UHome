@@ -20,12 +20,12 @@
     --orange: #F47920;
     --orange-dark: #D96515;
 
-    --bg: #F5F5F5;
+    --bg: #595959;
 
     --white: #FFFFFF;
 
     --text: #1F1F1F;
-    --text-light: #8A8A8A;
+    --text-light: #FFFFFF;
 
     --border: #E7E7E7;
 
@@ -96,6 +96,15 @@ body {
     display: block;
 }
 
+.main-content.dark-theme {
+    color: #ffffff; /* Белый текст */
+    background-color: #595959; /* Тёмный фон (опционально) */
+}
+.main-content.dark-theme h1,
+.main-content.dark-theme h2,
+.main-content.dark-theme h3 {
+    color: #ffffff;
+}
 /* =========================================
    MENU BUTTON
 ========================================= */

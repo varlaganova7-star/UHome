@@ -5,22 +5,23 @@
 }
 
 :root {
-
     --orange: #F47920;
     --orange-dark: #D96515;
 
-    --bg: #F5F5F5;
+    --white: #ffffff;
 
-    --white: #FFFFFF;
+    --gray-bg: #F5F5F5;
+    --gray-light: #ECECEC;
+    --gray-medium: #A8A8A8;
 
-    --text: #1F1F1F;
-    --text-light: #8A8A8A;
+    --text-dark: #1A1A1A;
+    --text-secondary: #666666;
 
-    --border: #E7E7E7;
+    --shadow: 0 2px 14px rgba(0,0,0,0.08);
 
-    --shadow:
-        0 6px 22px rgba(0,0,0,0.06);
+    --radius: 18px;
 }
+
 
 html,
 body {

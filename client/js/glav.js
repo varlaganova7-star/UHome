@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // =====================================
-    // INSERT LAYOUT
-    // =====================================
+
 
     const layoutContainer =
         document.getElementById('layout-container');

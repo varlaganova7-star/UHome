@@ -326,3 +326,165 @@ ADAPTIVE
     }
 
 }
+
+/* =========================================
+MODERN ANIMATIONS
+========================================= */
+
+/* TITLE */
+
+.title-block{
+
+    opacity:0;
+
+    transform:translateY(40px);
+
+    animation:titleReveal .8s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.page-title{
+
+    opacity:0;
+
+    transform:translateY(20px);
+
+    animation:titleReveal .7s .1s forwards;
+}
+
+.page-subtitle{
+
+    opacity:0;
+
+    transform:translateY(20px);
+
+    animation:titleReveal .7s .2s forwards;
+}
+
+/* SECTION TITLES */
+
+.section-title{
+
+    opacity:0;
+
+    transform:translateY(20px);
+
+    animation:titleReveal .7s .3s forwards;
+}
+
+/* CARDS */
+
+.request-card{
+
+    opacity:0;
+
+    transform:
+        translateY(50px)
+        scale(.97);
+
+    filter:blur(10px);
+
+    animation:cardReveal .7s cubic-bezier(.2,.8,.2,1) forwards;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+/* HOVER */
+
+.request-card:hover{
+
+    transform:
+        translateY(-4px)
+        scale(1.01);
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.08);
+}
+
+/* BUTTONS */
+
+.action-btn{
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.action-btn::before{
+
+    content:'';
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(255,255,255,.25);
+
+    transform:translateX(-100%);
+
+    transition:.5s;
+}
+
+.action-btn:hover::before{
+
+    transform:translateX(100%);
+}
+
+/* STATUS */
+
+.status{
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.status:hover{
+
+    transform:scale(1.04);
+}
+
+/* KEYFRAMES */
+
+@keyframes cardReveal{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(50px)
+            scale(.96);
+
+        filter:blur(10px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter:blur(0);
+    }
+}
+
+@keyframes titleReveal{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+    }
+}

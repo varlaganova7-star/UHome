@@ -371,3 +371,310 @@ ADAPTIVE
     }
 
 }
+
+/* =========================================
+MODERN ANIMATIONS
+========================================= */
+
+/* PAGE */
+
+.page-content{
+
+    animation:
+        pageFade .7s ease;
+}
+
+/* TITLE */
+
+.title-block{
+
+    opacity:0;
+
+    transform:translateY(35px);
+
+    animation:
+        revealUp .8s .05s forwards;
+}
+
+.page-title{
+
+    opacity:0;
+
+    transform:translateY(25px);
+
+    animation:
+        revealUp .8s .12s forwards;
+}
+
+.page-subtitle{
+
+    opacity:0;
+
+    transform:translateY(25px);
+
+    animation:
+        revealUp .8s .2s forwards;
+}
+
+/* CARDS */
+
+.guest-card,
+.history-card{
+
+    opacity:0;
+
+    transform:
+        translateY(45px)
+        scale(.98);
+
+    filter:blur(10px);
+
+    animation:
+        cardReveal .85s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.guest-card{
+
+    animation-delay:.15s;
+}
+
+.history-card{
+
+    animation-delay:.28s;
+}
+
+.guest-card:hover,
+.history-card:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 14px 36px rgba(0,0,0,.08);
+}
+
+/* FORM GROUPS */
+
+.form-group{
+
+    opacity:0;
+
+    transform:translateY(25px);
+
+    animation:
+        revealUp .7s forwards;
+}
+
+.form-group:nth-child(1){ animation-delay:.18s; }
+.form-group:nth-child(2){ animation-delay:.25s; }
+.form-group:nth-child(3){ animation-delay:.32s; }
+.form-group:nth-child(4){ animation-delay:.39s; }
+.form-group:nth-child(5){ animation-delay:.46s; }
+
+/* INPUTS */
+
+.form-input{
+
+    transition:
+        transform .2s ease,
+        box-shadow .25s ease,
+        border-color .25s ease,
+        background .25s ease;
+}
+
+.form-input:hover{
+
+    transform:translateY(-1px);
+}
+
+.form-input:focus{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 0 0 4px rgba(244,121,32,.12);
+}
+
+/* HISTORY ITEMS */
+
+.history-item{
+
+    opacity:0;
+
+    transform:
+        translateY(25px)
+        scale(.98);
+
+    animation:
+        itemReveal .6s forwards;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.history-item:hover{
+
+    transform:
+        translateY(-3px)
+        scale(1.01);
+
+    background:#ECECEC;
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,.06);
+}
+
+/* STATUS */
+
+.status-badge{
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.history-item:hover .status-badge{
+
+    transform:scale(1.05);
+}
+
+/* BUTTONS */
+
+.btn-submit,
+.btn-cancel{
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.btn-submit::before,
+.btn-cancel::before{
+
+    content:'';
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.28),
+            transparent
+        );
+
+    transform:translateX(-100%);
+
+    transition:.8s;
+}
+
+.btn-submit:hover::before,
+.btn-cancel:hover::before{
+
+    transform:translateX(100%);
+}
+
+.btn-submit:hover{
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 10px 26px rgba(244,121,32,.35);
+}
+
+.btn-cancel:hover{
+
+    transform:
+        translateY(-2px);
+}
+
+/* KEYFRAMES */
+
+@keyframes revealUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+    }
+}
+
+@keyframes cardReveal{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(45px)
+            scale(.96);
+
+        filter:blur(10px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter:blur(0);
+    }
+}
+
+@keyframes itemReveal{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(20px)
+            scale(.97);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+@keyframes pageFade{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+}

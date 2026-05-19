@@ -475,3 +475,311 @@ body {
         height: 70px;
     }
 }
+
+/* =========================================
+MODERN ANIMATIONS
+========================================= */
+
+/* PAGE */
+
+.page-content{
+
+    animation:
+        pageFade .7s cubic-bezier(.2,.8,.2,1);
+}
+
+/* TITLE */
+
+.title-block{
+
+    opacity:0;
+
+    transform:translateY(35px);
+
+    animation:
+        revealUp .8s .05s forwards;
+}
+
+.page-title{
+
+    opacity:0;
+
+    transform:translateY(25px);
+
+    animation:
+        revealUp .8s .12s forwards;
+}
+
+.page-subtitle{
+
+    opacity:0;
+
+    transform:translateY(25px);
+
+    animation:
+        revealUp .8s .2s forwards;
+}
+
+/* CARD */
+
+.repair-card{
+
+    opacity:0;
+
+    transform:
+        translateY(50px)
+        scale(.98);
+
+    filter:blur(10px);
+
+    animation:
+        cardReveal .9s .15s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.repair-card:hover{
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 12px 36px rgba(0,0,0,.08);
+}
+
+/* FORM GROUPS */
+
+.form-group{
+
+    opacity:0;
+
+    transform:
+        translateY(25px);
+
+    animation:
+        revealUp .7s forwards;
+}
+
+/* stagger */
+
+.form-group:nth-child(1){ animation-delay:.15s; }
+.form-group:nth-child(2){ animation-delay:.22s; }
+.form-group:nth-child(3){ animation-delay:.29s; }
+.form-group:nth-child(4){ animation-delay:.36s; }
+.form-group:nth-child(5){ animation-delay:.43s; }
+.form-group:nth-child(6){ animation-delay:.50s; }
+.form-group:nth-child(7){ animation-delay:.57s; }
+
+/* INPUTS */
+
+.form-input,
+.form-select,
+.form-textarea{
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        transform .2s ease,
+        background .25s ease;
+}
+
+.form-input:hover,
+.form-select:hover,
+.form-textarea:hover{
+
+    transform:translateY(-1px);
+}
+
+/* PHOTO AREA */
+
+.upload-area{
+
+    overflow:hidden;
+}
+
+.upload-area::before{
+
+    content:'';
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.4),
+            transparent
+        );
+
+    transform:translateX(-100%);
+
+    transition:1s;
+}
+
+.upload-area:hover::before{
+
+    transform:translateX(100%);
+}
+
+/* PHOTO PREVIEW */
+
+.photo-preview{
+
+    opacity:0;
+
+    transform:
+        scale(.8)
+        translateY(10px);
+
+    animation:
+        photoReveal .45s ease forwards;
+}
+
+/* PRIORITY */
+
+.priority-content{
+
+    transition:
+        transform .2s ease,
+        border-color .25s ease,
+        background .25s ease;
+}
+
+.priority-content:hover{
+
+    transform:translateY(-2px);
+}
+
+/* BUTTONS */
+
+.btn-submit,
+.btn-cancel{
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.btn-submit::before,
+.btn-cancel::before{
+
+    content:'';
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.25),
+            transparent
+        );
+
+    transform:translateX(-100%);
+
+    transition:.7s;
+}
+
+.btn-submit:hover::before,
+.btn-cancel:hover::before{
+
+    transform:translateX(100%);
+}
+
+/* SUBMIT */
+
+.btn-submit:hover{
+
+    transform:
+        translateY(-2px)
+        scale(1.01);
+
+    box-shadow:
+        0 10px 26px rgba(244,121,32,.35);
+}
+
+/* KEYFRAMES */
+
+@keyframes revealUp{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(25px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+@keyframes cardReveal{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(45px)
+            scale(.96);
+
+        filter:blur(10px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter:blur(0);
+    }
+}
+
+@keyframes photoReveal{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            scale(.75)
+            translateY(10px);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            scale(1)
+            translateY(0);
+    }
+}
+
+@keyframes pageFade{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+}

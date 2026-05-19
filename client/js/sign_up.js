@@ -1,182 +1,141 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-// =====================================
-// ELEMENTS
-// =====================================
+    // =====================================
+    // ELEMENTS
+    // =====================================
 
-const container =
-    document.getElementById('authContainer');
+    const container =
+        document.getElementById('authContainer');
 
-const registerForm =
-    document.getElementById('registerForm');
+    const registerForm =
+        document.getElementById('registerForm');
 
-const loginForm =
-    document.getElementById('loginForm');
+    const loginForm =
+        document.getElementById('loginForm');
 
-const toggleBtn =
-    document.getElementById('toggleBtn');
+    const toggleBtn =
+        document.getElementById('toggleBtn');
 
-const roleSelect =
-    document.getElementById('role');
+    const roleSelect =
+        document.getElementById('role');
 
-// =====================================
-// INITIAL STATE
-// =====================================
 
-let isLogin = false;
 
-// =====================================
-// SWITCH LOGIN
-// =====================================
+    // =====================================
+    // STATE
+    // =====================================
 
-function showLogin() {
+    let isLogin = false;
 
-    isLogin = true;
 
-    container.classList.add('login');
 
-    container.classList.remove('register');
+    // =====================================
+    // SHOW LOGIN
+    // =====================================
 
-    registerForm.classList.remove('active');
+    function showLogin() {
 
-    loginForm.classList.add('active');
+        isLogin = true;
 
-    toggleBtn.textContent =
-        'Зарегистрироваться';
-}
+        container.classList.add('login');
 
-// =====================================
-// SWITCH REGISTER
-// =====================================
+        container.classList.remove('register');
 
-function showRegister() {
-
-    isLogin = false;
-
-    container.classList.add('register');
-
-    container.classList.remove('login');
-
-    loginForm.classList.remove('active');
-
-    registerForm.classList.add('active');
-
-    toggleBtn.textContent =
-        'Авторизоваться';
-}
-
-// =====================================
-// TOGGLE BUTTON
-// =====================================
-
-toggleBtn.addEventListener('click', () => {
-
-    if (isLogin) {
-
-        showRegister();
-
-    } else {
-
-        showLogin();
-    }
-});
-
-// =====================================
-// REGISTER
-// =====================================
-
-registerForm.addEventListener('submit', async (e) => {
-
-    e.preventDefault();
-
-    const inputs =
-        registerForm.querySelectorAll('.form-input');
-
-    const fullname =
-        inputs[0].value.trim();
-
-    const email =
-        inputs[1].value.trim();
-
-    const password =
-        inputs[2].value.trim();
-
-    const role =
-        roleSelect.value;
-
-    // ===== ПРОВЕРКА ПУСТЫХ ПОЛЕЙ =====
-
-    if (!role ||
-        !fullname ||
-        !email ||
-        !password) {
-
-        alert(
-            'Заполните все поля'
-        );
-
-        return;
+        toggleBtn.textContent =
+            'Зарегистрироваться';
     }
 
-    // ===== ПРОВЕРКА EMAIL =====
 
-    if (!email.includes('@')) {
 
-        alert(
-            'Введите корректную почту'
-        );
+    // =====================================
+    // SHOW REGISTER
+    // =====================================
 
-        return;
+    function showRegister() {
+
+        isLogin = false;
+
+        container.classList.add('register');
+
+        container.classList.remove('login');
+
+        toggleBtn.textContent =
+            'Авторизоваться';
     }
 
-    // ===== ПРОВЕРКА ПАРОЛЯ =====
 
-    if (password.length < 6) {
 
-        alert(
-            'Пароль минимум 6 символов'
-        );
+    // =====================================
+    // TOGGLE
+    // =====================================
 
-        return;
-    }
+    toggleBtn.addEventListener('click', () => {
 
-    const data = {
+        if (isLogin) {
 
-        role,
-        fullname,
-        email,
-        password
-    };
+            showRegister();
 
-    try {
+        } else {
 
-        const response = await fetch(
-            'http://127.0.0.1:8000/register',
-            {
-                method: 'POST',
+            showLogin();
+        }
+    });
 
-                headers: {
-                    'Content-Type':
-                        'application/json'
-                },
 
-                body: JSON.stringify(data)
-            }
-        );
 
-        const result =
-            await response.json();
+    // =====================================
+    // REGISTER
+    // =====================================
 
-        // ===== ОШИБКА =====
+    registerForm.addEventListener('submit', (e) => {
 
-        if (result.error) {
+        e.preventDefault();
 
-            alert(result.error);
+        const inputs =
+            registerForm.querySelectorAll('.form-input');
 
+        const fullname =
+            inputs[0].value.trim();
+
+        const email =
+            inputs[1].value.trim();
+
+        const password =
+            inputs[2].value.trim();
+
+        const role =
+            roleSelect.value;
+
+
+
+        // VALIDATION
+
+        if (
+            !role ||
+            !fullname ||
+            !email ||
+            !password
+        ) {
+
+            alert('Заполните все поля');
             return;
         }
 
-        // ===== SUCCESS =====
+        if (!email.includes('@')) {
+
+            alert('Введите корректную почту');
+            return;
+        }
+
+        if (password.length < 6) {
+
+            alert('Пароль минимум 6 символов');
+            return;
+        }
+
+
+
+        // SAVE USER
 
         localStorage.setItem(
             'uhome_logged_in',
@@ -193,86 +152,54 @@ registerForm.addEventListener('submit', async (e) => {
             fullname
         );
 
-        alert(
-            'Регистрация успешна'
+        localStorage.setItem(
+            'uhome_user_email',
+            email
         );
+
+
+
+        // REDIRECT
 
         window.location.href =
             'glav.html';
+    });
 
-    } catch (error) {
 
-        alert(
-            'Ошибка подключения к серверу'
-        );
-    }
-});
 
-// =====================================
-// LOGIN
-// =====================================
+    // =====================================
+    // LOGIN
+    // =====================================
 
-loginForm.addEventListener('submit', async (e) => {
+    loginForm.addEventListener('submit', (e) => {
 
-    e.preventDefault();
+        e.preventDefault();
 
-    const inputs =
-        loginForm.querySelectorAll('.form-input');
+        const inputs =
+            loginForm.querySelectorAll('.form-input');
 
-    const email =
-        inputs[0].value.trim();
+        const email =
+            inputs[0].value.trim();
 
-    const password =
-        inputs[1].value.trim();
+        const password =
+            inputs[1].value.trim();
 
-    // ===== ПРОВЕРКА =====
 
-    if (!email || !password) {
 
-        alert(
-            'Введите почту и пароль'
-        );
+        // VALIDATION
 
-        return;
-    }
-
-    try {
-
-        const response = await fetch(
-            'http://127.0.0.1:8000/login',
-            {
-                method: 'POST',
-
-                headers: {
-                    'Content-Type':
-                        'application/json'
-                },
-
-                body: JSON.stringify({
-                    email,
-                    password
-                })
-            }
-        );
-
-        const result =
-            await response.json();
-
-        // ===== НЕВЕРНЫЕ ДАННЫЕ =====
-
-        if (
-            result.error ||
-            !response.ok
-        ) {
+        if (!email || !password) {
 
             alert(
-                'Неверная почта или пароль'
+                'Введите почту и пароль'
             );
 
             return;
         }
 
-        // ===== SUCCESS =====
+
+
+        // LOGIN
 
         localStorage.setItem(
             'uhome_logged_in',
@@ -280,34 +207,44 @@ loginForm.addEventListener('submit', async (e) => {
         );
 
         localStorage.setItem(
-            'uhome_user_role',
-            result.role
+            'uhome_user_email',
+            email
         );
 
-        localStorage.setItem(
-            'uhome_user_fullname',
-            result.fullname
-        );
 
-        alert(
-            'Вход выполнен'
-        );
+
+        // DEFAULT USER
+
+        if (!localStorage.getItem('uhome_user_role')) {
+
+            localStorage.setItem(
+                'uhome_user_role',
+                'student'
+            );
+        }
+
+        if (!localStorage.getItem('uhome_user_fullname')) {
+
+            localStorage.setItem(
+                'uhome_user_fullname',
+                'Пользователь'
+            );
+        }
+
+
+
+        // REDIRECT
 
         window.location.href =
             'glav.html';
+    });
 
-    } catch (error) {
 
-        alert(
-            'Ошибка подключения к серверу'
-        );
-    }
-});
 
-// =====================================
-// START
-// =====================================
+    // =====================================
+    // START
+    // =====================================
 
-showRegister();
+    showRegister();
 
 });

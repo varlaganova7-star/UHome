@@ -2,125 +2,83 @@
 <html lang="ru">
 
 <head>
-    <!-- PWA Манифест -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#F47920">
 
-    <!-- Для iOS -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="UHome">
-    <link rel="apple-touch-icon" href="icons/icon-192.png">
-
-    <!-- Запрет зума на мобильных -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Правила проживания — UHome</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/rules.css">
+
+    <!-- FONT -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- LAYOUT -->
+    <link
+        rel="stylesheet"
+        href="css/layout.css"
+    >
+
+    <!-- PAGE -->
+    <link
+        rel="stylesheet"
+        href="css/rules.css"
+    >
+
 </head>
 
 <body>
 
-    <header class="header">
+    <!-- =========================================
+    GLOBAL LAYOUT
+    ========================================= -->
 
-        <a href="glav.html" class="header-logo">
-            <img src="image 10.png" alt="UHome">
-        </a>
+    <div id="layout-container"></div>
 
-        <button class="menu-btn" id="menuBtn">
+    <!-- =========================================
+    PAGE CONTENT
+    ========================================= -->
 
-            <span></span>
-            <span></span>
-            <span></span>
-
-        </button>
-
-    </header>
-
-    <!-- Основной контент -->
     <main class="page-content">
 
-        <!-- Заголовок -->
+        <!-- TITLE -->
         <h1 class="page-title">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#28A745" stroke-width="3"
-                stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12" />
+
+            <svg width="34" height="34"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2">
+
+                <path d="M9 12l2 2 4-4"/>
+
+                <circle cx="12" cy="12" r="9"/>
+
             </svg>
+
             Правила проживания
+
         </h1>
 
-        <!-- Список правил (аккордеон) -->
-        <div class="rules-container" id="rulesContainer">
-            <!-- Правила будут добавлены через JS -->
+        <!-- RULES -->
+        <div
+            class="rules-container"
+            id="rulesContainer"
+        >
+            <!-- JS -->
         </div>
 
     </main>
-    <div class="side-menu" id="sideMenu">
 
-        <div class="side-menu-overlay" id="sideMenuOverlay"></div>
-
-        <aside class="side-menu-content">
-
-            <!-- TOP -->
-
-            <div class="menu-top">
-
-                <button class="menu-close" id="menuClose">
-                    ✕
-                </button>
-
-            </div>
-
-            <!-- PROFILE -->
-
-            <div class="user-profile" id="userProfileBlock">
-
-                <img src="" alt="avatar" class="user-avatar" id="menuAvatar">
-
-                <div class="user-info">
-
-                    <div class="user-name" id="menuUserName">
-                        ...
-                    </div>
-
-                    <div class="user-role" id="menuUserRole">
-                        ...
-                    </div>
-
-                </div>
-
-            </div>
-
-            <!-- NAV -->
-
-            <nav class="menu-nav" id="menuNav"></nav>
-
-            <!-- FOOTER -->
-
-            <div class="menu-footer">
-
-                <a href="sign_up.html" class="logout-btn">
-
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                        <polyline points="16 17 21 12 16 7" />
-                        <line x1="21" y1="12" x2="9" y2="12" />
-                    </svg>
-
-                    <span>Выйти</span>
-
-                </a>
-
-            </div>
-
-        </aside>
-
-    </div>
-
-
+    <!-- SCRIPTS -->
+    <script src="js/layout.js"></script>
     <script src="js/rules.js"></script>
+
 </body>
 
 </html>

@@ -1,3 +1,4 @@
+const currentPage = window.location.pathname.split('/').pop();
 document.addEventListener('DOMContentLoaded', async () => {
 
     // =====================================
@@ -102,9 +103,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // =====================================
 
     let socket = null;
-    const SOCKET_URL = 'http://localhost:3000';
-    const API_URL = 'http://localhost:3000/api';
-
+    const SOCKET_URL = 'http://127.0.0.1:3000';
+    const API_URL = 'http://127.0.0.1:3000/api';
     // Элементы чата (есть только на chat.html)
     const messagesContainer = document.getElementById('messagesContainer');
     const chatInput = document.getElementById('chatInput');
@@ -419,5 +419,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }, 300);
     }
+
 
 });

@@ -1,3 +1,3 @@
+# ⚠️ ЗАМЕНИТЕ 123456 НА ВАШ РЕАЛЬНЫЙ ПАРОЛЬ ОТ POSTGRESQL
+DATABASE_URL=postgresql://postgres@127.0.0.1:5432/uhome
 PORT=3000
-MONGODB_URI=mongodb://localhost:27017/uhome_chat
-JWT_SECRET=your_super_secret_key_change_in_production

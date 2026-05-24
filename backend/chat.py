@@ -134,6 +134,54 @@ async def on_disconnect(sid):
     for role in connected_users:
         connected_users[role] = [u for u in connected_users[role] if u["sid"] != sid]
     print(f"🔌 Отключился: {sid}")
+# ================= НОВЫЙ ЭНДПОИНТ: список студентов для админа =================
+@app.get("/api/admin/students")
+async def get_students_for_admin():
+    """Возвращает список уникальных студентов, которые писали администрации"""
+    pool = getattr(app.state, "db_pool", None)
+    if not pool:
+        return {"error": "База данных недоступна"}
+    
+    # Запрос: уникальные студенты + последнее сообщение + количество
+    rows = await pool.fetch("""
+        SELECT 
+            sender_name,
+            sender_role,
+            COUNT(*) as message_count,
+            MAX(created_at) as last_message_at,
+            (SELECT text FROM messages m2 
+             WHERE m2.sender_role = messages.sender_role 
+             AND m2.sender_name = messages.sender_name 
+             ORDER BY created_at DESC LIMIT 1) as last_message_text
+        FROM messages
+        WHERE recipient_role = 'admin' 
+          AND sender_role != 'admin'
+        GROUP BY sender_name, sender_role
+        ORDER BY last_message_at DESC
+    """)
+    
+    students = []
+    for r in rows:
+        students.append({
+            "name": r["sender_name"],
+            "role": r["sender_role"],
+            "message_count": r["message_count"],
+            "last_message_at": r["last_message_at"].isoformat() if r["last_message_at"] else None,
+            "last_message_text": r["last_message_text"]
+        })
+    
+    return {"students": students, "total": len(students)}
+from fastapi import Header, HTTPException
+
+@app.get("/api/admin/students")
+async def get_students_for_admin(
+    x_user_role: str = Header(None, alias="X-User-Role")
+):
+    # 🔐 Проверка: только admin или studsovet
+    if x_user_role not in ["admin", "studsovet"]:
+        raise HTTPException(status_code=403, detail="❌ Доступ запрещён")
+    
+    # ... остальной код из Шага 1 ...
 
 # ================= ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =================
 async def get_history_for_role(role: str, limit: int = 50):

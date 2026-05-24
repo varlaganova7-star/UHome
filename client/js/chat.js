@@ -419,6 +419,76 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }, 300);
     }
+    async function loadStudentList() {
+        const role = localStorage.getItem('uhome_user_role');
 
+        // Проверка прав на фронтенде (дополнительная)
+        if (role !== 'admin' && role !== 'studsovet') {
+            console.warn('❌ Только администрация может видеть список студентов');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://127.0.0.1:3000/api/admin/students', {
+                headers: {
+                    'X-User-Role': role  // Передаём роль для проверки на бэкенде
+                }
+            });
+
+            if (!response.ok) throw new Error('Ошибка загрузки');
+
+            const data = await response.json();
+            renderStudentList(data.students);
+
+        } catch (err) {
+            console.error('❌ Ошибка:', err);
+            alert('Не удалось загрузить список студентов');
+        }
+    }
+
+    function renderStudentList(students) {
+        const container = document.getElementById('studentList');
+        if (!container) return;
+
+        if (students.length === 0) {
+            container.innerHTML = '<p class="empty">Пока никто не написал</p>';
+            return;
+        }
+
+        let html = '';
+        students.forEach(student => {
+            const time = student.last_message_at
+                ? new Date(student.last_message_at).toLocaleString('ru-RU')
+                : 'Неизвестно';
+
+            html += `
+            <div class="student-card" data-name="${student.name}">
+                <div class="student-header">
+                    <strong>${student.name}</strong>
+                    <span class="student-role">${student.role}</span>
+                </div>
+                <div class="student-last-message">
+                    "${student.last_message_text || '—'}"
+                </div>
+                <div class="student-meta">
+                    <span>📨 ${student.message_count} сообщений</span>
+                    <span>🕐 ${time}</span>
+                </div>
+                <button class="btn-open-chat" onclick="openChatWith('${student.name}')">
+                    💬 Открыть чат
+                </button>
+            </div>
+        `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    // Глобальная функция для открытия чата с конкретным студентом
+    window.openChatWith = function (studentName) {
+        // Переключаем интерфейс чата на диалог с этим студентом
+        console.log(`🔓 Открытие чата с: ${studentName}`);
+        // Здесь ваша логика фильтрации сообщений по sender_name
+    };
 
 });

@@ -68,41 +68,67 @@
         <div class="preview-container" id="previewContainer"></div>
         <button class="clear-preview" id="clearPreview">&times;</button>
     </div>
-    <!-- Боковое меню -->
     <div class="side-menu" id="sideMenu">
+
         <div class="side-menu-overlay" id="sideMenuOverlay"></div>
-        <div class="side-menu-content">
-            <div class="menu-header">
-                <div class="menu-logo">
-                    <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-                        <path d="M4 16L16 4L28 16V28H20V20H12V28H4V16Z" fill="#F47920" />
-                        <path d="M12 20H20V28H12V20Z" fill="#333" />
-                    </svg>
-                    <span>UHome</span>
-                </div>
-                <button class="menu-close" id="menuClose">&times;</button>
+
+        <aside class="side-menu-content">
+
+            <!-- TOP -->
+
+            <div class="menu-top">
+
+                <button class="menu-close" id="menuClose">
+                    ✕
+                </button>
+
             </div>
+
+            <!-- PROFILE -->
+
             <div class="user-profile" id="userProfileBlock">
-                <img src="" alt="Аватар" class="user-avatar" id="menuAvatar">
-                <div class="user-details">
-                    <div class="user-name" id="menuUserName">...</div>
-                    <div class="user-role" id="menuUserRole">...</div>
+
+                <img src="" alt="avatar" class="user-avatar" id="menuAvatar">
+
+                <div class="user-info">
+
+                    <div class="user-name" id="menuUserName">
+                        ...
+                    </div>
+
+                    <div class="user-role" id="menuUserRole">
+                        ...
+                    </div>
+
                 </div>
+
             </div>
+
+            <!-- NAV -->
+
             <nav class="menu-nav" id="menuNav"></nav>
+
+            <!-- FOOTER -->
+
             <div class="menu-footer">
-                <a href="sign_up.html" class="logout-link">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
+                <a href="sign_up.html" class="logout-btn">
+
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
                         <polyline points="16 17 21 12 16 7" />
                         <line x1="21" y1="12" x2="9" y2="12" />
                     </svg>
-                    <span>Выйти</span>
-                </a>
-            </div>
-        </div>
-    </div>
 
+                    <span>Выйти</span>
+
+                </a>
+
+            </div>
+
+        </aside>
+
+    </div>
     <script src="js/chat.js"></script>
 </body>
 

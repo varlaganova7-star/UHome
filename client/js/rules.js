@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 1,
             title: 'Время тишины',
             content: `
-                <p><strong>Ежедневно с 23:00 до 7:00 действует режим тишины:</strong></p>
+                <p><strong>Ежедневно с 23:00 до 7:00</strong> действует режим тишины:</p>
 
                 <ul>
                     <li>Запрещено громко слушать музыку и смотреть фильмы</li>

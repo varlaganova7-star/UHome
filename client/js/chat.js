@@ -284,6 +284,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             { label: 'Главная', icon: 'home', href: 'glav.html' },
             { label: 'Новости', icon: 'news', href: 'news.html' },
             { label: 'Все заявки', icon: 'clipboard', href: 'master_requests.html' },
+            { label: 'Правила проживания', icon: 'rules', href: 'rules.html' },
             { label: 'Чат', icon: 'chat', href: 'chat.html' }
         ],
         studsovet: [

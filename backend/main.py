@@ -15,6 +15,8 @@ from pydantic import BaseModel
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
+from neighbor_routes import router as neighbor_router
+app.include_router(neighbor_router)
 
 # =========================
 # CORS

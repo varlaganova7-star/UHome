@@ -1,494 +1,293 @@
-const currentPage = window.location.pathname.split('/').pop();
+// ===== КОНФИГУРАЦИЯ =====
+const SOCKET_URL = 'http://127.0.0.1:3000';
+const API_URL = 'http://127.0.0.1:3000/api';
+
+// ===== ГЛОБАЛЬНОЕ СОСТОЯНИЕ =====
+const chatState = {
+    socket: null,
+    userRole: null,
+    userName: null,
+    currentChat: null,
+    messages: [],
+    chatUsers: []
+};
+
+// ===== ИНИЦИАЛИЗАЦИЯ =====
 document.addEventListener('DOMContentLoaded', async () => {
-
-    // =====================================
-    // 🧱 LAYOUT: Вставка шапки и меню
-    // =====================================
-
-    const layoutContainer = document.getElementById('layout-container');
-
-    if (layoutContainer) {
-        layoutContainer.innerHTML = `
-            <!-- HEADER -->
-            <header class="header">
-                <a href="glav.html" class="header-logo">
-                    <img src="image 10 (1).png" alt="UHome" class="logo-image">
-                </a>
-                <button class="menu-btn" id="menuBtn">
-                    <span></span><span></span><span></span>
-                </button>
-            </header>
-
-            <!-- SIDE MENU -->
-            <aside class="side-menu" id="sideMenu">
-                <div class="side-menu-overlay" id="sideMenuOverlay"></div>
-                <div class="side-menu-content">
-                    <div class="menu-top">
-                        <button class="menu-close" id="menuClose">✕</button>
-                    </div>
-                    <div class="user-profile" id="userProfileBlock">
-                        <img src="" alt="" class="user-avatar" id="menuAvatar">
-                        <div class="user-info">
-                            <div class="user-name" id="menuUserName"></div>
-                            <div class="user-role" id="menuUserRole"></div>
-                        </div>
-                    </div>
-                    <nav class="menu-nav" id="menuNav"></nav>
-                    <div class="menu-footer" id="menuFooter"></div>
-                </div>
-            </aside>
-        `;
+    chatState.userRole = normalizeRole(localStorage.getItem('uhome_user_role'));
+    chatState.userName = localStorage.getItem('uhome_user_name') || 'Гость';
+    
+    if (!localStorage.getItem('uhome_logged_in')) {
+        window.location.href = 'sign_up.html';
+        return;
     }
+    
+    connectSocket();
+    renderChatInterface();
+});
 
-    // =====================================
-    // 🔗 DOM ELEMENTS
-    // =====================================
-
-    const menuBtn = document.getElementById('menuBtn');
-    const sideMenu = document.getElementById('sideMenu');
-    const menuClose = document.getElementById('menuClose');
-    const menuOverlay = document.getElementById('sideMenuOverlay');
-    const menuNav = document.getElementById('menuNav');
-    const menuFooter = document.getElementById('menuFooter');
-    const menuAvatar = document.getElementById('menuAvatar');
-    const menuUserName = document.getElementById('menuUserName');
-    const menuUserRole = document.getElementById('menuUserRole');
-    const userProfileBlock = document.getElementById('userProfileBlock');
-
-    // =====================================
-    // 👤 ROLE & USER LOGIC
-    // =====================================
-
-    const savedRole = localStorage.getItem('uhome_user_role');
-    let userRole = 'student';
-
-    if (['Electrick', 'Plumber', 'Carpenter', 'master'].includes(savedRole)) {
-        userRole = 'master';
-    } else if (savedRole === 'admin') {
-        userRole = 'admin';
-    } else if (savedRole === 'studsovet') {
-        userRole = 'studsovet';
-    }
-
-    const users = {
-        student: {
-            name: 'Игорь Иванов',
-            role: 'Студент',
-            avatar: 'https://ui-avatars.com/api/?name=Игорь+Иванов&background=F47920&color=fff'
-        },
-        admin: {
-            name: 'Ирина Павлова',
-            role: 'Администрация',
-            avatar: 'https://ui-avatars.com/api/?name=Ирина+Павлова&background=F47920&color=fff'
-        },
-        master: {
-            name: 'Павел Краскин',
-            role: 'Мастер',
-            avatar: 'https://ui-avatars.com/api/?name=Павел+Краскин&background=F47920&color=fff'
-        },
-        studsovet: {
-            name: 'Студенческий совет',
-            role: 'Студсовет',
-            avatar: 'https://ui-avatars.com/api/?name=Студенческий+Совет&background=2E8B57&color=fff'
-        }
+// ===== НОРМАЛИЗАЦИЯ РОЛИ =====
+function normalizeRole(role) {
+    const map = {
+        'admin': 'admin', 'Администрация': 'admin', 'Administration': 'admin',
+        'master': 'master', 'Мастер': 'master',
+        'Electrick': 'master', 'Plumber': 'master', 'Carpenter': 'master',
+        'Slesar': 'master', 'Santex': 'master',
+        'student': 'student', 'Студент': 'student', 'studsovet': 'student'
     };
+    return map[role] || 'student';
+}
 
-    const currentUser = users[userRole] || users.student;
-
-    // Сохраняем текущего пользователя в localStorage для чата
-    localStorage.setItem('uhome_user', JSON.stringify(currentUser));
-
-    // =====================================
-    // 💬 CHAT: Глобальные переменные
-    // =====================================
-
-    let socket = null;
-    const SOCKET_URL = 'http://127.0.0.1:3000';
-    const API_URL = 'http://127.0.0.1:3000/api';
-    // Элементы чата (есть только на chat.html)
-    const messagesContainer = document.getElementById('messagesContainer');
-    const chatInput = document.getElementById('chatInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const chatArea = document.getElementById('chatArea');
-
-    // =====================================
-    // 💬 CHAT: Функции
-    // =====================================
-
-    function initSocket() {
-        if (socket && socket.connected) return;
-        if (!currentUser) {
-            console.warn('⚠️ currentUser не определен, ожидание...');
-            setTimeout(initSocket, 500);
-            return;
-        }
-
-        console.log(`🔌 Подключение к ${SOCKET_URL} как ${currentUser.role}...`);
-
-        socket = io(SOCKET_URL, {
-            transports: ['websocket', 'polling'],
-            reconnection: true,
-            reconnectionAttempts: 5
-        });
-
-        socket.on('connect', () => {
-            console.log('✅ Подключено к серверу:', socket.id);
-            socket.emit('register_user', {
-                role: currentUser.role,
-                name: currentUser.name
-            });
-            socket.emit('get_history');
-        });
-
-        socket.on('new_message', (msg) => {
-            console.log('📨 Новое сообщение:', msg);
-            if (typeof appendMessage === 'function') appendMessage(msg);
-            else console.warn('⚠️ Функция appendMessage не найдена!');
-            scrollToBottom();
-        });
-
-        socket.on('history', (messages) => {
-            console.log('📜 Загружено сообщений:', messages.length);
-            if (messagesContainer) {
-                messagesContainer.innerHTML = '';
-                messages.forEach(msg => {
-                    if (typeof appendMessage === 'function') appendMessage(msg);
-                });
-                scrollToBottom();
-            }
-        });
-
-        socket.on('system_message', (data) => console.log('ℹ️ Система:', data.text));
-        socket.on('error', (err) => {
-            console.error('❌ Ошибка сервера:', err);
-            if (err.text) alert('Ошибка чата: ' + err.text);
-        });
-        socket.on('disconnect', (reason) => console.log('🔌 Отключено:', reason));
-        socket.on('connect_error', (err) => console.error('❌ Ошибка подключения:', err.message));
-    }
-
-    function sendMessage(text, media = []) {
-        if (!text.trim() && (!media || media.length === 0)) return;
-        if (!socket || !socket.connected) {
-            console.error('❌ Нет соединения с сервером');
-            alert('⚠️ Нет соединения. Проверьте, запущен ли бэкенд.');
-            return;
-        }
-        if (!currentUser) {
-            console.error('❌ Пользователь не авторизован');
-            return;
-        }
-
-        let target = 'admin';
-        if (currentUser.role === 'admin' || currentUser.role === 'studsovet') {
-            target = 'student';
-        }
-
-        console.log(`📤 Отправка для [${target}]:`, text);
-        socket.emit('send_message', {
-            text: text.trim(),
-            recipient: target,
-            media: media || []
-        });
-
-        if (chatInput) {
-            chatInput.value = '';
-            chatInput.focus();
-        }
-    }
-
-    function appendMessage(msg) {
-        if (!messagesContainer) return;
-        const isMine = msg.sender_role === currentUser.role;
-        const direction = isMine ? 'outgoing' : 'incoming';
-        const date = new Date(msg.created_at);
-        const timeStr = date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-
-        let mediaHtml = '';
-        if (msg.media && msg.media.length > 0) {
-            mediaHtml = '<div class="media-container">';
-            msg.media.forEach(item => {
-                if (item.type === 'image') {
-                    mediaHtml += `<div class="media-item"><img src="${item.url}" alt="photo"></div>`;
-                } else if (item.type === 'video') {
-                    mediaHtml += `<div class="media-item"><video src="${item.url}" controls></video></div>`;
-                }
-            });
-            mediaHtml += '</div>';
-        }
-
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `message ${direction}`;
-        msgDiv.innerHTML = `
-            ${!isMine ? `<div class="message-author">${msg.sender_name}</div>` : ''}
-            ${msg.text ? `<div class="message-text">${msg.text}</div>` : ''}
-            ${mediaHtml}
-            <div class="message-time">${timeStr}</div>
-        `;
-        messagesContainer.appendChild(msgDiv);
-    }
-
-    function scrollToBottom() {
-        if (chatArea) {
-            setTimeout(() => {
-                chatArea.scrollTop = chatArea.scrollHeight;
-            }, 100);
-        }
-    }
-
-    // =====================================
-    // 👤 PROFILE: Рендер профиля в меню
-    // =====================================
-
-    if (menuAvatar) menuAvatar.src = currentUser.avatar;
-    if (menuUserName) menuUserName.textContent = currentUser.name;
-    if (menuUserRole) menuUserRole.textContent = currentUser.role;
-
-    // =====================================
-    // 🎨 ICONS
-    // =====================================
-
-    const icons = {
-        home: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3L21 10.5"/><path d="M5 9.5V20H19V9.5"/></svg>`,
-        wrench: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
-        clipboard: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
-        news: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="8" x2="17" y2="8"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="7" y1="16" x2="13" y2="16"/></svg>`,
-        chat: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
-        rules: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>`,
-        guest: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6"/><path d="M23 11h-6"/></svg>`,
-        neighbor: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
-        logout: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>`
-    };
-
-    // =====================================
-    // 📋 MENU ITEMS (с учётом новых ролей)
-    // =====================================
-
-    const menuItems = {
-        student: [
-            { label: 'Главная', icon: 'home', href: 'glav.html' },
-            { label: 'Подача заявки на ремонт', icon: 'wrench', href: 'repair_request.html' },
-            { label: 'Отслеживание статуса заявки', icon: 'clipboard', href: 'student_requests.html' },
-            { label: 'Объявления и новости', icon: 'news', href: 'news.html' },
-            { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' },
-            { label: 'Правила проживания', icon: 'rules', href: 'rules.html' },
-            { label: 'Регистрация гостей', icon: 'guest', href: 'guest_registration.html' },
-            { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html' }
-        ],
-        master: [
-            { label: 'Главная', icon: 'home', href: 'glav.html' },
-            { label: 'Все заявки', icon: 'clipboard', href: 'master_requests.html' },
-            { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' }
-        ],
-        admin: [
-            { label: 'Главная', icon: 'home', href: 'glav.html' },
-            { label: 'Новости', icon: 'news', href: 'news.html' },
-            { label: 'Все заявки', icon: 'clipboard', href: 'master_requests.html' },
-            { label: 'Правила проживания', icon: 'rules', href: 'rules.html' },
-            { label: 'Чат', icon: 'chat', href: 'chat.html' }
-        ],
-        studsovet: [
-            { label: 'Главная', icon: 'home', href: 'glav.html' },
-            { label: 'Подача заявки на ремонт', icon: 'wrench', href: 'repair_request.html' },
-            { label: 'Отслеживание статуса заявки', icon: 'clipboard', href: 'student_requests.html' },
-            { label: 'Объявления и новости', icon: 'news', href: 'news.html' },
-            { label: 'Чат с администрацией', icon: 'chat', href: 'chat.html' },
-            { label: 'Правила проживания', icon: 'rules', href: 'rules.html' },
-            { label: 'Регистрация гостей', icon: 'guest', href: 'guest_registration.html' },
-            { label: 'Подбор соседа', icon: 'neighbor', href: 'neighbor.html' },
-            { label: 'Профиль', icon: 'user', href: 'profile.html', active: currentPage === 'profile.html' }
-        ]
-    };
-
-    // =====================================
-    // 🎨 RENDER MENU
-    // =====================================
-
-    function renderMenu() {
-        if (!menuNav) return;
-        const currentPage = window.location.pathname.split('/').pop();
-        const items = menuItems[userRole] || menuItems.student;
-        let html = '';
-
-        items.forEach(item => {
-            const active = item.href === currentPage ? 'active' : '';
-            html += `
-                <a href="${item.href}" class="menu-nav-link ${active}">
-                    <div class="menu-icon">${icons[item.icon]}</div>
-                    <span>${item.label}</span>
-                </a>
-            `;
-        });
-
-        menuNav.innerHTML = html;
-    }
-
-    renderMenu();
-
-    // =====================================
-    // 🦶 FOOTER + LOGOUT
-    // =====================================
-
-    if (menuFooter) {
-        menuFooter.innerHTML = `
-            <button class="logout-btn" id="logoutBtn">
-                ${icons.logout}<span>Выйти</span>
-            </button>
-        `;
-    }
-
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            localStorage.removeItem('uhome_user_role');
-            localStorage.removeItem('uhome_user');
-            closeMenu();
-            setTimeout(() => {
-                window.location.href = 'sign_up.html';
-            }, 200);
-        });
-    }
-
-    // =====================================
-    // 📱 MENU FUNCTIONS
-    // =====================================
-
-    function openMenu() {
-        if (!sideMenu) return;
-        sideMenu.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeMenu() {
-        if (!sideMenu) return;
-        sideMenu.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    // =====================================
-    // ⚡ EVENTS: Меню
-    // =====================================
-
-    if (menuBtn) menuBtn.addEventListener('click', openMenu);
-    if (menuClose) menuClose.addEventListener('click', closeMenu);
-    if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeMenu();
+// ===== ПОДКЛЮЧЕНИЕ К SOCKET.IO =====
+function connectSocket() {
+    chatState.socket = io(SOCKET_URL, {
+        transports: ['websocket', 'polling'],
+        reconnection: true,
+        reconnectionAttempts: 5
     });
-
-    if (menuNav) {
-        menuNav.addEventListener('click', (e) => {
-            const link = e.target.closest('.menu-nav-link');
-            if (link) closeMenu();
+    
+    chatState.socket.on('connect', () => {
+        console.log('✅ Подключено к чату');
+        chatState.socket.emit('register_user', {
+            role: chatState.userRole,
+            name: chatState.userName
         });
-    }
-
-    if (userProfileBlock) {
-        userProfileBlock.addEventListener('click', () => {
-            closeMenu();
-            setTimeout(() => {
-                window.location.href = 'profile.html';
-            }, 250);
-        });
-    }
-
-    // =====================================
-    // 💬 CHAT: Инициализация (только на chat.html)
-    // =====================================
-
-    const isChatPage = window.location.pathname.includes('chat.html');
-
-    if (isChatPage) {
-        // Ждём, пока currentUser определится
-        setTimeout(() => {
-            if (currentUser) {
-                initSocket();
-
-                // Обработчики отправки сообщений
-                if (sendBtn) {
-                    sendBtn.addEventListener('click', () => {
-                        sendMessage(chatInput.value);
-                    });
-                }
-                if (chatInput) {
-                    chatInput.addEventListener('keypress', (e) => {
-                        if (e.key === 'Enter') sendMessage(chatInput.value);
-                    });
-                }
-            }
-        }, 300);
-    }
-    async function loadStudentList() {
-        const role = localStorage.getItem('uhome_user_role');
-
-        // Проверка прав на фронтенде (дополнительная)
-        if (role !== 'admin' && role !== 'studsovet') {
-            console.warn('❌ Только администрация может видеть список студентов');
-            return;
+    });
+    
+    chatState.socket.on('user_registered', (data) => {
+        console.log(`👤 ${data.message}`);
+    });
+    
+    chatState.socket.on('chat_list', (users) => {
+        chatState.chatUsers = users;
+        renderChatList(users);
+    });
+    
+    chatState.socket.on('chat_history', (data) => {
+        chatState.messages = data.messages;
+        renderMessages(data.messages, data.partner_name);
+    });
+    
+    chatState.socket.on('new_message', (msg) => {
+        handleNewMessage(msg);
+    });
+    
+    chatState.socket.on('new_chat_notification', (notif) => {
+        if (chatState.userRole === 'admin') {
+            showNotification(`📨 ${notif.user_name}: ${notif.preview}`);
+            loadChatUsers();
         }
+    });
+    
+    chatState.socket.on('error', (err) => {
+        console.error('❌ Ошибка чата:', err.text);
+    });
+}
 
-        try {
-            const response = await fetch('http://127.0.0.1:3000/api/admin/students', {
-                headers: {
-                    'X-User-Role': role  // Передаём роль для проверки на бэкенде
-                }
-            });
-
-            if (!response.ok) throw new Error('Ошибка загрузки');
-
-            const data = await response.json();
-            renderStudentList(data.students);
-
-        } catch (err) {
-            console.error('❌ Ошибка:', err);
-            alert('Не удалось загрузить список студентов');
-        }
-    }
-
-    function renderStudentList(students) {
-        const container = document.getElementById('studentList');
-        if (!container) return;
-
-        if (students.length === 0) {
-            container.innerHTML = '<p class="empty">Пока никто не написал</p>';
-            return;
-        }
-
-        let html = '';
-        students.forEach(student => {
-            const time = student.last_message_at
-                ? new Date(student.last_message_at).toLocaleString('ru-RU')
-                : 'Неизвестно';
-
-            html += `
-            <div class="student-card" data-name="${student.name}">
-                <div class="student-header">
-                    <strong>${student.name}</strong>
-                    <span class="student-role">${student.role}</span>
-                </div>
-                <div class="student-last-message">
-                    "${student.last_message_text || '—'}"
-                </div>
-                <div class="student-meta">
-                    <span>📨 ${student.message_count} сообщений</span>
-                    <span>🕐 ${time}</span>
-                </div>
-                <button class="btn-open-chat" onclick="openChatWith('${student.name}')">
-                    💬 Открыть чат
-                </button>
+// ===== РЕНДЕР ИНТЕРФЕЙСА =====
+function renderChatInterface() {
+    const container = document.getElementById('chatContainer');
+    if (!container) return;
+    
+    if (chatState.userRole === 'admin') {
+        container.innerHTML = `
+            <div class="chat-layout admin-layout">
+                <aside class="chat-sidebar">
+                    <div class="sidebar-header"><h3>Чаты</h3></div>
+                    <div id="chatUsersList" class="chat-users-list"><p class="loading">Загрузка...</p></div>
+                </aside>
+                <main class="chat-window">
+                    <div class="chat-header">
+                        <h4 id="chatPartnerName">Выберите чат</h4>
+                    </div>
+                    <div id="messagesContainer" class="messages-container">
+                        <p class="empty-chat">Выберите пользователя для начала переписки</p>
+                    </div>
+                    <form id="messageForm" class="message-form" style="display:none">
+                        <textarea id="messageInput" placeholder="Напишите сообщение..." rows="2"></textarea>
+                        <button type="submit" class="send-btn">➤</button>
+                    </form>
+                </main>
             </div>
         `;
-        });
-
-        container.innerHTML = html;
+        loadChatUsers();
+        setupAdminEventListeners();
+    } else {
+        container.innerHTML = `
+            <div class="chat-layout user-layout">
+                <main class="chat-window full-width">
+                    <div class="chat-header"><h4>💬 Чат с Администрацией</h4></div>
+                    <div id="messagesContainer" class="messages-container"><p class="loading">Загрузка...</p></div>
+                    <form id="messageForm" class="message-form">
+                        <textarea id="messageInput" placeholder="Опишите проблему..." rows="2" required></textarea>
+                        <button type="submit" class="send-btn">➤</button>
+                    </form>
+                </main>
+            </div>
+        `;
+        setupUserEventListeners();
     }
+}
 
-    // Глобальная функция для открытия чата с конкретным студентом
-    window.openChatWith = function (studentName) {
-        // Переключаем интерфейс чата на диалог с этим студентом
-        console.log(`🔓 Открытие чата с: ${studentName}`);
-        // Здесь ваша логика фильтрации сообщений по sender_name
-    };
+// ===== ЗАГРУЗКА СПИСКА ЧАТОВ =====
+async function loadChatUsers() {
+    try {
+        const response = await fetch(`${API_URL}/chat/users`, {
+            headers: { 'X-User-Role': chatState.userRole, 'X-User-Name': chatState.userName }
+        });
+        if (!response.ok) throw new Error('Ошибка');
+        const users = await response.json();
+        chatState.chatUsers = users;
+        renderChatList(users);
+    } catch (err) {
+        console.error('❌ Ошибка:', err);
+    }
+}
 
-});
+// ===== ОТРИСОВКА СПИСКА =====
+function renderChatList(users) {
+    const list = document.getElementById('chatUsersList');
+    if (!list) return;
+    if (!users?.length) {
+        list.innerHTML = '<p class="empty">Нет активных чатов</p>';
+        return;
+    }
+    list.innerHTML = users.map(user => {
+        const isActive = chatState.currentChat?.name === user.name ? 'active' : '';
+        const roleLabel = user.role === 'master' ? '🔧 Мастер' : '🎓 Студент';
+        return `
+            <div class="chat-user-item ${isActive}" data-name="${user.name}" data-role="${user.role}">
+                <div class="user-avatar">${user.name.charAt(0).toUpperCase()}</div>
+                <div class="user-info">
+                    <div class="user-name">${user.name}</div>
+                    <div class="user-role">${roleLabel}</div>
+                    <div class="last-message">${escapeHtml(user.last_message)}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    list.querySelectorAll('.chat-user-item').forEach(item => {
+        item.addEventListener('click', () => {
+            openChatWith(item.dataset.name, item.dataset.role);
+        });
+    });
+}
+
+// ===== ОТКРЫТИЕ ЧАТА =====
+function openChatWith(userName, userRole) {
+    chatState.currentChat = { name: userName, role: userRole };
+    document.getElementById('chatPartnerName').textContent = `${userName} (${userRole === 'master' ? 'Мастер' : 'Студент'})`;
+    document.getElementById('messageForm').style.display = 'flex';
+    document.querySelectorAll('.chat-user-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.name === userName);
+    });
+    loadChatHistory(userName, userRole);
+}
+
+// ===== ЗАГРУЗКА ИСТОРИИ =====
+async function loadChatHistory(partnerName, partnerRole) {
+    const container = document.getElementById('messagesContainer');
+    if (container) container.innerHTML = '<p class="loading">Загрузка...</p>';
+    try {
+        const targetName = chatState.userRole === 'admin' ? partnerName : chatState.userName;
+        const targetRole = chatState.userRole === 'admin' ? partnerRole : 'admin';
+        const response = await fetch(
+            `${API_URL}/chat/history?partner_name=${encodeURIComponent(targetName)}&partner_role=${targetRole}&limit=100`,
+            { headers: { 'X-User-Role': chatState.userRole, 'X-User-Name': chatState.userName } }
+        );
+        if (!response.ok) throw new Error('Ошибка');
+        const data = await response.json();
+        chatState.messages = data.messages;
+        renderMessages(data.messages, partnerName);
+    } catch (err) {
+        console.error('❌ Ошибка:', err);
+        if (container) container.innerHTML = '<p class="error">Не удалось загрузить</p>';
+    }
+}
+
+// ===== ОТРИСОВКА СООБЩЕНИЙ =====
+function renderMessages(messages, partnerName) {
+    const container = document.getElementById('messagesContainer');
+    if (!container) return;
+    if (!messages?.length) {
+        container.innerHTML = '<p class="empty-chat">Нет сообщений</p>';
+        return;
+    }
+    let currentDate = null;
+    container.innerHTML = messages.map(msg => {
+        const isOwn = msg.sender_name === chatState.userName;
+        const msgDate = new Date(msg.created_at).toLocaleDateString('ru-RU');
+        const dateDivider = msgDate !== currentDate ? `<div class="date-divider">${msgDate === new Date().toLocaleDateString('ru-RU') ? 'Сегодня' : msgDate}</div>` : '';
+        currentDate = msgDate;
+        const time = new Date(msg.created_at).toLocaleTimeString('ru-RU', { hour:'2-digit', minute:'2-digit' });
+        const alignClass = isOwn ? 'message-own' : 'message-other';
+        return `
+            ${dateDivider}
+            <div class="message ${alignClass}">
+                ${!isOwn ? `<div class="message-sender">${msg.sender_name}</div>` : ''}
+                <div class="message-bubble">
+                    <div class="message-text">${escapeHtml(msg.text)}</div>
+                    <div class="message-time">${time}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    container.scrollTop = container.scrollHeight;
+}
+
+// ===== ОБРАБОТКА НОВОГО СООБЩЕНИЯ =====
+function handleNewMessage(msg) {
+    const isInCurrentChat = chatState.userRole === 'admin' 
+        ? (msg.sender_name === chatState.currentChat?.name || msg.recipient_name === chatState.currentChat?.name)
+        : (msg.sender_role === 'admin' || msg.recipient_role === 'admin');
+    
+    if (isInCurrentChat) {
+        chatState.messages.push(msg);
+        renderMessages(chatState.messages, chatState.currentChat?.name || 'Администрация');
+    }
+    if (chatState.userRole === 'admin' && msg.sender_role !== 'admin') {
+        loadChatUsers();
+    }
+}
+
+// ===== ОТПРАВКА СООБЩЕНИЯ =====
+function setupMessageForm() {
+    const form = document.getElementById('messageForm');
+    const input = document.getElementById('messageInput');
+    if (!form || !input) return;
+    
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = input.value.trim();
+        if (!text) return;
+        const payload = {
+            text: text,
+            recipient_role: 'admin',
+            recipient_name: chatState.userRole === 'admin' ? chatState.currentChat?.name : undefined
+        };
+        chatState.socket.emit('send_message', payload);
+        input.value = '';
+        input.style.height = 'auto';
+    });
+    
+    input.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+    });
+}
+
+function setupAdminEventListeners() { setupMessageForm(); }
+function setupUserEventListeners() { setupMessageForm(); }
+
+// ===== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ =====
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function showNotification(text) {
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('UHome Чат', { body: text });
+    }
+}

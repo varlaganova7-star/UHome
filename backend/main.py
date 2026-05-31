@@ -106,6 +106,7 @@ def login(user: UserLogin):
 
         return {
             "error": "User not found"
+            
         }
 
     valid = verify_password(

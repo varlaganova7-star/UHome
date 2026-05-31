@@ -1,296 +1,114 @@
-from flask import Flask, request, jsonify, send_from_directory
-from flask_cors import CORS
-import psycopg2
-from psycopg2.extras import RealDictCursor, Json
-import os
-import json
-from werkzeug.utils import secure_filename
+from fastapi import FastAPI, Depends, HTTPException, Header
+from sqlalchemy.orm import Session
+from database import get_db, engine, Base
+from models import User, RepairRequest
+from schemas import RequestCreate, StatusUpdate, AssignMaster, RequestResponse
 from datetime import datetime
-from dotenv import load_dotenv
 
-load_dotenv()
+# Создаём таблицы при старте (в продакшене используйте Alembic)
+Base.metadata.create_all(bind=engine)
 
-app = Flask(__name__)
-CORS(app)  # Разрешаем запросы с любого источника (для разработки)
+app = FastAPI(title="UHome Repair API", version="1.0")
 
-# ================= КОНФИГУРАЦИЯ =================
-UPLOAD_FOLDER = "backend/uploads"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+# 🔐 Зависимость для получения текущего пользователя (замените на JWT в продакшене)
+async def get_current_user(
+    x_user_id: int = Header(..., description="ID пользователя"),
+    x_user_role: str = Header(..., description="Роль: student, studsovet, admin, master")
+) -> dict:
+    valid_roles = {"student", "studsovet", "admin", "master"}
+    if x_user_role not in valid_roles:
+        raise HTTPException(status_code=403, detail="Неверная роль")
+    return {"id": x_user_id, "role": x_user_role}
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif', 'webp'}
-MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-# ================= БАЗА ДАННЫХ =================
-def get_db_connection():
-    return psycopg2.connect(
-        dbname=os.getenv("DB_NAME", "repair_app"),
-        user=os.getenv("DB_USER", "postgres"),
-        password=os.getenv("DB_PASSWORD", "236043"),
-        host=os.getenv("DB_HOST", "127.0.0.1"),  # ← IPv4 вместо localhost
-        port=os.getenv("DB_PORT", "5432"),
-        cursor_factory=RealDictCursor
+# 📤 ПОДАЧА ЗАЯВКИ (только студент)
+@app.post("/api/requests", response_model=RequestResponse)
+def create_request(
+    data: RequestCreate,
+    db: Session = Depends(get_db),
+    user: dict = Depends(get_current_user)
+):
+    if user["role"] != "student":
+        raise HTTPException(403, "Только студенты могут подавать заявки")
+    
+    new_req = RepairRequest(
+        student_id=user["id"],
+        **data.model_dump()
+    )
+    db.add(new_req)
+    db.commit()
+    db.refresh(new_req)
+    
+    return RequestResponse(
+        **new_req.__dict__,
+        student_name=db.query(User.fullname).filter(User.id == new_req.student_id).scalar(),
+        master_name=None
     )
 
-# ================= ПОДАЧА ЗАЯВКИ =================
-@app.route("/api/requests", methods=["POST"])
-def submit_request():
-    try:
-        # Данные формы
-        student_name = request.form.get("student_name", "Неизвестный")
-        student_role = request.form.get("student_role", "student")
-        room_number = request.form.get("room_number", "")
-        category = request.form.get("category")
-        short_desc = request.form.get("short_desc")
-        full_desc = request.form.get("full_desc", "")
-        priority = request.form.get("priority", "normal")
-        preferred_dates = request.form.get("dates", "[]")
-        
-        # Валидация
-        if not category or not short_desc:
-            return jsonify({"error": "Категория и краткое описание обязательны"}), 400
-        
-        # Обработка фото
-        files = request.files.getlist("photos")
-        saved_files = []
-        
-        for file in files:
-            if file and file.filename != "" and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                # Уникальное имя: timestamp_оригинал
-                unique_name = f"{int(datetime.now().timestamp())}_{filename}"
-                filepath = os.path.join(UPLOAD_FOLDER, unique_name)
-                file.save(filepath)
-                saved_files.append(unique_name)
-        
-        # Парсим даты
-        try:
-            dates_list = json.loads(preferred_dates) if preferred_dates != "[]" else []
-        except:
-            dates_list = []
-        
-        # Сохраняем в БД
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        cursor.execute("""
-            INSERT INTO requests (
-                student_name, student_role, room_number, category, 
-                short_desc, full_desc, priority, preferred_dates, 
-                photos, status
-            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            RETURNING id, created_at
-        """, (
-            student_name, student_role, room_number, category,
-            short_desc, full_desc, priority, Json(dates_list),
-            Json(saved_files), "Ожидают"
+# 📖 ПРОСМОТР ЗАЯВОК (фильтрация по роли)
+@app.get("/api/requests", response_model=list[RequestResponse])
+def get_requests(
+    skip: int = 0, limit: int = 50,
+    db: Session = Depends(get_db),
+    user: dict = Depends(get_current_user)
+):
+    query = db.query(RepairRequest)
+    
+    if user["role"] == "student":
+        query = query.filter(RepairRequest.student_id == user["id"])
+    elif user["role"] == "master":
+        query = query.filter(RepairRequest.assigned_master_id == user["id"])
+    # admin и studsovet видят ВСЕ заявки
+    
+    requests = query.order_by(RepairRequest.created_at.desc()).offset(skip).limit(limit).all()
+    
+    result = []
+    for req in requests:
+        result.append(RequestResponse(
+            **req.__dict__,
+            student_name=req.student.fullname if req.student else "Удалён",
+            master_name=req.master.fullname if req.master else None
         ))
-        
-        new_request = cursor.fetchone()
-        conn.commit()
-        cursor.close()
-        conn.close()
-        
-        return jsonify({
-            "success": True,
-            "message": "✅ Заявка успешно подана!",
-            "request_id": new_request["id"],
-            "created_at": new_request["created_at"].isoformat()
-        }), 201
-        
-    except Exception as e:
-        print(f"❌ Ошибка подачи заявки: {e}")
-        return jsonify({"error": "Внутренняя ошибка сервера"}), 500
+    return result
 
-# ================= ПОЛУЧЕНИЕ ЗАЯВОК =================
-@app.route("/api/requests", methods=["GET"])
-def get_requests():
-    try:
-        role = request.args.get("role", "student")
-        student_name = request.args.get("student_name")  # Для фильтрации своих заявок
+# 🔄 ОБНОВЛЕНИЕ СТАТУСА (админ или назначенный мастер)
+@app.patch("/api/requests/{req_id}/status")
+def update_status(
+    req_id: int, data: StatusUpdate,
+    db: Session = Depends(get_db),
+    user: dict = Depends(get_current_user)
+):
+    req = db.query(RepairRequest).filter(RepairRequest.id == req_id).first()
+    if not req: raise HTTPException(404, "Заявка не найдена")
+    
+    # 🔒 Проверка прав
+    if user["role"] == "student":
+        raise HTTPException(403, "Студенты не могут менять статус")
+    if user["role"] == "master" and req.assigned_master_id != user["id"]:
+        raise HTTPException(403, "Вы можете менять статус только назначенных вам заявок")
         
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        if role == "admin" or role == "master":
-            # Админ/мастер видит ВСЕ заявки
-            cursor.execute("""
-                SELECT id, student_name, student_role, room_number, category, 
-                       short_desc, full_desc, priority, preferred_dates, 
-                       photos, status, master_assigned, created_at, updated_at
-                FROM requests
-                ORDER BY created_at DESC
-                LIMIT 100
-            """)
-        else:
-            # Студент видит только СВОИ заявки
-            cursor.execute("""
-                SELECT id, student_name, student_role, room_number, category, 
-                       short_desc, full_desc, priority, preferred_dates, 
-                       photos, status, master_assigned, created_at, updated_at
-                FROM requests
-                WHERE student_name = %s OR student_role != 'student'
-                ORDER BY created_at DESC
-                LIMIT 100
-            """, (student_name,))
-        
-        rows = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        
-        # Форматируем ответ
-        result = []
-        for row in rows:
-            result.append({
-                "id": row["id"],
-                "student_name": row["student_name"],
-                "student_role": row["student_role"],
-                "room_number": row["room_number"],
-                "category": row["category"],
-                "short_desc": row["short_desc"],
-                "full_desc": row["full_desc"],
-                "priority": row["priority"],
-                "preferred_dates": row["preferred_dates"] or [],
-                "photos": [f"/api/uploads/{f}" for f in (row["photos"] or [])],
-                "status": row["status"],
-                "master_assigned": row["master_assigned"],
-                "created_at": row["created_at"].isoformat() if row["created_at"] else None,
-                "updated_at": row["updated_at"].isoformat() if row["updated_at"] else None
-            })
-        
-        return jsonify(result)
-        
-    except Exception as e:
-        print(f"❌ Ошибка получения заявок: {e}")
-        return jsonify({"error": "Внутренняя ошибка сервера"}), 500
+    req.status = data.status
+    req.updated_at = datetime.utcnow()
+    db.commit()
+    return {"message": f"✅ Статус изменён на '{data.status}'"}
 
-# ================= ОБНОВЛЕНИЕ СТАТУСА =================
-@app.route("/api/requests/<int:request_id>/status", methods=["PATCH"])
-def update_status(request_id):
-    try:
-        data = request.get_json()
-        new_status = data.get("status")
-        changed_by = data.get("changed_by", "Система")
-        comment = data.get("comment", "")
+# 👷 НАЗНАЧЕНИЕ МАСТЕРА (только админ/студсовет)
+@app.patch("/api/requests/{req_id}/assign")
+def assign_master(
+    req_id: int, data: AssignMaster,
+    db: Session = Depends(get_db),
+    user: dict = Depends(get_current_user)
+):
+    if user["role"] not in ["admin", "studsovet"]:
+        raise HTTPException(403, "Назначать мастеров может только администрация")
         
-        # Валидация статуса
-        valid_statuses = ["Ожидают", "В работе", "Выполнено", "Отклонено", "Отменено"]
-        if new_status not in valid_statuses:
-            return jsonify({"error": f"Неверный статус. Допустимые: {valid_statuses}"}), 400
-        
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        # Получаем текущий статус для истории
-        cursor.execute("SELECT status FROM requests WHERE id = %s", (request_id,))
-        row = cursor.fetchone()
-        if not row:
-            cursor.close()
-            conn.close()
-            return jsonify({"error": "Заявка не найдена"}), 404
-        
-        old_status = row["status"]
-        
-        # Обновляем статус
-        cursor.execute("""
-            UPDATE requests 
-            SET status = %s, updated_at = NOW()
-            WHERE id = %s
-        """, (new_status, request_id))
-        
-        # Записываем в историю
-        cursor.execute("""
-            INSERT INTO request_history (request_id, old_status, new_status, changed_by, comment)
-            VALUES (%s, %s, %s, %s, %s)
-        """, (request_id, old_status, new_status, changed_by, comment))
-        
-        conn.commit()
-        cursor.close()
-        conn.close()
-        
-        return jsonify({
-            "success": True,
-            "message": f"✅ Статус изменён: '{old_status}' → '{new_status}'",
-            "new_status": new_status
-        })
-        
-    except Exception as e:
-        print(f"❌ Ошибка обновления статуса: {e}")
-        return jsonify({"error": "Внутренняя ошибка сервера"}), 500
-
-# ================= НАЗНАЧЕНИЕ МАСТЕРА =================
-@app.route("/api/requests/<int:request_id>/assign", methods=["PATCH"])
-def assign_master(request_id):
-    try:
-        data = request.get_json()
-        master_name = data.get("master_name")
-        
-        if not master_name:
-            return jsonify({"error": "Имя мастера обязательно"}), 400
-        
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        cursor.execute("""
-            UPDATE requests 
-            SET master_assigned = %s, updated_at = NOW()
-            WHERE id = %s
-        """, (master_name, request_id))
-        
-        conn.commit()
-        cursor.close()
-        conn.close()
-        
-        return jsonify({
-            "success": True,
-            "message": f"✅ Мастер '{master_name}' назначен"
-        })
-        
-    except Exception as e:
-        print(f"❌ Ошибка назначения мастера: {e}")
-        return jsonify({"error": "Внутренняя ошибка сервера"}), 500
-
-# ================= ЗАГРУЗКА ФОТО =================
-@app.route("/api/uploads/<filename>")
-def serve_upload(filename):
-    try:
-        return send_from_directory(UPLOAD_FOLDER, filename)
-    except FileNotFoundError:
-        return jsonify({"error": "Файл не найден"}), 404
-
-# ================= УДАЛЕНИЕ ЗАЯВКИ (только админ) =================
-@app.route("/api/requests/<int:request_id>", methods=["DELETE"])
-def delete_request(request_id):
-    try:
-        # В продакшене добавьте проверку роли админа!
-        
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        
-        # Сначала удаляем файлы (опционально)
-        cursor.execute("SELECT photos FROM requests WHERE id = %s", (request_id,))
-        row = cursor.fetchone()
-        if row and row["photos"]:
-            for filename in row["photos"]:
-                filepath = os.path.join(UPLOAD_FOLDER, filename)
-                if os.path.exists(filepath):
-                    os.remove(filepath)
-        
-        # Удаляем запись (история удалится автоматически из-за ON DELETE CASCADE)
-        cursor.execute("DELETE FROM requests WHERE id = %s", (request_id,))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        
-        return jsonify({"success": True, "message": "✅ Заявка удалена"})
-        
-    except Exception as e:
-        print(f"❌ Ошибка удаления: {e}")
-        return jsonify({"error": "Внутренняя ошибка сервера"}), 500
-
-# ================= ЗАПУСК =================
-if __name__ == "__main__":
-    port = int(os.getenv("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    req = db.query(RepairRequest).filter(RepairRequest.id == req_id).first()
+    if not req: raise HTTPException(404, "Заявка не найдена")
+    
+    master = db.query(User).filter(User.id == data.master_id, User.role == "master").first()
+    if not master: raise HTTPException(404, "Мастер не найден или имеет неверную роль")
+    
+    req.assigned_master_id = master.id
+    req.status = "assigned"
+    req.updated_at = datetime.utcnow()
+    db.commit()
+    return {"message": f"✅ Заявка назначена на {master.fullname} ({master.specialization})"}

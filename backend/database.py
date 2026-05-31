@@ -6,9 +6,9 @@ import os
 
 load_dotenv()
 
-DATABASE_URL = "sqlite:///./uhome.db"
+DATAgBASE_URL = "sqlite:///./uhome.db"
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATAgBASE_URL)
 
 SessionLocal = sessionmaker(
     autocommit=False,

@@ -1,25 +1,34 @@
-from fastapi import FastAPI
+# =========================
+# 🔼 ИМПОРТЫ (всегда вверху!)
+# =========================
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
+from passlib.context import CryptContext  # ✅ Перенесено ВВЕРХ!
 
 from database import SessionLocal, engine, Base
 from models import User
+from neighbor_routes import router as neighbor_router
 
-from auth import (
-    hash_password,
-    verify_password
-)
+# =========================
+# 🔐 НАСТРОЙКИ ПАРОЛЕЙ
+# =========================
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
-from pydantic import BaseModel
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
 
+def hash_password(password: str) -> str:
+    return pwd_context.hash(password)
+
+# =========================
+# 🗄 ИНИЦИАЛИЗАЦИЯ
+# =========================
 Base.metadata.create_all(bind=engine)
+app = FastAPI(title="UHome API")
 
-app = FastAPI()
-
-# =========================
 # CORS
-# =========================
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -28,99 +37,87 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# =========================
-# SCHEMAS
-# =========================
+# Подключаем роутеры
+app.include_router(neighbor_router)
 
+# =========================
+# 📐 SCHEMAS
+# =========================
 class UserCreate(BaseModel):
-
     fullname: str
-
     email: str
-
     password: str
-
     role: str
 
-
 class UserLogin(BaseModel):
-
     email: str
-
     password: str
 
-
 # =========================
-# REGISTER
+# 📤 REGISTER
 # =========================
-
 @app.post("/register")
 def register(user: UserCreate):
-
     db: Session = SessionLocal()
-
-    existing_user = db.query(User).filter(
-        User.email == user.email
-    ).first()
-
-    if existing_user:
-
-        return {
-            "error": "Email already exists"
-        }
-
-    hashed = hash_password(
-        user.password
-    )
-
-    new_user = User(
-        fullname=user.fullname,
-        email=user.email,
-        password=hashed,
-        role=user.role
-    )
-
-    db.add(new_user)
-
-    db.commit()
-
-    return {
-        "message": "User created"
-    }
-
+    print(f"🔍 Регистрация: {user.email}")
+    
+    try:
+        existing_user = db.query(User).filter(User.email == user.email).first()
+        if existing_user:
+            print(f"⚠️ Email {user.email} уже существует")
+            return {"error": "Email already exists"}
+        
+        print("🔐 Хэширую пароль...")
+        hashed = hash_password(user.password)
+        print(f"✅ Хэш получен: {hashed[:20]}...")
+        
+        new_user = User(
+            fullname=user.fullname,
+            email=user.email,
+            password=hashed,
+            role=user.role
+        )
+        
+        print("💾 Добавляю в сессию...")
+        db.add(new_user)
+        
+        print("🔄 Выполняю commit...")
+        db.commit()  # 🔥 КРИТИЧНО!
+        print("✅ COMMIT выполнен!")
+        
+        db.refresh(new_user)
+        print(f"🎉 Пользователь создан с ID: {new_user.id}")
+        
+        return {"message": "User created", "id": new_user.id}
+        
+    except Exception as e:
+        print(f"❌ ОШИБКА в register: {e}")
+        import traceback
+        traceback.print_exc()
+        db.rollback()
+        return {"error": str(e)}, 500
+    finally:
+        db.close()  # 🔥 Закрываем соединение!
 
 # =========================
-# LOGIN
+# 🔐 LOGIN
 # =========================
-
 @app.post("/login")
 def login(user: UserLogin):
-
     db: Session = SessionLocal()
-
-    db_user = db.query(User).filter(
-        User.email == user.email
-    ).first()
-
-    if not db_user:
-
-        return {
-            "error": "User not found"
-        }
-
-    valid = verify_password(
-        user.password,
-        db_user.password
-    )
-
-    if not valid:
+    try:
+        db_user = db.query(User).filter(User.email == user.email).first()
+        
+        if not db_user:
+            return {"error": "User not found"}, 404
+        if not verify_password(user.password, db_user.password):
+            return {"error": "Wrong password"}, 401
 
         return {
-            "error": "Wrong password"
+            "id": db_user.id,
+            "fullname": db_user.fullname,
+            "role": db_user.role,
+            "message": "Success"
         }
-
-    return {
-        "message": "Success",
-        "role": db_user.role,
-        "fullname": db_user.fullname
-    }
+    finally:
+        db.close()  # 🔥 Закрываем соединение!

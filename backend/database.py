@@ -6,9 +6,9 @@ import os
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATAgBASE_URL = "sqlite:///./uhome.db"
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(DATAgBASE_URL)
 
 SessionLocal = sessionmaker(
     autocommit=False,
@@ -17,3 +17,10 @@ SessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

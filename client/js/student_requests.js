@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔐 ПРОВЕРКА АВТОРИЗАЦИИ
     // =========================================
     const isLoggedIn = localStorage.getItem('uhome_logged_in') === 'true';
-    const userName = localStorage.getItem('uhome_user_name');
+    const userName = localStorage.getItem('uhome_user_fullname');
     const rawRole = localStorage.getItem('uhome_user_role'); // ← переименовали, чтобы не конфликтовало
 
     if (!isLoggedIn || !userName) {

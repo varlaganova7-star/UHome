@@ -214,7 +214,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Генерация аватарки
 
+    const savedAvatar =
+        localStorage.getItem('uhome_user_avatar');
+
     const avatarUrl =
+        savedAvatar ||
         `https://ui-avatars.com/api/?name=${firstLetter}&background=F47920&color=fff&size=128`;
 
     // =====================================

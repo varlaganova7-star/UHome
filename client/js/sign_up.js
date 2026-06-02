@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const roleSelect =
         document.getElementById('role');
 
+    const formsArea =
+        document.querySelector('.forms-area');
+
 
 
     // =====================================
@@ -30,37 +33,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // =====================================
-    // SHOW LOGIN
+    // MOBILE HEIGHT
     // =====================================
 
-    function showLogin() {
+    function updateMobileHeight() {
 
-        isLogin = true;
+        if (window.innerWidth > 768) {
 
-        container.classList.add('login');
+            formsArea.style.height = '';
+            return;
+        }
 
-        container.classList.remove('register');
+        const activeForm =
+            isLogin
+                ? loginForm
+                : registerForm;
 
-        toggleBtn.textContent =
-            'Зарегистрироваться';
+        formsArea.style.height =
+            activeForm.offsetHeight + 'px';
     }
 
 
 
     // =====================================
-    // SHOW REGISTER
+    // SWITCH MODE
     // =====================================
 
-    function showRegister() {
+    function switchMode(loginMode) {
 
-        isLogin = false;
+        isLogin = loginMode;
 
-        container.classList.add('register');
+        toggleBtn.style.opacity = '0';
 
-        container.classList.remove('login');
+        setTimeout(() => {
 
-        toggleBtn.textContent =
-            'Авторизоваться';
+            if (loginMode) {
+
+                container.classList.add('login');
+                container.classList.remove('register');
+
+                toggleBtn.textContent =
+                    'Зарегистрироваться';
+
+            } else {
+
+                container.classList.add('register');
+                container.classList.remove('login');
+
+                toggleBtn.textContent =
+                    'Авторизоваться';
+            }
+
+            toggleBtn.style.opacity = '1';
+
+            requestAnimationFrame(() => {
+                updateMobileHeight();
+            });
+
+        }, 150);
     }
 
 
@@ -71,15 +101,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     toggleBtn.addEventListener('click', () => {
 
-        if (isLogin) {
+        switchMode(!isLogin);
 
-            showRegister();
-
-        } else {
-
-            showLogin();
-        }
     });
+
+
+
+    // =====================================
+    // RESIZE
+    // =====================================
+
+    window.addEventListener(
+        'resize',
+        updateMobileHeight
+    );
 
 
 
@@ -106,10 +141,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const role =
             roleSelect.value;
 
-
-
-        // VALIDATION
-
         if (
             !role ||
             !fullname ||
@@ -133,10 +164,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-
-
-        // SAVE USER
-
         localStorage.setItem(
             'uhome_logged_in',
             'true'
@@ -157,12 +184,9 @@ document.addEventListener('DOMContentLoaded', () => {
             email
         );
 
-
-
-        // REDIRECT
-
         window.location.href =
             'glav.html';
+
     });
 
 
@@ -184,10 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const password =
             inputs[1].value.trim();
 
-
-
-        // VALIDATION
-
         if (!email || !password) {
 
             alert(
@@ -196,10 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             return;
         }
-
-
-
-        // LOGIN
 
         localStorage.setItem(
             'uhome_logged_in',
@@ -210,10 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'uhome_user_email',
             email
         );
-
-
-
-        // DEFAULT USER
 
         if (!localStorage.getItem('uhome_user_role')) {
 
@@ -231,12 +243,9 @@ document.addEventListener('DOMContentLoaded', () => {
             );
         }
 
-
-
-        // REDIRECT
-
         window.location.href =
             'glav.html';
+
     });
 
 
@@ -245,6 +254,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // START
     // =====================================
 
-    showRegister();
+    switchMode(false);
+
+    setTimeout(() => {
+        updateMobileHeight();
+    }, 50);
 
 });

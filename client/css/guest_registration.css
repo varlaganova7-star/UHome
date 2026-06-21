@@ -173,17 +173,18 @@ BUTTONS
 
 .button-group{
 
-    display:flex;
-    gap:14px;
-
-    margin-top:30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 34px;
 
 }
 
 .btn-cancel,
 .btn-submit{
 
-    flex:1;
+    width: 100%;
+    min-width: 0;
 
     height:54px;
 
@@ -323,8 +324,13 @@ ADAPTIVE
 
     }
 
-    .button-group{
-        flex-direction:column;
+    .button-group {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-cancel,
+    .btn-submit {
+        width: 100%;
     }
 
 }

@@ -1,0 +1,485 @@
+/* ============================================
+   glav.css
+   Стили главной страницы
+============================================ */
+
+/* ============================================
+   PAGE
+============================================ */
+
+.main-content {
+
+    max-width: 760px;
+
+    margin: 0 auto;
+
+    padding: 32px 20px 60px;
+}
+
+.container {
+
+    width: 100%;
+
+    animation:
+        fadeInUp .7s ease;
+}
+
+/* ============================================
+   ANIMATIONS
+============================================ */
+
+@keyframes fadeInUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(20px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+/* ============================================
+   BREADCRUMB
+============================================ */
+.breadcrumb-text {
+
+    font-size: 34px;
+
+    font-weight: 700;
+
+    line-height: 1.1;
+
+    color: var(--text);
+}
+
+.breadcrumb {
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 10px;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    color: var(--text);
+}
+
+.breadcrumb svg {
+
+    width: 28px;
+    height: 28px;
+
+    flex-shrink: 0;
+}
+
+/* ============================================
+   TITLE
+============================================ */
+
+.main-title {
+
+    color: #7A7A7A;;
+    font-size: 16px;
+    line-height: 1.5;
+
+    margin-bottom: 24px;
+}
+
+/* ============================================
+   FEATURES
+============================================ */
+
+.features-list {
+
+    list-style: none;
+
+    margin-bottom: 36px;
+}
+
+.feature-text {
+
+    color: var(--text);
+}
+
+.feature-item {
+
+    display: flex;
+    align-items: flex-start;
+
+    gap: 10px;
+
+    margin-bottom: 22px;
+
+    font-size: 16px;
+    line-height: 1.5;
+
+    color: var(--text-light);
+
+    opacity: 0;
+
+    transform:
+        translateY(20px);
+
+    animation:
+        revealUp .7s forwards;
+}
+
+.feature-item:nth-child(1){
+    animation-delay: .12s;
+}
+
+.feature-item:nth-child(2){
+    animation-delay: .2s;
+}
+
+.feature-item:nth-child(3){
+    animation-delay: .28s;
+}
+
+.feature-item:nth-child(4){
+    animation-delay: .36s;
+}
+
+.feature-dash {
+
+    flex-shrink: 0;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    color: var(--orange);
+}
+
+.feature-text {
+    flex: 1;
+}
+
+.feature-highlight {
+
+    margin-top: 28px;
+
+    color: var(--text);
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.feature-highlight .feature-text {
+
+    font-size: 16px;
+}
+
+/* ============================================
+   DESCRIPTION
+============================================ */
+
+.feature-description {
+
+    background: var(--white);
+
+    border-radius: 24px;
+
+    padding: 24px;
+
+    box-shadow: var(--shadow);
+
+    margin-bottom: 32px;
+
+    font-size: 16px;
+    line-height: 1.7;
+
+    color: var(--text-light);
+
+    opacity: 0;
+
+    transform:
+        translateY(35px)
+        scale(.98);
+
+    filter: blur(8px);
+
+    animation:
+        cardReveal .85s
+        cubic-bezier(.2,.8,.2,1)
+        .45s forwards;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.feature-description:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.07);
+}
+
+/* ============================================
+   BUTTON
+============================================ */
+
+.btn-primary {
+
+    width: 100%;
+    height: 56px;
+
+    border: none;
+    border-radius: 14px;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--orange),
+            var(--orange-dark)
+        );
+
+    color: #fff;
+
+    font-family: inherit;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: .5px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 18px rgba(244,121,32,.3);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+    opacity: 0;
+
+    transform:
+        translateY(25px);
+
+    animation:
+        revealUp .8s .6s forwards;
+}
+
+.btn-primary:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 28px rgba(244,121,32,.35);
+}
+
+.btn-primary:active {
+
+    transform:
+        scale(.98);
+}
+
+.btn-primary::before {
+
+    content: '';
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.28),
+            transparent
+        );
+
+    transform:
+        translateX(-100%);
+
+    transition: .8s;
+}
+
+.btn-primary:hover::before {
+
+    transform:
+        translateX(100%);
+}
+
+
+
+@keyframes revealUp {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(25px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+@keyframes cardReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(45px)
+            scale(.96);
+
+        filter: blur(10px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter: blur(0);
+    }
+}
+
+/* ============================================
+   TABLET
+============================================ */
+
+@media (max-width: 768px) {
+
+    .main-content {
+
+        padding: 28px 18px 48px;
+    }
+
+    .main-title {
+
+        font-size: 28px;
+    }
+
+    .feature-description {
+
+        padding: 22px 20px;
+
+        border-radius: 20px;
+    }
+}
+
+/* ============================================
+   MOBILE
+============================================ */
+
+@media (max-width: 480px) {
+
+    .main-content {
+
+        padding: 24px 16px 40px;
+    }
+
+    .breadcrumb {
+
+        margin-bottom: 24px;
+
+        font-size: 16px;
+    }
+
+    .main-title {
+
+        font-size: 24px;
+
+        margin-bottom: 28px;
+    }
+
+    .features-list {
+
+        margin-bottom: 28px;
+    }
+
+    .feature-item {
+
+        margin-bottom: 18px;
+
+        font-size: 15px;
+    }
+
+    .feature-highlight {
+
+        font-size: 16px;
+    }
+
+    .feature-description {
+
+        padding: 18px 16px;
+
+        margin-bottom: 28px;
+
+        border-radius: 18px;
+
+        font-size: 13px;
+    }
+
+    .btn-primary {
+
+        height: 52px;
+
+        font-size: 14px;
+    }
+}
+
+/* ============================================
+   SMALL MOBILE
+============================================ */
+
+@media (max-width: 360px) {
+
+    .main-content {
+
+        padding: 20px 14px 32px;
+    }
+
+    .main-title {
+
+        font-size: 22px;
+    }
+
+    .feature-item {
+
+        font-size: 14px;
+    }
+
+    .feature-description {
+
+        padding: 14px 12px;
+
+        font-size: 12px;
+    }
+}

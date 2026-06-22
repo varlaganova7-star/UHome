@@ -61,6 +61,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const allRequests = await loadRequests();
         const studentRequests = allRequests.filter(req => req.student_name === userName);
 
+        // Сохраняем заявки для главной страницы
+        // Сохраняем заявки для главной страницы
+        // Сохраняем заявки для главной страницы
+        localStorage.setItem(
+            'uhome_student_requests',
+            JSON.stringify(studentRequests)
+        );
+        // Сохраняем заявки для главной страницы
+        // Сохраняем заявки для главной страницы
+        // Сохраняем заявки для главной страницы
+
         if (activeContainer) activeContainer.innerHTML = '';
         if (historyContainer) historyContainer.innerHTML = '';
 

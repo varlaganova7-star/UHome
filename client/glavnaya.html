@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>UHome</title>
+
+    <link rel="stylesheet" href="css/glavnaya.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- layout -->
+    <div id="layout-container"></div>
+
+    <main class="page-content">
+
+        <!-- HERO -->
+
+        <section class="hero-card">
+
+            <div class="hero-text">
+
+                <h1 class="hero-title">
+                    Добро пожаловать,
+                    <span id="userName">
+                        Пользователь
+                    </span>!
+                </h1>
+
+                <p class="hero-subtitle">
+                    Управляйте жизнью в общежитии быстро и удобно в одном месте.
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- QUICK ACTIONS -->
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <h2>Быстрые действия</h2>
+
+            </div>
+
+            <div class="actions-grid">
+
+                <a href="repair_request.html" class="action-item">
+
+                    <div class="action-icon">
+
+                        <svg width="28" height="28"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2">
+
+                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+
+                        </svg>
+
+                    </div>
+
+                    <span>Подать заявку на ремонт</span>
+
+                </a>
+
+
+                <a href="guest_registration.html" class="action-item">
+
+                    <div class="action-icon">
+
+                        <svg width="28" height="28"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2">
+
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="8.5" cy="7" r="4"/>
+                            <path d="M20 8v6"/>
+                            <path d="M23 11h-6"/>
+
+                        </svg>
+
+                    </div>
+
+                    <span>Зарегистрировать гостя</span>
+
+                </a>
+
+
+                <a href="chat.html" class="action-item">
+
+                    <div class="action-icon">
+
+                        <svg width="28" height="28"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2">
+
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+
+                        </svg>
+
+                    </div>
+
+                    <span>Чат с администрацией</span>
+
+                </a>
+
+
+                <a href="neighbor.html" class="action-item">
+
+                    <div class="action-icon">
+
+                        <svg width="28" height="28"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2">
+
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+
+                        </svg>
+
+                    </div>
+
+                    <span>Подбор соседа</span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+        <!-- NEWS -->
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <h2>Объявления и новости</h2>
+
+                <a
+                    href="news.html"
+                    class="view-all"
+                >
+                    Все новости
+                </a>
+
+            </div>
+
+            <div
+                class="news-list"
+                id="newsList"
+            ></div>
+
+        </section>
+
+        <!-- REQUESTS -->
+
+        <section class="section-card">
+
+            <div class="section-header">
+
+                <h2>Мои заявки</h2>
+
+                <a
+                    href="student_requests.html"
+                    class="view-all"
+                >
+                    Все заявки
+                </a>
+
+            </div>
+
+            <div
+                class="requests-list"
+                id="requestsList"
+            ></div>
+
+        </section>
+
+    </main>
+
+    <script src="js/layout.js"></script>
+    <script src="js/glavnaya.js"></script>
+
+</body>
+</html>

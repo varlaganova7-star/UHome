@@ -82,12 +82,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         const publishBtn = document.getElementById('publishBtn');
 
         // ===== 3. ПРИМЕРЫ ОБЪЯВЛЕНИЙ (в реальном проекте — загрузка с бэкенда) =====
-        let announcements = [
-            { id: 1, title: 'Плановое отключение горячей воды 15 апреля', content: 'Уважаемые студенты! 15 апреля с 8:00 до 17:00 будет произведено отключение водоснабжения горячей воды', date: '10 апреля', category: 'important', categoryName: 'Важное объявление', views: 234 },
-            { id: 2, title: 'Вечер UNO для иностранных студентов', content: 'В пятницу пройдет мероприятие для иностранцев, игра в UNO\n\nАктовый зал\n19:00\n20 мая', date: '10 апреля', category: 'event', categoryName: 'Событие', hasImage: true, views: 156 },
+        let announcements =
+    JSON.parse(
+        localStorage.getItem('uhome_news')
+    ) || [
+
+        {
+            id: 1,
+            title: 'Плановое отключение горячей воды 15 апреля',
+            content: 'Уважаемые студенты! 15 апреля с 8:00 до 17:00 будет произведено отключение водоснабжения горячей воды',
+            date: '10 апреля',
+            category: 'important',
+            categoryName: 'Важное объявление',
+            views: 234
+        },
+
+        {
+            id: 2,
+            title: 'Вечер UNO для иностранных студентов',
+            content: 'В пятницу пройдет мероприятие для иностранцев, игра в UNO\n\nАктовый зал\n19:00\n20 мая',
+            date: '10 апреля',
+            category: 'event',
+            categoryName: 'Событие',
+            hasImage: true,
+            views: 156
+        },
             { id: 3, title: 'Теперь в общежитие можно пропускать гостей до 23:00', content: 'Уважаемые студенты! Гости могут присутствовать на территории общежития с 7:00 до 23:00', date: '9 апреля', category: 'announcement', categoryName: 'Объявление', views: 412 },
             { id: 4, title: 'Проверка соблюдения санитарных норм в комнатах', content: 'Уважаемые студенты, 10 апреля будет проводится проверка комнат на соблюдение санитарных норм. Просим оповестить старосту блока, если на момент проведения обхода вы будете отсутствовать в комнате', date: '7 апреля', category: 'sanitary', categoryName: 'Важное объявление', views: 567 }
         ];
+
+        // ДОБАВИТЬ ЭТО
+        // ДОБАВИТЬ ЭТО
+        // ДОБАВИТЬ ЭТО
+        localStorage.setItem(
+            'uhome_news',
+            JSON.stringify(announcements)
+        );
+        // ДОБАВИТЬ ЭТО
+        // ДОБАВИТЬ ЭТО
+        // ДОБАВИТЬ ЭТО
 
         // ===== 4. НАСТРОЙКА ИНТЕРФЕЙСА ПО РОЛЯМ =====
         if (adminControls) {
@@ -212,6 +245,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 };
                 
                 announcements.unshift(newAnnouncement);
+
+                // ДОБАВИТЬ ЭТО
+                // ДОБАВИТЬ ЭТО
+                // ДОБАВИТЬ ЭТО
+                localStorage.setItem(
+                    'uhome_news',
+                    JSON.stringify(announcements)
+                );
+                // ДОБАВИТЬ ЭТО
+                // ДОБАВИТЬ ЭТО
+                // ДОБАВИТЬ ЭТО
                 
                 // Переключаемся на вкладку просмотра и перерисовываем
                 if (viewTabBtn) viewTabBtn.click();

@@ -147,62 +147,81 @@ document.addEventListener('DOMContentLoaded', () => {
     // ROLE
     // =====================================
 
+// =====================================
+// ROLE
+// =====================================
+
     const savedRole =
         localStorage.getItem('uhome_user_role');
 
     let userRole = 'student';
 
-    // MASTER ROLES
+    // Мастера
 
     if (
         savedRole === 'Electrick' ||
         savedRole === 'Plumber' ||
         savedRole === 'Carpenter' ||
+        savedRole === 'Slesar' ||
+        savedRole === 'Santex' ||
         savedRole === 'master'
     ) {
 
         userRole = 'master';
     }
 
-    // ADMIN
+    // Администрация и студсовет
 
-    else if (
-        savedRole === 'admin'
+    if (
+        savedRole === 'admin' ||
+        savedRole === 'studsovet'
     ) {
 
         userRole = 'admin';
     }
+
+    console.log('Сохранённая роль:', savedRole);
+    console.log('Права пользователя:', userRole);
     // =====================================
     // USER DATA
     // =====================================
 
+// =====================================
+// USER DATA
+// =====================================
+
     const savedFullname =
-        localStorage.getItem('uhome_user_fullname') || 'Пользователь';
+        localStorage.getItem('uhome_user_fullname')
+        || 'Пользователь';
 
     const savedRoleText =
-        localStorage.getItem('uhome_user_role') || 'student';
-
-    // Нормальное название роли
+        localStorage.getItem('uhome_user_role')
+        || 'student';
 
     let roleText = 'Студент';
 
-    if (savedRoleText === 'admin') {
+    switch(savedRoleText) {
 
-        roleText = 'Администрация';
+        case 'admin':
+            roleText = 'Администрация';
+            break;
 
-    } else if (
-        savedRoleText === 'Electrick' ||
-        savedRoleText === 'Slesar' ||
-        savedRoleText === 'Santex'
-    ) {
+        case 'studsovet':
+            roleText = 'Студсовет';
+            break;
 
-        roleText = 'Мастер';
+        case 'Electrick':
+        case 'Plumber':
+        case 'Carpenter':
+        case 'Slesar':
+        case 'Santex':
+        case 'master':
+            roleText = 'Мастер';
+            break;
 
-    } else if (savedRoleText === 'studsovet') {
-
-        roleText = 'Студсовет';
+        default:
+            roleText = 'Студент';
     }
-
     // =====================================
     // AVATAR
     // =====================================

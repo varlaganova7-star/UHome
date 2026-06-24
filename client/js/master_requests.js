@@ -52,9 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 student: 'Петрова А.Ф.',
 
-                date: '12.04.2026',
+                date: '24.06.2026',
 
-                visit: '13.04.2026, 14:00 - 18:00',
+                visit: '25.06.2026, 14:00 - 18:00',
 
                 status: 'Ожидают',
 
